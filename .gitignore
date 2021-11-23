@@ -1,0 +1,19 @@
+# Logs
+logs
+*.log
+
+
+# Dependency directory
+node_modules
+
+
+# Dist folder
+dist/
+
+
+# webpack analysis file
+stats.json
+
+dist.zip
+
+.DS_Store
