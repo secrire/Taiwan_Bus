@@ -1,15 +1,20 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
 
 import * as Style from "./style";
 
 const Icon = (props) => {
-  const { src, alt, iconContainerSize, iconSize } = props;
+  const { src, alt, title, style: { container, circle, circleColor, img, titleMargin, position, top, left } } = props;
+
   return (
-    <Style.Container>
-      <Style.IconContainer size={iconContainerSize}>
-        <Style.IconImg src={src} alt={alt} size={iconSize} />
-      </Style.IconContainer>      
+    <Style.Container size={container} position={position} top={top} left={left}>
+      <Style.IconCircle size={circle} color={circleColor}>
+        <Style.IconImg src={src} alt={alt} size={img} />
+      </Style.IconCircle>
+      <Style.IconTitle margin={titleMargin}>
+        {title}
+      </Style.IconTitle>
     </Style.Container>
   );
 };

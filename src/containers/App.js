@@ -11,7 +11,12 @@ import PropTypes from 'prop-types';
 import { Container } from "./style";
 // import "./style.css";
 
+const Menu = lazy(() => import("containers/Menu" /* webpackChunkName:"Menu" */));
 const Live = lazy(() => import("containers/Live" /* webpackChunkName:"Live" */));
+// const Menu = lazy(() => import("containers/Menu" /* webpackChunkName:"Menu" */));
+const Timetable = lazy(() => import("containers/Timetable" /* webpackChunkName:"Timetable" */));
+// const Menu = lazy(() => import("containers/Menu" /* webpackChunkName:"Menu" */));
+
 
 
 const App = ({ history }) => {
@@ -24,9 +29,10 @@ const App = ({ history }) => {
     <Container>
       <Suspense fallback={<div>Module loading....</div>}>
         <Switch>
+          <Route path="/app/menu" component={Menu} />
           <Route path="/app/live" component={Live} />
           <Route path="/app/stop" component={Live} />
-          <Route path="/app/timetable" component={Live} />
+          <Route path="/app/timetable" component={Timetable} />
           <Route path="/app/collection" component={Live} />
         </Switch>
       </Suspense>

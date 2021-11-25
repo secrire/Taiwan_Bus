@@ -2,17 +2,15 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   height: ${ p => p.size };
-  width:${  p => p.size };
-  background: #5CBCDB;
-  text-align: center;
-  line-height: ${ p => p.size };
-  border-radius: 50%;
+  position: ${ p => p.position };
+  top: ${ p => p.top };
+  left: ${ p => p.top };
 `;
 
-export const IconContainer = styled.div`
+export const IconCircle = styled.div`
   height: ${ p => p.size };
   width:${  p => p.size };
-  background: #5CBCDB;
+  background: ${  p => p.color };
   text-align: center;
   line-height: ${ p => p.size };
   border-radius: 50%;
@@ -23,3 +21,7 @@ export const IconImg = styled.img`
   width: ${ p => p.size };
 `;
 
+export const IconTitle = styled.p`
+ font-size: 14px;
+ margin: ${ p => p.margin} auto 0 auto;
+`;
