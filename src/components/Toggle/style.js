@@ -1,15 +1,10 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  height: 100px;
-  width: 90%;
-`;
-
 export const Label = styled.label`
   position: relative;
   display: inline-block;
-  width: 50px;
-  height: 24px;
+  width: 44px;
+  height: 20px;
 `;
 
 export const Input = styled.input`
@@ -22,9 +17,9 @@ export const Input = styled.input`
   }
 
   :checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(23px);
+    -ms-transform: translateX(23px);
+    transform: translateX(23px);
   }
 `;
 
@@ -43,10 +38,10 @@ export const Span = styled.span`
   :before {
     position: absolute;
     content: "";
-    height: 20px;
-    width: 20px;
-    left: 2px;
-    top: 2px;
+    height: 18px;
+    width: 18px;
+    left: 1px;
+    top: 1px;
     background-color: white;
     -webkit-transition: 0.4s;
     transition: 0.4s;
@@ -54,12 +49,3 @@ export const Span = styled.span`
   }
 `;
 
-// input:checked + .slider {
-//   background-color: green;
-// }
-
-// input:checked + .slider:before {
-//   -webkit-transform: translateX(26px);
-//   -ms-transform: translateX(26px);
-//   transform: translateX(26px);
-// }
