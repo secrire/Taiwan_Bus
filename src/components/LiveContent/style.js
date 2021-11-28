@@ -1,50 +1,91 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 70px;
-  width: 90%;
-  padding: 8px 16px;
-  margin: 10px auto;
+  /* height: 70px; */
+  width: 100%;
+  padding: 0 auto;
   background: #ffffff;
-  border: 1px solid rgba(238, 238, 238, 0.5);
-  box-sizing: border-box;
-  box-shadow: 0px 4px 10px -1px rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
-  > div:first-child{
-    margin-bottom: 6px;
+  box-shadow: 0px -3px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 20px 20px 0px 0px;
+  /* display: flex;
+  align-items: center; */
+`;
+
+export const Header = styled.div`
+  height: 80px;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  padding: 16px 18px;
+  border-bottom: 0.75px solid #c4c4c4;
+`;
+
+export const HeaderTitle = styled.div`
+  font-size: 12px;
+  color: #a2a2a2;
+`;
+
+export const HeaderWay = styled.div`
+  display: flex;
+  align-items: center;
+  > div :first-child {
+    font-weight: 500;
+    font-size: 14px;
+    color: #4c546a;
+    margin-right: 6px;
+  }
+
+  > div :nth-child(2) {
+    font-weight: 500;
+    font-size: 16px;
+    color: #5cbcdb;
   }
 `;
 
-export const Row = styled.div`
-  height: 30px;
-  width: 100%;
-  max-width: 360px;
+export const Content = styled.div`
+  width: 90%;
+  max-width: 400px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 14px 0;
+`;
+
+export const StopContainer = styled.div`
   display: flex;
   align-items: center;
-  text-align: left;
 `;
 
-export const BusNumber = styled.div`
-  font-size: 20px;
-  color: #f66a4b;
-  line-height: ;
-  margin-right: auto;
+export const StopPoint = styled.div`
+  border: 5px solid #4c546a;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
 `;
 
-export const Heart = styled.img`
-  height: 16px;
-  width: 16px;
+export const StopTime = styled.div`
+  font-size: 16px;
+  color: #b4b3b3;
 `;
 
-export const Arrows = styled.img`
-  height: 12px;
-  width: 12px;
-  margin: 0 7px;
+export const StopName = styled.div`
+  font-size: 16px;
+  color: #b4b3b3;
 `;
 
-export const BusCity = styled.div`
-  font-size: 12px;
-  width: 24px;
-  color: #8b94b2;
-  line-height: ;
+export const WheelchairContainer = styled.div`
+  color: #5cbcdb;
+  display: flex;
+  align-items: center;
+  width: 90px;
+  height: 26px;
+  border: 1px solid #5cbcdb;
+  border-radius: 100px;
+`;
+
+export const StopBelow = styled.div`
+  height: 25px;
+  max-width: 384px;
+  border-left: 1px solid #4c546a;
+  margin: 0 8px;
 `;

@@ -10,42 +10,49 @@ import Heart from "images/heart-empty.svg";
 import * as Style from "./style";
 
 const Home = (props) => {
-  const defaultStyle = { container:'84px', circle:'60px', img:'36px', titleMargin:'4px', circleColor: '#5CBCDB' };
+  const defaultStyle = {
+    container: "84px",
+    circle: "60px",
+    img: "36px",
+    titleMargin: "4px",
+    circleColor: "#5CBCDB",
+  };
+
+  const clickIcon = (page) => {
+    props.history.push(`/app/${page}`);
+  };
+
   return (
     <Style.Container>
       <Style.IconContainer>
-        <Link to="/app/live">
-          <Icon
-            src={Bus}
-            alt="bus"
-            style={defaultStyle}
-            title="測試專用"
-          />
-        </Link>
-        <Link to="/app/stop">
-          <Icon
-            src={MapMarker}
-            alt="marker"
-            style={defaultStyle}
-            title="測試專用"
-          />
-        </Link>
-        <Link to="/app/timetable">
-          <Icon
-            src={Clock}
-            alt="clock"
-            style={defaultStyle}
-            title="測試專用"
-          />
-        </Link>
-        <Link to="/app/collection">
-          <Icon
-            src={Heart}
-            alt="heart"
-            style={defaultStyle}
-            title="測試專用"
-          />
-        </Link>
+        <Icon
+          src={Bus}
+          alt="bus"
+          style={defaultStyle}
+          title="測試專用"
+          onClick={() => clickIcon("live")}
+        />
+        <Icon
+          src={MapMarker}
+          alt="marker"
+          style={defaultStyle}
+          title="測試專用"
+          onClick={() => clickIcon("stop")}
+        />
+        <Icon
+          src={Clock}
+          alt="clock"
+          style={defaultStyle}
+          title="測試專用"
+          onClick={() => clickIcon("timetable")}
+        />
+        <Icon
+          src={Heart}
+          alt="heart"
+          style={defaultStyle}
+          title="測試專用"
+          onClick={() => clickIcon("collection")}
+        />
       </Style.IconContainer>
       <Style.Footer>
         <div>2021</div>

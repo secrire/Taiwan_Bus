@@ -5,16 +5,35 @@ import PropTypes from "prop-types";
 import * as Style from "./style";
 
 const Icon = (props) => {
-  const { src, alt, title, style: { container, circle, circleColor, img, titleMargin, position, top, left } } = props;
+  const {
+    src,
+    alt,
+    title,
+    style: {
+      container,
+      circle,
+      circleColor,
+      img,
+      titleMargin,
+      position,
+      top,
+      left,
+    },
+    onClick,
+  } = props;
 
   return (
-    <Style.Container size={container} position={position} top={top} left={left}>
+    <Style.Container
+      size={container}
+      position={position}
+      top={top}
+      left={left}
+      onClick={() => onClick()}
+    >
       <Style.IconCircle size={circle} color={circleColor}>
         <Style.IconImg src={src} alt={alt} size={img} />
       </Style.IconCircle>
-      <Style.IconTitle margin={titleMargin}>
-        {title}
-      </Style.IconTitle>
+      <Style.IconTitle margin={titleMargin}>{title}</Style.IconTitle>
     </Style.Container>
   );
 };

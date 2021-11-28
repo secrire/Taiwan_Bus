@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 // import Keypad from "components/Keypad";
 import Icon from "components/Icon";
 import BusStartEnd from "components/BusStartEnd";
+import LiveContent from "components/LiveContent";
+import Timetable from "components/Timetable";
 
 import ArrowLeft from "images/arrow-left.svg";
 import Menu from "images/menu.svg";
@@ -15,6 +17,8 @@ import ArrowsCircle from "images/arrows-circle.svg";
 import * as Style from "./style";
 
 const LiveInfo = (props) => {
+  const [showTimetable, setShowTimetable] = useState(false);
+
   return (
     <Style.Container>
       <Style.IconContainer>
@@ -34,9 +38,15 @@ const LiveInfo = (props) => {
       <Style.Number>1234</Style.Number>
       <Style.Row>
         <img src={Guild} alt="guild" onClick={() => {}} />
-        <img src={ClockCircle} alt="clock" onClick={() => {}} />
+        <img
+          src={ClockCircle}
+          alt="clock"
+          onClick={() => setShowTimetable(true)}
+        />
         <BusStartEnd />
       </Style.Row>
+      <LiveContent />
+      {showTimetable && <Timetable setVisible={setShowTimetable} />}
     </Style.Container>
   );
 };

@@ -38,7 +38,7 @@ const Live = (props) => {
         <Toggle />
       </Style.ToggleContainer>
       <Style.CardContainer>
-        <BusCard clickCard={clickCard(1234)} />
+        <BusCard clickCard={()=>clickCard(1234)} />
       </Style.CardContainer>
     </Style.Container>
   );
