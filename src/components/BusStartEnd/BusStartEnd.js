@@ -10,9 +10,9 @@ const BusStartEnd = (props) => {
 
   return (
         <Style.StartEndContainer>
-          <Style.BusStartEnd>測試1</Style.BusStartEnd>
+          <Style.BusStartEndName>測試1</Style.BusStartEndName>
           <Style.Arrows src={Arrows} alt="arrow" />
-          <Style.BusStartEnd>測試2</Style.BusStartEnd>
+          <Style.BusStartEndName>測試2</Style.BusStartEndName>
         </Style.StartEndContainer>
   );
 };

@@ -9,7 +9,7 @@ export const Container = styled.div`
 export const IconContainer = styled.div`
   display: flex;
   align-items: center;
-  /* width: 30px; */
+  padding: 0 18px;
 `;
 
 export const Number = styled.div`
@@ -18,10 +18,11 @@ export const Number = styled.div`
   text-align: right;
   letter-spacing: -0.3px;
   color: #ffffff;
+  padding: 0 18px;
 `;
 
 export const Row = styled.div`
   display: flex;
   align-items: center;
-  /* width: 30px; */
+  padding: 0 18px 16px 18px;
 `;

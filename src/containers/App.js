@@ -14,7 +14,7 @@ import { Container } from "./style";
 const Menu = lazy(() => import("containers/Menu" /* webpackChunkName:"Menu" */));
 const Live = lazy(() => import("containers/Live" /* webpackChunkName:"Live" */));
 const LiveInfo = lazy(() => import("containers/LiveInfo" /* webpackChunkName:"LiveInfo" */));
-const Timetable = lazy(() => import("containers/Timetable" /* webpackChunkName:"Timetable" */));
+// const Timetable = lazy(() => import("containers/Timetable" /* webpackChunkName:"Timetable" */));
 // const Menu = lazy(() => import("containers/Menu" /* webpackChunkName:"Menu" */));
 
 
@@ -33,7 +33,7 @@ const App = ({ history }) => {
           <Route path="/app/live" component={Live} />
           <Route path="/app/liveInfo" component={LiveInfo} />
           <Route path="/app/stop" component={Live} />
-          <Route path="/app/timetable" component={Timetable} />
+          {/* <Route path="/app/timetable" component={Timetable} /> */}
           <Route path="/app/collection" component={Live} />
         </Switch>
       </Suspense>

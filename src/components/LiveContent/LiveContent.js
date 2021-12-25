@@ -19,7 +19,7 @@ const LiveContent = (props) => {
             <div>龍潭站</div>
           </Style.HeaderWay>
         </div>
-        <img src={ArrowsCircle} style={{ width: 30 }} />
+        <img src={ArrowsCircle} style={{ width: 30, marginLeft: 'auto' }} />
       </Style.Header>
       <Style.Content>
         <Style.StopContainer>
