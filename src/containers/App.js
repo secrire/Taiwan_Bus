@@ -1,40 +1,42 @@
 /* eslint-disable react/prop-types */
 import React, { lazy, Suspense, useEffect, useState } from "react";
-import {  HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 // import { useUserStore } from '@/store/userStroe';
 // import useAxios from "@/hooks/useAxios";
 // import TopBar from "@/components/compos/TopBar";
 
-
 import { Container } from "./style";
 // import "./style.css";
 
-const Menu = lazy(() => import("containers/Menu" /* webpackChunkName:"Menu" */));
-const Live = lazy(() => import("containers/Live" /* webpackChunkName:"Live" */));
-const LiveInfo = lazy(() => import("containers/LiveInfo" /* webpackChunkName:"LiveInfo" */));
+const Menu = lazy(() =>
+  import("containers/Menu" /* webpackChunkName:"Menu" */)
+);
+const SearchPage = lazy(() =>
+  import("containers/SearchPage" /* webpackChunkName:"Live" */)
+);
+const LiveInfo = lazy(() =>
+  import("containers/LiveInfo" /* webpackChunkName:"LiveInfo" */)
+);
 // const Timetable = lazy(() => import("containers/Timetable" /* webpackChunkName:"Timetable" */));
 // const Menu = lazy(() => import("containers/Menu" /* webpackChunkName:"Menu" */));
-
-
 
 const App = ({ history }) => {
   // const { setUserData } = useUserStore();
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Container>
       <Suspense fallback={<div>Module loading....</div>}>
         <Switch>
           <Route path="/app/menu" component={Menu} />
-          <Route path="/app/live" component={Live} />
+          <Route path="/app/live" component={SearchPage} />
           <Route path="/app/liveInfo" component={LiveInfo} />
-          <Route path="/app/stop" component={Live} />
-          {/* <Route path="/app/timetable" component={Timetable} /> */}
-          <Route path="/app/collection" component={Live} />
+          <Route path="/app/stop" component={SearchPage} />
+          <Route path="/app/timetable" component={SearchPage} />
+          <Route path="/app/collection" component={SearchPage} />
         </Switch>
       </Suspense>
     </Container>

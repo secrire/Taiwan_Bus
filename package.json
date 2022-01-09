@@ -21,11 +21,13 @@
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "antd": "^4.15.0",
+    "axios": "^0.24.0",
+    "jssha": "^3.2.0",
     "moment": "^2.29.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "reset-css": "^5.0.1",
     "react-router-dom": "^5.2.0",
+    "reset-css": "^5.0.1",
     "styled-components": "^5.2.3"
   },
   "devDependencies": {

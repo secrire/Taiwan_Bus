@@ -5,7 +5,7 @@ import Icon from "components/Icon";
 import Bus from "images/bus.svg";
 import Clock from "images/clock.svg";
 import MapMarker from "images/map-marker.svg";
-import Heart from "images/heart-empty.svg";
+import HeartFullWhite from "images/heart-full-white.svg";
 
 import * as Style from "./style";
 
@@ -29,33 +29,33 @@ const Home = (props) => {
           src={Bus}
           alt="bus"
           style={defaultStyle}
-          title="測試專用"
+          title="公車專用"
           onClick={() => clickIcon("live")}
         />
         <Icon
           src={MapMarker}
           alt="marker"
           style={defaultStyle}
-          title="測試專用"
+          title="附近站點"
           onClick={() => clickIcon("stop")}
         />
         <Icon
           src={Clock}
           alt="clock"
           style={defaultStyle}
-          title="測試專用"
+          title="班表查詢"
           onClick={() => clickIcon("timetable")}
         />
         <Icon
-          src={Heart}
+          src={HeartFullWhite}
           alt="heart"
           style={defaultStyle}
-          title="測試專用"
+          title="我的收藏"
           onClick={() => clickIcon("collection")}
         />
       </Style.IconContainer>
       <Style.Footer>
-        <div>2021</div>
+        <div>2022</div>
       </Style.Footer>
     </Style.Container>
   );

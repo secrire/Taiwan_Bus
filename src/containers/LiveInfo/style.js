@@ -9,7 +9,7 @@ export const Container = styled.div`
 export const IconContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 0 18px;
+  padding: 24px 18px 0;
 `;
 
 export const Number = styled.div`
@@ -25,4 +25,10 @@ export const Row = styled.div`
   display: flex;
   align-items: center;
   padding: 0 18px 16px 18px;
+  > img:first-child {
+    margin-right: 16px;
+  }
+  > img:nth-child(2) {
+    margin-right: auto;
+  }
 `;

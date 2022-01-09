@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Col } from "antd";
 
 export const BackGround = styled.div`
   width: 100%;
@@ -21,6 +20,7 @@ export const Container = styled.div`
   z-index: 2;
   background: #ffffff;
   border-radius: 20px;
+  overflow-y: scroll;
 `;
 
 export const Header = styled.div`
@@ -45,8 +45,7 @@ export const Header = styled.div`
 
 export const Content = styled.div`
   width: 300px;
-  /* height: 77px; */
-  margin: 0 auto;
+  margin: 0 auto 40px;
   text-align: center;
   padding-bottom: 24px;
   border: 1px solid rgba(234, 234, 234, 0.5);
@@ -55,7 +54,8 @@ export const Content = styled.div`
   border-radius: 12px;
   overflow-y: scroll;
   > div:first-child {
-    height: 40px;
+    /* height: 40px; */
+    word-break: keep-all;
     background: #5a637e;
     font-size: 16px;
     color: #ffffff;

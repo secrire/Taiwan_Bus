@@ -1,41 +1,74 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-// import Keypad from "components/Keypad";
+import useAxios from "hooks/useAxios";
+import { useBusStore } from "store/busStore";
 import Cross from "images/cross.svg";
-import SearchInput from "components/SearchInput";
-import Menu from "images/menu.svg";
 
 import * as Style from "./style";
 
 const Timetable = (props) => {
+  const [scheduleData, setScheduleData] = useState([]);
   const { setVisible } = props;
 
+  const axios = useAxios();
+  const {
+    busData: { City, RouteName },
+  } = useBusStore();
+
+  const getSchedule = async (City, RouteName) => {
+    const config = {
+      url: `/v2/Bus/Schedule/City/${City}/${RouteName.Zh_tw}`,
+      method: "GET",
+    };
+    const result = await axios.exec(config);
+    console.log("getSchedule", result);
+    setScheduleData(result);
+  };
+
+  const manageTimetables = (timetable) => {
+    const holidayTime = timetable
+      .filter((i) => i.ServiceDay.Sunday === 1)
+      .map((i) => <div key={i.StopUID}>{i.StopTimes[0].ArrivalTime}</div>);
+    const workdayTime = timetable
+      .filter((i) => i.ServiceDay.Monday === 1)
+      .map((i) => <div key={i.StopUID}>{i.StopTimes[0].ArrivalTime}</div>);
+    return { holidayTime, workdayTime };
+  };
+
+  useEffect(() => {
+    getSchedule(City, RouteName);
+  }, []);
+
   return (
-    <Style.BackGround>
+    <Style.BackGround onClick={() => setVisible(false)}>
       <Style.Container>
         <Style.Header>
           <img src={Cross} alt="close" onClick={() => setVisible(false)} />
-          <div>5033班次表</div>
+          <div>{RouteName.Zh_tw} 班次表</div>
         </Style.Header>
-        <Style.Content>
-          <div>平日</div>
-          <Style.InfoContainer>
-            <Style.Detail>
-              <Style.Title>往 龍潭</Style.Title>
-              <div>06:00</div>
-              <div>07:00</div>
-              <div>08:00</div>
-            </Style.Detail>
-            <Style.Detail>
-              <Style.Title>往 龍潭</Style.Title>
-              <div>06:00</div>
-              <div>07:00</div>
-              <div>08:00</div>
-            </Style.Detail>
-          </Style.InfoContainer>
-        </Style.Content>
+        {scheduleData
+          .filter((i) => i.Timetables)
+          .map((data) => (
+            <Style.Content key={data.SubRouteUID}>
+              <div>
+                {data.SubRouteName.Zh_tw.replace(
+                  new RegExp(RouteName.Zh_tw, "g"),
+                  ""
+                )}
+              </div>
+              <Style.InfoContainer>
+                <Style.Detail>
+                  <Style.Title>平日</Style.Title>
+                  {manageTimetables(data.Timetables).workdayTime}
+                </Style.Detail>
+                <Style.Detail>
+                  <Style.Title>假日</Style.Title>
+                  {manageTimetables(data.Timetables).holidayTime}
+                </Style.Detail>
+              </Style.InfoContainer>
+            </Style.Content>
+          ))}
       </Style.Container>
     </Style.BackGround>
   );

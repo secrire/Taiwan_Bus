@@ -18,6 +18,7 @@ const Icon = (props) => {
       position,
       top,
       left,
+      margin,
     },
     onClick,
   } = props;
@@ -29,6 +30,7 @@ const Icon = (props) => {
       top={top}
       left={left}
       onClick={() => onClick()}
+      margin={margin}
     >
       <Style.IconCircle size={circle} color={circleColor}>
         <Style.IconImg src={src} alt={alt} size={img} />

@@ -17,7 +17,8 @@ export const Header = styled.div`
   max-width: 400px;
   display: flex;
   align-items: center;
-  padding: 16px 18px;
+  padding: 16px 0;
+  margin: 0 auto;
   border-bottom: 0.75px solid #c4c4c4;
 `;
 
@@ -57,7 +58,7 @@ export const StopContainer = styled.div`
 `;
 
 export const StopPoint = styled.div`
-  border: 5px solid #4c546a;
+  border: ${(p) => (p.isSoon ? "5px solid #F76A4B" : "5px solid #4c546a")};
   width: 17px;
   height: 17px;
   border-radius: 50%;
@@ -65,12 +66,13 @@ export const StopPoint = styled.div`
 
 export const StopTime = styled.div`
   font-size: 16px;
-  color: #b4b3b3;
+  margin: 0 12px;
+  color: ${(p) => (p.isSoon ? "#F66A4B" : "#b4b3b3")};
 `;
 
 export const StopName = styled.div`
   font-size: 16px;
-  color: #b4b3b3;
+  color: ${(p) => (p.isSoon ? "#4C546A" : "#b4b3b3")};
 `;
 
 export const WheelchairContainer = styled.div`
