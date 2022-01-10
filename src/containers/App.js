@@ -19,7 +19,9 @@ const SearchPage = lazy(() =>
 const LiveInfo = lazy(() =>
   import("containers/LiveInfo" /* webpackChunkName:"LiveInfo" */)
 );
-// const Timetable = lazy(() => import("containers/Timetable" /* webpackChunkName:"Timetable" */));
+const Collection = lazy(() =>
+  import("containers/Collection" /* webpackChunkName:"Collection" */)
+);
 // const Menu = lazy(() => import("containers/Menu" /* webpackChunkName:"Menu" */));
 
 const App = ({ history }) => {
@@ -36,7 +38,7 @@ const App = ({ history }) => {
           <Route path="/app/liveInfo" component={LiveInfo} />
           <Route path="/app/stop" component={SearchPage} />
           <Route path="/app/timetable" component={SearchPage} />
-          <Route path="/app/collection" component={SearchPage} />
+          <Route path="/app/collection" component={Collection} />
         </Switch>
       </Suspense>
     </Container>

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import useAxios from "hooks/useAxios";
 import { useBusStore } from "store/busStore";
 // import Keypad from "components/Keypad";
-import Icon from "components/Icon";
+// import Icon from "components/Icon";
+import Header from "components/Header";
 import SearchInput from "components/SearchInput";
 import Toggle from "components/Toggle";
 import BusCard from "components/BusCard";
 import Timetable from "components/Timetable";
-import Menu from "images/menu.svg";
+// import Menu from "images/menu.svg";
 
 import * as Style from "./style";
 
@@ -86,6 +86,7 @@ const SearchPage = (props) => {
   return (
     <Style.Container>
       <Style.Top>
+        <Header title="公車動態" />
         <SearchInput
           changeCity={setCity}
           city={city}
@@ -94,7 +95,7 @@ const SearchPage = (props) => {
           keyword={keyword}
           clickSearch={clickSearch}
         />
-        <Link to="/app/menu">
+        {/* <Link to="/app/menu">
           <Icon
             src={Menu}
             alt="menu"
@@ -105,7 +106,7 @@ const SearchPage = (props) => {
               left: "18px",
             }}
           />
-        </Link>
+        </Link> */}
       </Style.Top>
       <Style.ToggleContainer>
         <Style.ToggleTitle>僅顯示提供無障礙車輛之路線</Style.ToggleTitle>
