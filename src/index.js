@@ -4,6 +4,7 @@ import "antd/dist/antd.css";
 import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 import { BusContextProvider } from "./store/busStore";
+import { LikedRouteContextProvider } from "./store/likedRouteStore";
 
 const App = lazy(() => import("./containers/App" /* webpackChunkName:"App" */));
 const Home = lazy(() =>
@@ -16,12 +17,14 @@ const Main = (props) => {
   return (
     <Router>
       <BusContextProvider>
-        <Suspense fallback={<div>Module loading....</div>}>
+        <LikedRouteContextProvider>
+        <Suspense fallback={<div>Loading....</div>}>
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/app" component={App} />
           </Switch>
         </Suspense>
+        </LikedRouteContextProvider>
       </BusContextProvider>
     </Router>
   );

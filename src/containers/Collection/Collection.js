@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import { useBusStore } from "store/busStore";
+import { useLikedRouteStore } from "store/likedRouteStore";
 import Header from "components/Header";
 import BusCard from "components/BusCard";
 import Search from "images/search.svg";
@@ -10,8 +10,22 @@ import * as Style from "./style";
 
 const Collection = (props) => {
   const [keyword, setKeyword] = useState("");
+  const [selectedTab, setSelectedTab] = useState(null);
 
-  const { busData, setBusData } = useBusStore();
+  const { likedRouteData, setLikedRouteData} = useLikedRouteStore();
+
+  const clickLike = (busData) => {
+    let tempLikedRoute;
+    if (!busData.liked) {
+      tempLikedRoute = [...likedRouteData, busData];
+    } else {
+      tempLikedRoute = likedRouteData.filter((item) => item !== busData);
+    }
+    setLikedRouteData(tempLikedRoute);
+  };
+
+  console.log('Collection===', likedRouteData)
+
   return (
     <Style.Container>
       <Style.Top>
@@ -26,16 +40,16 @@ const Collection = (props) => {
         </Style.InputContainer>
       </Style.Top>
       <Style.TabContainer>
-        <div>路線</div>
-        <div>站點</div>
+        <div onClick={()=>setSelectedTab('route')}>路線</div>
+        <div onClick={()=>setSelectedTab('stop')}>站點</div>
       </Style.TabContainer>
       <Style.CardContainer>
-        {/* {busData.map((data) => (
+        {/* {likedRouteData.length && likedRouteData.map((data) => (
           <BusCard
             key={data.RouteUID}
             busData={data}
             // clickCard={() => clickCard(data)}
-            // clickLike={() => clickLike(data)}
+            clickLike={() => clickLike(data)}
           />
         ))} */}
       </Style.CardContainer>

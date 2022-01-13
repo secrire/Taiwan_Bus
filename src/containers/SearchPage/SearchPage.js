@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import useAxios from "hooks/useAxios";
 import { useBusStore } from "store/busStore";
+import { useLikedRouteStore } from "store/likedRouteStore";
 // import Keypad from "components/Keypad";
 // import Icon from "components/Icon";
 import Header from "components/Header";
@@ -19,15 +20,15 @@ const SearchPage = (props) => {
   const [cityWarning, setCityWarning] = useState("");
   const [keyword, setKeyword] = useState("");
   const [busCardData, setBusCardData] = useState([]);
-  const [likedRoute, setLikedRoute] = useState([]);
+  // const [likedRoute, setLikedRoute] = useState([]);
   const [showTimetable, setShowTimetable] = useState(false);
 
   const axios = useAxios();
   const { setBusData } = useBusStore();
+  const { likedRouteData, setLikedRouteData} = useLikedRouteStore();
 
   const clickCard = (busData) => {
     // setBusData({ city: busInfo.City, routeName: busInfo.RouteID });
-    // console.log("clickCard", busData);
     setBusData(busData);
     if (props.location.pathname === "/app/timetable") {
       setShowTimetable(true);
@@ -44,7 +45,7 @@ const SearchPage = (props) => {
       };
       const searchResult = await axios.exec(config);
       const tempBusCardData = searchResult.map((i) => {
-        if (likedRoute.includes(i.RouteUID)) {
+        if (likedRouteData.includes(i.RouteUID)) {
           return { ...i, liked: true };
         } else {
           return { ...i, liked: false };
@@ -59,12 +60,12 @@ const SearchPage = (props) => {
   const clickLike = (busData) => {
     let tempLikedRoute;
     if (!busData.liked) {
-      tempLikedRoute = [...likedRoute, busData.RouteUID];
+      tempLikedRoute = [...likedRouteData, busData];
     } else {
-      tempLikedRoute = likedRoute.filter((item) => item !== busData.RouteUID);
+      tempLikedRoute = likedRouteData.filter((item) => item !== busData);
     }
-    setLikedRoute(tempLikedRoute);
-    localStorage.setItem("likedRoute", JSON.stringify(tempLikedRoute));
+    setLikedRouteData(tempLikedRoute);
+    // localStorage.setItem("likedRouteDataStore", JSON.stringify(tempLikedRoute));
 
     const tempBusCardData = busCardData.map((item) => {
       if (item.RouteUID === busData.RouteUID) {
@@ -76,12 +77,12 @@ const SearchPage = (props) => {
     setBusCardData(tempBusCardData);
   };
 
-  useEffect(() => {
-    const tempLikedRoute = JSON.parse(localStorage.getItem("likedRoute"));
-    if (tempLikedRoute) {
-      setLikedRoute(tempLikedRoute);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const tempLikedRoute = JSON.parse(localStorage.getItem("likedRouteDataStore"));
+  //   if (tempLikedRoute) {
+  //     setLikedRoute(tempLikedRoute);
+  //   }
+  // }, []);
 
   return (
     <Style.Container>
