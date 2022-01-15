@@ -14,13 +14,9 @@ const Collection = (props) => {
 
   const { likedRouteData, setLikedRouteData} = useLikedRouteStore();
 
-  const clickLike = (busData) => {
-    let tempLikedRoute;
-    if (!busData.liked) {
-      tempLikedRoute = [...likedRouteData, busData];
-    } else {
-      tempLikedRoute = likedRouteData.filter((item) => item !== busData);
-    }
+  const cancelLike = (busData) => {
+    const tempLikedRoute = likedRouteData.filter((data) => data.RouteUID !== busData.RouteUID);
+    
     setLikedRouteData(tempLikedRoute);
   };
 
@@ -44,14 +40,14 @@ const Collection = (props) => {
         <div onClick={()=>setSelectedTab('stop')}>站點</div>
       </Style.TabContainer>
       <Style.CardContainer>
-        {/* {likedRouteData.length && likedRouteData.map((data) => (
+        {likedRouteData.length && likedRouteData.map((data) => (
           <BusCard
             key={data.RouteUID}
             busData={data}
             // clickCard={() => clickCard(data)}
-            clickLike={() => clickLike(data)}
+            clickLike={() => cancelLike(data)}
           />
-        ))} */}
+        ))}
       </Style.CardContainer>
     </Style.Container>
   );

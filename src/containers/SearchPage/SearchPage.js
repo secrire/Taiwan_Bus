@@ -5,13 +5,11 @@ import useAxios from "hooks/useAxios";
 import { useBusStore } from "store/busStore";
 import { useLikedRouteStore } from "store/likedRouteStore";
 // import Keypad from "components/Keypad";
-// import Icon from "components/Icon";
 import Header from "components/Header";
 import SearchInput from "components/SearchInput";
 import Toggle from "components/Toggle";
 import BusCard from "components/BusCard";
 import Timetable from "components/Timetable";
-// import Menu from "images/menu.svg";
 
 import * as Style from "./style";
 
@@ -25,7 +23,7 @@ const SearchPage = (props) => {
 
   const axios = useAxios();
   const { setBusData } = useBusStore();
-  const { likedRouteData, setLikedRouteData} = useLikedRouteStore();
+  const { likedRouteData, setLikedRouteData } = useLikedRouteStore();
 
   const clickCard = (busData) => {
     // setBusData({ city: busInfo.City, routeName: busInfo.RouteID });
@@ -37,15 +35,31 @@ const SearchPage = (props) => {
     }
   };
 
+  const getRouteData = async (city, keyword) => {
+    const config = {
+      url: `v2/Bus/Route/City/${city}/${keyword}`,
+      method: "GET",
+    };
+    const routeData = await axios.exec(config);
+    return { routeData };
+  };
+
+  const getVehicleData = async (city) => {
+    const config = {
+      url: `v2/Bus/Vehicle/City/${city}`,
+      method: "GET",
+    };
+    const vehicleData = await axios.exec(config);
+    return { vehicleData };
+  };
+
   const clickSearch = async () => {
     if (city) {
-      const config = {
-        url: `v2/Bus/Route/City/${city}/${keyword}`,
-        method: "GET",
-      };
-      const searchResult = await axios.exec(config);
-      const tempBusCardData = searchResult.map((i) => {
-        if (likedRouteData.includes(i.RouteUID)) {
+      const callArr = [getRouteData(city, keyword), getVehicleData(city)];
+      const [routeData, vehicleData] = await Promise.all(callArr);
+
+      const tempBusCardData = routeData.map((i) => {
+        if (likedRouteData.find((data) => data.RouteUID === i.RouteUID)) {
           return { ...i, liked: true };
         } else {
           return { ...i, liked: false };
@@ -58,23 +72,26 @@ const SearchPage = (props) => {
   };
 
   const clickLike = (busData) => {
-    let tempLikedRoute;
-    if (!busData.liked) {
-      tempLikedRoute = [...likedRouteData, busData];
-    } else {
-      tempLikedRoute = likedRouteData.filter((item) => item !== busData);
-    }
-    setLikedRouteData(tempLikedRoute);
+    // let tempLikedRoute;
+    // if (!busData.liked) {
+    //   tempLikedRoute = [...likedRouteData, busData];
+    // } else {
+    //   tempLikedRoute = likedRouteData.filter((item) => item !== busData);
+    // }
+    // setLikedRouteData(tempLikedRoute);
     // localStorage.setItem("likedRouteDataStore", JSON.stringify(tempLikedRoute));
 
-    const tempBusCardData = busCardData.map((item) => {
-      if (item.RouteUID === busData.RouteUID) {
-        return { ...item, liked: !busData.liked };
+    const tempBusCardData = busCardData.map((cardData) => {
+      if (cardData.RouteUID === busData.RouteUID) {
+        return { ...cardData, liked: !busData.liked };
       } else {
-        return item;
+        return cardData;
       }
     });
     setBusCardData(tempBusCardData);
+
+    const tempLikedRoute = tempBusCardData.filter((cardData) => cardData.liked);
+    setLikedRouteData(tempLikedRoute);
   };
 
   // useEffect(() => {
