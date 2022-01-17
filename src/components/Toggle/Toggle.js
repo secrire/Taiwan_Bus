@@ -5,11 +5,12 @@ import PropTypes from "prop-types";
 import * as Style from "./style";
 
 const Toggle = (props) => {
+  const { onChange, checked } = props;
   return (
     <>
       <Style.Label>
-        <Style.Input type="checkbox" />
-        <Style.Span className="slider"/>
+        <Style.Input type="checkbox" onChange={onChange} checked={checked} />
+        <Style.Span className="slider" />
       </Style.Label>
     </>
   );

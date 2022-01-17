@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 100px;
   width: 100%;
-  padding: 20px 0;
+  padding: 4px 0;
 `;
 
 export const InputContainer = styled.div`
@@ -39,4 +38,38 @@ export const CityWarning = styled.div`
   font-size: 12px;
   color: #c33218;
   margin: 16px 15% -3px;
+`;
+
+export const BackGround = styled.div`
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  display: flex;
+  align-items: center;
+`;
+
+export const CityContainer = styled.div`
+  width: 90%;
+  max-width: 360px;
+  height: 85%;
+  max-height: 730px;
+  margin: auto;
+  z-index: 2;
+  background: rgba(245, 245, 245, 0.7);
+  border-radius: 20px;
+  overflow-y: scroll;
+`;
+
+export const CityOption = styled.button`
+  font-size: 20px;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #007aff;
+  border: none;
 `;

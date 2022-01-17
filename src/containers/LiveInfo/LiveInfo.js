@@ -13,31 +13,65 @@ import Timetable from "components/Timetable";
 import ArrowLeft from "images/arrow-left.svg";
 import Menu from "images/menu.svg";
 import Guild from "images/guild.svg";
-import ClockCircle from "images/clock-circle.svg";
-import ArrowsCircle from "images/arrows-circle.svg";
+import Clock from "images/clock.svg";
 
 import * as Style from "./style";
 
 const LiveInfo = (props) => {
   const [showTimetable, setShowTimetable] = useState(false);
-  const [estimatedArrivalData, setEstimatedArrivalData] = useState([]);
+  const [estimatedArrivalState, setEstimatedArrivalState] = useState([]);
 
   const axios = useAxios();
   const { busData } = useBusStore();
   const { City, RouteName, DepartureStopNameZh, DestinationStopNameZh } =
     busData;
 
-  const getEstimatedArrival = async (City, RouteName) => {
+  const getEstimatedArrivalData = async (city, routeName) => {
     const config = {
-      url: `v2/Bus/EstimatedTimeOfArrival/City/${City}/${RouteName.Zh_tw}`,
+      url: `v2/Bus/EstimatedTimeOfArrival/City/${city}/${routeName.Zh_tw}`,
       method: "GET",
     };
-    const result = await axios.exec(config);
-    setEstimatedArrivalData(result);
+    const estimatedArrivalData = await axios.exec(config);
+    return { estimatedArrivalData };
+  };
+
+  const getVehicleData = async (city) => {
+    const config = {
+      url: `v2/Bus/Vehicle/City/${city}`,
+      method: "GET",
+    };
+    const vehicleData = await axios.exec(config);
+    return { vehicleData };
+  };
+
+  const init = async () => {
+    const callArr = [
+      getEstimatedArrivalData(City, RouteName),
+      getVehicleData(City),
+    ];
+    const [{ estimatedArrivalData }, { vehicleData }] = await Promise.all(
+      callArr
+    );
+    let accessibleNumb = [];
+    vehicleData.forEach((data) => {
+      if (data.VehicleType === 1) {
+        accessibleNumb.push(data.PlateNumb);
+      }
+    });
+    const tempEstimatedArrivalState = estimatedArrivalData
+      .filter((data) => data.StopStatus === 0)
+      .map((data) => {
+        if (accessibleNumb.includes(data.PlateNumb)) {
+          return { ...data, isAccessible: true };
+        } else {
+          return { ...data, isAccessible: false };
+        }
+      });
+    setEstimatedArrivalState(tempEstimatedArrivalState);
   };
 
   useEffect(() => {
-    getEstimatedArrival(City, RouteName);
+    init();
   }, []);
 
   return (
@@ -62,10 +96,26 @@ const LiveInfo = (props) => {
       </Style.IconContainer>
       <Style.Number>{RouteName.Zh_tw}</Style.Number>
       <Style.Row>
-        <img src={Guild} alt="guild" onClick={() => {}} />
-        <img
-          src={ClockCircle}
+        <Icon
+          src={Guild}
+          alt="guild"
+          style={{
+            img: "16px",
+            circle: "36px",
+            circleColor: "#5cbcdb",
+            margin: "0 16px 0 0",
+          }}
+          onClick={() => {}}
+        />
+        <Icon
+          src={Clock}
           alt="clock"
+          style={{
+            img: "22px",
+            circle: "36px",
+            circleColor: "#5cbcdb",
+            margin: "0 auto 0 0",
+          }}
           onClick={() => setShowTimetable(true)}
         />
         <BusStartEnd
@@ -74,7 +124,7 @@ const LiveInfo = (props) => {
         />
       </Style.Row>
       {showTimetable && <Timetable setVisible={setShowTimetable} />}
-      <LiveContent estimatedArrivalData={estimatedArrivalData} />
+      <LiveContent estimatedArrival={estimatedArrivalState} />
     </Style.Container>
   );
 };

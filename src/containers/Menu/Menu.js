@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Icon from "components/Icon";
-import Bus from "images/bus.svg";
+import BusWhite from "images/bus-white.svg";
 import Clock from "images/clock.svg";
 import MapMarker from "images/map-marker.svg";
 import HeartFullWhite from "images/heart-full-white.svg";
@@ -22,7 +22,7 @@ const Menu = (props) => {
     <Style.Container>
       <Link to="/app/live">
         <Style.IconContainer>
-          <Icon src={Bus} alt="bus" style={defaultStyle} />
+          <Icon src={BusWhite} alt="bus" style={defaultStyle} />
           <p>公車動態</p>
         </Style.IconContainer>
       </Link>

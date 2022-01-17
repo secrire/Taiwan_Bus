@@ -2,7 +2,7 @@ import React, { Suspense, lazy, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Icon from "components/Icon";
-import Bus from "images/bus.svg";
+import BusWhite from "images/bus-white.svg";
 import Clock from "images/clock.svg";
 import MapMarker from "images/map-marker.svg";
 import HeartFullWhite from "images/heart-full-white.svg";
@@ -26,7 +26,7 @@ const Home = (props) => {
     <Style.Container>
       <Style.IconContainer>
         <Icon
-          src={Bus}
+          src={BusWhite}
           alt="bus"
           style={defaultStyle}
           title="公車專用"

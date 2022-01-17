@@ -18,8 +18,9 @@ const SearchPage = (props) => {
   const [cityWarning, setCityWarning] = useState("");
   const [keyword, setKeyword] = useState("");
   const [busCardData, setBusCardData] = useState([]);
-  // const [likedRoute, setLikedRoute] = useState([]);
+  const [displayBusCardData, setDisplayBusCardData] = useState([]);
   const [showTimetable, setShowTimetable] = useState(false);
+  const [accessibleOnly, setAccessibleOnly] = useState(false);
 
   const axios = useAxios();
   const { setBusData } = useBusStore();
@@ -53,16 +54,49 @@ const SearchPage = (props) => {
     return { vehicleData };
   };
 
+  const getRealTimeData = async (city, keyword) => {
+    const config = {
+      url: `v2/Bus/RealTimeByFrequency/City/${city}/${keyword}`,
+      method: "GET",
+    };
+    const realTimeData = await axios.exec(config);
+    return { realTimeData };
+  };
+
   const clickSearch = async () => {
     if (city) {
-      const callArr = [getRouteData(city, keyword), getVehicleData(city)];
-      const [routeData, vehicleData] = await Promise.all(callArr);
-
-      const tempBusCardData = routeData.map((i) => {
-        if (likedRouteData.find((data) => data.RouteUID === i.RouteUID)) {
-          return { ...i, liked: true };
+      const callArr = [
+        getRouteData(city, keyword),
+        getVehicleData(city),
+        getRealTimeData(city, keyword),
+      ];
+      const [{ routeData }, { vehicleData }, { realTimeData }] =
+        await Promise.all(callArr);
+      let accessibleNumb = [];
+      vehicleData.forEach((data) => {
+        if (data.VehicleType === 1) {
+          accessibleNumb.push(data.PlateNumb);
+        }
+      });
+      let accessibleRoute = [];
+      realTimeData.forEach((data) => {
+        if (accessibleNumb.includes(data.PlateNumb)) {
+          accessibleRoute.push(data.RouteUID);
+        }
+      });
+      let tempBusCardData;
+      tempBusCardData = routeData.map((data) => {
+        if (likedRouteData.find((i) => i.RouteUID === data.RouteUID)) {
+          return { ...data, liked: true };
         } else {
-          return { ...i, liked: false };
+          return { ...data, liked: false };
+        }
+      });
+      tempBusCardData = tempBusCardData.map((data) => {
+        if (accessibleRoute.includes(data.RouteUID)) {
+          return { ...data, isAccessible: true };
+        } else {
+          return { ...data, isAccessible: false };
         }
       });
       setBusCardData(tempBusCardData);
@@ -72,15 +106,6 @@ const SearchPage = (props) => {
   };
 
   const clickLike = (busData) => {
-    // let tempLikedRoute;
-    // if (!busData.liked) {
-    //   tempLikedRoute = [...likedRouteData, busData];
-    // } else {
-    //   tempLikedRoute = likedRouteData.filter((item) => item !== busData);
-    // }
-    // setLikedRouteData(tempLikedRoute);
-    // localStorage.setItem("likedRouteDataStore", JSON.stringify(tempLikedRoute));
-
     const tempBusCardData = busCardData.map((cardData) => {
       if (cardData.RouteUID === busData.RouteUID) {
         return { ...cardData, liked: !busData.liked };
@@ -94,12 +119,16 @@ const SearchPage = (props) => {
     setLikedRouteData(tempLikedRoute);
   };
 
-  // useEffect(() => {
-  //   const tempLikedRoute = JSON.parse(localStorage.getItem("likedRouteDataStore"));
-  //   if (tempLikedRoute) {
-  //     setLikedRoute(tempLikedRoute);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (accessibleOnly) {
+      const tempDisplayBusCardData = [...busCardData].filter(
+        (data) => data.isAccessible
+      );
+      setDisplayBusCardData(tempDisplayBusCardData);
+    } else {
+      setDisplayBusCardData(busCardData);
+    }
+  }, [busCardData, accessibleOnly]);
 
   return (
     <Style.Container>
@@ -113,25 +142,17 @@ const SearchPage = (props) => {
           keyword={keyword}
           clickSearch={clickSearch}
         />
-        {/* <Link to="/app/menu">
-          <Icon
-            src={Menu}
-            alt="menu"
-            style={{
-              img: "20px",
-              position: "fixed",
-              top: "40px",
-              left: "18px",
-            }}
-          />
-        </Link> */}
       </Style.Top>
       <Style.ToggleContainer>
         <Style.ToggleTitle>僅顯示提供無障礙車輛之路線</Style.ToggleTitle>
-        <Toggle />
+        <Toggle
+          onChange={() => setAccessibleOnly(!accessibleOnly)}
+          checked={accessibleOnly}
+        />
       </Style.ToggleContainer>
       <Style.CardContainer>
-        {busCardData.map((data) => (
+        {console.log("displayBusCardData", displayBusCardData.length)}
+        {displayBusCardData.map((data) => (
           <BusCard
             key={data.RouteUID}
             busData={data}

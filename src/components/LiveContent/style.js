@@ -79,10 +79,12 @@ export const WheelchairContainer = styled.div`
   color: #5cbcdb;
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 90px;
   height: 26px;
   border: 1px solid #5cbcdb;
   border-radius: 100px;
+  margin-left: auto;
 `;
 
 export const StopBelow = styled.div`
