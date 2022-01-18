@@ -9,6 +9,7 @@ import Icon from "components/Icon";
 import BusStartEnd from "components/BusStartEnd";
 import LiveContent from "components/LiveContent";
 import Timetable from "components/Timetable";
+import Map from "components/Map";
 
 import ArrowLeft from "images/arrow-left.svg";
 import Menu from "images/menu.svg";
@@ -124,6 +125,7 @@ const LiveInfo = (props) => {
         />
       </Style.Row>
       {showTimetable && <Timetable setVisible={setShowTimetable} />}
+      <Map/>
       <LiveContent estimatedArrival={estimatedArrivalState} />
     </Style.Container>
   );

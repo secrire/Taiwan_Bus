@@ -37,17 +37,22 @@ const SearchInput = (props) => {
     props;
   const [showCityOptions, setShowCityOptions] = useState(false);
 
+  const getCityDisplayName = (city) => {
+    const foundCity = cityOptions.find(option=>option.value=== city).title
+    return foundCity
+  }
+
   return (
     <Style.Container>
       <Style.InputContainer>
-        <div>{city ? city : "請選擇縣市"}</div>
+        <div>{city ? getCityDisplayName(city) : "請選擇縣市"}</div>
         {/* placeholder="請選擇縣市"
           // onChange={(e) => changeCity(e.target.value)}
           // value={city}
         /> */}
         <Style.InputImg
           src={CaretDown}
-          alt="city"
+          alt="select city"
           onClick={() => setShowCityOptions(true)}
         />
       </Style.InputContainer>
