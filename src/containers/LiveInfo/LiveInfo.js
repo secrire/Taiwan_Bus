@@ -133,4 +133,13 @@ const LiveInfo = (props) => {
 
 export default LiveInfo;
 
-LiveInfo.propTypes = {};
+
+LiveInfo.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+    location: PropTypes.shape({
+      pathname: PropTypes.string,
+      state: PropTypes.object,
+    }),
+  }).isRequired,
+};

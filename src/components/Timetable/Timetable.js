@@ -76,4 +76,11 @@ const Timetable = (props) => {
 
 export default Timetable;
 
-Timetable.propTypes = {};
+
+Timetable.propTypes = {
+  setVisible: PropTypes.func,
+};
+
+Timetable.defaultProps = {
+  setVisible:()=>{},
+};

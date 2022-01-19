@@ -33,3 +33,12 @@ const Header = (props) => {
 export default Header;
 
 Header.propTypes = {};
+
+
+Header.propTypes = {
+  title: PropTypes.string,
+};
+
+Header.defaultProps = {
+  title: '',
+};

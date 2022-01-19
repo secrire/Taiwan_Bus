@@ -45,4 +45,14 @@ const BusCard = (props) => {
 
 export default BusCard;
 
-BusCard.propTypes = {};
+BusCard.propTypes = {
+  busData: PropTypes.object,
+  clickCard: PropTypes.func,
+  clickLike: PropTypes.func,
+};
+
+BusCard.defaultProps = {
+  busData: {},
+  clickCard: ()=>{},
+  clickLike: ()=>{},
+};

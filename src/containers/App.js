@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 
 // import { useUserStore } from '@/store/userStroe';
 // import useAxios from "@/hooks/useAxios";
-// import TopBar from "@/components/compos/TopBar";
 
 import { Container } from "./style";
 // import "./style.css";

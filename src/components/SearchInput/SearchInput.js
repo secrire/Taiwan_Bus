@@ -86,4 +86,21 @@ const SearchInput = (props) => {
 
 export default SearchInput;
 
-SearchInput.propTypes = {};
+
+SearchInput.propTypes = {
+  changeCity: PropTypes.func,
+  city: PropTypes.string,
+  cityWarning: PropTypes.bool,
+  keyword: PropTypes.string,
+  changeKeyword: PropTypes.func,
+  clickSearch:PropTypes.func,
+};
+
+SearchInput.defaultProps = {
+  changeCity: ()=>{},
+  city: '',
+  cityWarning: false,
+  keyword: '',
+  changeKeyword: ()=>{},
+  clickSearch: ()=>{},
+};

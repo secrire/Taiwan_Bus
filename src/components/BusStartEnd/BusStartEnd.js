@@ -27,4 +27,13 @@ const BusStartEnd = (props) => {
 
 export default BusStartEnd;
 
-BusStartEnd.propTypes = {};
+
+BusStartEnd.propTypes = {
+  stopNames: PropTypes.object,
+  style: PropTypes.object,
+};
+
+BusStartEnd.defaultProps = {
+  stopNames: {},
+  style: {},
+};

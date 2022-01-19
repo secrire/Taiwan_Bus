@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import * as Style from "./style";
+import { prototype } from "core-js/fn/promise";
 
 const Icon = (props) => {
   const {
@@ -42,12 +43,19 @@ const Icon = (props) => {
 
 export default Icon;
 
+
 Icon.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-    location: PropTypes.shape({
-      pathname: PropTypes.string,
-      state: PropTypes.object,
-    }),
-  }).isRequired,
+  src: PropTypes.string,
+  alt: PropTypes.string,
+  title: PropTypes.string,
+  style:PropTypes.object,
+  onClick: PropTypes.func,
+};
+
+Icon.defaultProps = {
+  src: '',
+  alt: '',
+  title: '',
+  style:{},
+  onClick:()=>{},
 };

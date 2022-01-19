@@ -18,4 +18,13 @@ const Toggle = (props) => {
 
 export default Toggle;
 
-Toggle.propTypes = {};
+
+Toggle.propTypes = {
+  onChange: PropTypes.func,
+  checked: PropTypes.bool,
+};
+
+Toggle.defaultProps = {
+  onChange: ()=>{},
+  checked: false,
+};

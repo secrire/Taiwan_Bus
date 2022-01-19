@@ -20,7 +20,7 @@ const Collection = (props) => {
     setLikedRouteData(tempLikedRoute);
   };
 
-  console.log('Collection===', likedRouteData)
+  // console.log('Collection===', likedRouteData)
 
   return (
     <Style.Container>

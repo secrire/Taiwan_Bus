@@ -82,4 +82,11 @@ const LiveContent = (props) => {
 
 export default LiveContent;
 
-LiveContent.propTypes = {};
+
+LiveContent.propTypes = {
+  estimatedArrival: PropTypes.array,
+};
+
+LiveContent.defaultProps = {
+  estimatedArrival: [],
+};
