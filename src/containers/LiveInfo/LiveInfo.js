@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import useAxios from "hooks/useAxios";
+import { useLanguageStore } from "store/languageStore";
 import { useBusStore } from "store/busStore";
 // import Keypad from "components/Keypad";
 import Icon from "components/Icon";
@@ -18,11 +19,13 @@ import Clock from "images/clock.svg";
 
 import * as Style from "./style";
 
+
 const LiveInfo = (props) => {
   const [showTimetable, setShowTimetable] = useState(false);
   const [estimatedArrivalState, setEstimatedArrivalState] = useState([]);
 
   const axios = useAxios();
+  const { isZhTw } = useLanguageStore();
   const { busData } = useBusStore();
   const { City, RouteName, DepartureStopNameZh, DestinationStopNameZh } =
     busData;

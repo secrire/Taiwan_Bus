@@ -1,0 +1,11 @@
+{
+  "COMMON": {
+    "BROWSER_VERSION": "Supported browser version include Chrome 69 or above, IE 11 or above.",
+    "MY_COLLECTION": "Collection",
+    "ROUTE":"Route",
+    "STOP":"Stop",
+  },
+  "BUTTON": {
+    "ADD": "Add"
+  }
+}

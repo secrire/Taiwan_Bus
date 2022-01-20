@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import "antd/dist/antd.css";
 import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
 
+import { LanguageContextProvider } from "./store/languageStore";
 import { BusContextProvider } from "./store/busStore";
 import { LikedRouteContextProvider } from "./store/likedRouteStore";
 
@@ -16,16 +17,18 @@ const Main = (props) => {
 
   return (
     <Router>
-      <BusContextProvider>
-        <LikedRouteContextProvider>
-        <Suspense fallback={<div>Loading....</div>}>
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/app" component={App} />
-          </Switch>
-        </Suspense>
-        </LikedRouteContextProvider>
-      </BusContextProvider>
+      <LanguageContextProvider>
+        <BusContextProvider>
+          <LikedRouteContextProvider>
+            <Suspense fallback={<div>Loading....</div>}>
+              <Switch>
+                <Route path="/" exact component={Home} />
+                <Route path="/app" component={App} />
+              </Switch>
+            </Suspense>
+          </LikedRouteContextProvider>
+        </BusContextProvider>
+      </LanguageContextProvider>
     </Router>
   );
 };

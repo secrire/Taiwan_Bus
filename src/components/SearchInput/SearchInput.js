@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 import CaretDown from "images/caret-down.svg";
 import Search from "images/search.svg";
@@ -33,6 +34,7 @@ const cityOptions = [
 ];
 
 const SearchInput = (props) => {
+  const { t } = useTranslation();
   const { changeCity, city, cityWarning, keyword, changeKeyword, clickSearch } =
     props;
   const [showCityOptions, setShowCityOptions] = useState(false);
@@ -45,7 +47,7 @@ const SearchInput = (props) => {
   return (
     <Style.Container>
       <Style.InputContainer>
-        <div>{city ? getCityDisplayName(city) : "請選擇縣市"}</div>
+        <div>{city ? getCityDisplayName(city) : t("COMMON.PLEASE_SELECT_CITY")}</div>
         {/* placeholder="請選擇縣市"
           // onChange={(e) => changeCity(e.target.value)}
           // value={city}

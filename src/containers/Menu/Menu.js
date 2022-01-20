@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
+
 import Icon from "components/Icon";
 import BusWhite from "images/bus-white.svg";
 import Clock from "images/clock.svg";
@@ -9,39 +11,41 @@ import HeartFullWhite from "images/heart-full-white.svg";
 
 import * as Style from "./style";
 
+const defaultStyle = {
+  circle: "40px",
+  img: "18px",
+  titleMargin: "4px",
+  circleColor: "#5a637b",
+  margin: "0 6px 0 0",
+};
+
 const Menu = (props) => {
-  const defaultStyle = {
-    circle: "40px",
-    img: "18px",
-    titleMargin: "4px",
-    circleColor: "#5a637b",
-    margin: "0 6px 0 0",
-  };
+  const { t } = useTranslation();
 
   return (
     <Style.Container>
       <Link to="/app/live">
         <Style.IconContainer>
           <Icon src={BusWhite} alt="bus" style={defaultStyle} />
-          <p>公車動態</p>
+          <p>{t('COMMON.BUS_LIVE')}</p>
         </Style.IconContainer>
       </Link>
       <Link to="/app/stop">
         <Style.IconContainer>
           <Icon src={MapMarker} alt="marker" style={defaultStyle} />
-          <p>附近站點</p>
+          <p>{t('COMMON.NEAR_STOP')}</p>
         </Style.IconContainer>
       </Link>
       <Link to="/app/timetable">
         <Style.IconContainer>
           <Icon src={Clock} alt="clock" style={defaultStyle} />
-          <p>班表查詢</p>
+          <p>{t('COMMON.TIMETABLE')}</p>
         </Style.IconContainer>
       </Link>
       <Link to="/app/collection">
         <Style.IconContainer>
           <Icon src={HeartFullWhite} alt="heart" style={defaultStyle} />
-          <p>我的收藏</p>
+          <p>{t('COMMON.COLLECTION')}</p>
         </Style.IconContainer>
       </Link>
     </Style.Container>

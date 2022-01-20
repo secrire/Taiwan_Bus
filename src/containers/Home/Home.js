@@ -1,6 +1,8 @@
 import React, { Suspense, lazy, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
+
 import Icon from "components/Icon";
 import BusWhite from "images/bus-white.svg";
 import Clock from "images/clock.svg";
@@ -9,14 +11,16 @@ import HeartFullWhite from "images/heart-full-white.svg";
 
 import * as Style from "./style";
 
+const defaultStyle = {
+  container: "84px",
+  circle: "60px",
+  img: "36px",
+  titleMargin: "4px",
+  circleColor: "#5CBCDB",
+};
+
 const Home = (props) => {
-  const defaultStyle = {
-    container: "84px",
-    circle: "60px",
-    img: "36px",
-    titleMargin: "4px",
-    circleColor: "#5CBCDB",
-  };
+  const { t } = useTranslation();
 
   const clickIcon = (page) => {
     props.history.push(`/app/${page}`);
@@ -29,28 +33,28 @@ const Home = (props) => {
           src={BusWhite}
           alt="bus"
           style={defaultStyle}
-          title="公車專用"
+          title={t('COMMON.BUS_LIVE')}
           onClick={() => clickIcon("live")}
         />
         <Icon
           src={MapMarker}
           alt="marker"
           style={defaultStyle}
-          title="附近站點"
+          title={t('COMMON.NEAR_STOP')}
           onClick={() => clickIcon("stop")}
         />
         <Icon
           src={Clock}
           alt="clock"
           style={defaultStyle}
-          title="班表查詢"
+          title={t('COMMON.TIMETABLE')}
           onClick={() => clickIcon("timetable")}
         />
         <Icon
           src={HeartFullWhite}
           alt="heart"
           style={defaultStyle}
-          title="我的收藏"
+          title={t('COMMON.COLLECTION')}
           onClick={() => clickIcon("collection")}
         />
       </Style.IconContainer>

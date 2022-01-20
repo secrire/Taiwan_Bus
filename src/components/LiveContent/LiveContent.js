@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 import Icon from "components/Icon";
 
@@ -11,15 +12,16 @@ import WheelChair from "images/wheel-chair.jpg";
 import * as Style from "./style";
 
 const LiveContent = (props) => {
+  const { t } = useTranslation();
   const { estimatedArrival } = props;
 
   const formatSecond = (secs) => {
     let hr = Math.floor(secs / 3600);
     let min = Math.floor((secs - hr * 3600) / 60);
     if ((hr === 0 && min < 3) || secs === 0) {
-      return "即將到站";
+      return 'soon';
     }
-    return `${hr === 0 ? "" : `${hr} 時`} ${min} 分`;
+    return `${hr === 0 ? "" : `${hr} ${t("COMMON.HOUR")}`} ${min} ${t("COMMON.MINUTE")}`;
   };
 
   // console.log(estimatedArrival);
@@ -28,9 +30,9 @@ const LiveContent = (props) => {
     <Style.Container>
       <Style.Header>
         <div>
-          <Style.HeaderTitle>行駛方向</Style.HeaderTitle>
+          <Style.HeaderTitle>{t("COMMON.DIRECTION")}</Style.HeaderTitle>
           <Style.HeaderWay>
-            <div>往</div>
+            <div>{t("COMMON.TO")}</div>
             <div>龍潭站</div>
           </Style.HeaderWay>
         </div>
@@ -48,7 +50,7 @@ const LiveContent = (props) => {
       </Style.Header>
       <Style.Content>
         {estimatedArrival.map((data) => {
-          const isSoon = formatSecond(data.EstimateTime) === "即將到站";
+          const isSoon = formatSecond(data.EstimateTime) === "soon";
           return (
             <React.Fragment key={data.StopUID}>
               <Style.StopContainer>

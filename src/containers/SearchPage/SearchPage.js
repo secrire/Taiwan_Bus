@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 import useAxios from "hooks/useAxios";
 import { useBusStore } from "store/busStore";
@@ -14,6 +15,8 @@ import Timetable from "components/Timetable";
 import * as Style from "./style";
 
 const SearchPage = (props) => {
+  const { t } = useTranslation();
+
   const [city, setCity] = useState("");
   const [cityWarning, setCityWarning] = useState("");
   const [keyword, setKeyword] = useState("");
@@ -101,7 +104,7 @@ const SearchPage = (props) => {
       });
       setBusCardData(tempBusCardData);
     } else {
-      setCityWarning("請選擇縣市");
+      setCityWarning(t('PLEASE_SELECT_CITY'));
     }
   };
 
@@ -133,7 +136,7 @@ const SearchPage = (props) => {
   return (
     <Style.Container>
       <Style.Top>
-        <Header title="公車動態" />
+        <Header title={t('BUS_LIVE')} />
         <SearchInput
           changeCity={setCity}
           city={city}
@@ -144,14 +147,14 @@ const SearchPage = (props) => {
         />
       </Style.Top>
       <Style.ToggleContainer>
-        <Style.ToggleTitle>僅顯示提供無障礙車輛之路線</Style.ToggleTitle>
+        <Style.ToggleTitle>{t('ONLY_SHOW_ROUTE_WITH_ACCESSIBLE')}</Style.ToggleTitle>
         <Toggle
           onChange={() => setAccessibleOnly(!accessibleOnly)}
           checked={accessibleOnly}
         />
       </Style.ToggleContainer>
       <Style.CardContainer>
-        {console.log("displayBusCardData", displayBusCardData.length)}
+        {/* {console.log("displayBusCardData", displayBusCardData.length)} */}
         {displayBusCardData.map((data) => (
           <BusCard
             key={data.RouteUID}

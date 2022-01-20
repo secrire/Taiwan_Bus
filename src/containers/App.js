@@ -30,7 +30,7 @@ const App = ({ history }) => {
 
   return (
     <Container>
-      <Suspense fallback={<div>Module loading....</div>}>
+      <Suspense fallback={<div>Loading....</div>}>
         <Switch>
           <Route path="/app/menu" component={Menu} />
           <Route path="/app/live" component={SearchPage} />

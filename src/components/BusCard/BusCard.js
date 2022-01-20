@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
+import { useLanguageStore } from "store/languageStore";
 import BusStartEnd from "components/BusStartEnd";
 
 import HeartFullRed from "images/heart-full-red.svg";
@@ -13,6 +14,8 @@ import * as Style from "./style";
 const BusCard = (props) => {
   const { busData, clickCard, clickLike } = props;
   const { DepartureStopNameZh, DestinationStopNameZh, liked } = busData;
+
+  const { isZhTw } = useLanguageStore();
 
   return (
     <Style.Container>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 import { useLikedRouteStore } from "store/likedRouteStore";
 import Header from "components/Header";
@@ -9,6 +10,7 @@ import Search from "images/search.svg";
 import * as Style from "./style";
 
 const Collection = (props) => {
+  const { t } = useTranslation();
   const [keyword, setKeyword] = useState("");
   const [selectedTab, setSelectedTab] = useState(null);
 
@@ -25,7 +27,7 @@ const Collection = (props) => {
   return (
     <Style.Container>
       <Style.Top>
-        <Header title="我的收藏" />
+        <Header title={t("COMMON.COLLECTION")} />
         <Style.InputContainer>
           <Style.Input
             placeholder="search"
@@ -36,8 +38,8 @@ const Collection = (props) => {
         </Style.InputContainer>
       </Style.Top>
       <Style.TabContainer>
-        <div onClick={()=>setSelectedTab('route')}>路線</div>
-        <div onClick={()=>setSelectedTab('stop')}>站點</div>
+        <div onClick={()=>setSelectedTab('route')}>{t("COMMON.ROUTE")}</div>
+        <div onClick={()=>setSelectedTab('stop')}>{t('COMMON.STOP')}</div>
       </Style.TabContainer>
       <Style.CardContainer>
         {likedRouteData.length && likedRouteData.map((data) => (

@@ -1,0 +1,20 @@
+{
+  "COMMON": {
+    "BROWSER_VERSION": "瀏覽器版本支援：Chrome 69（含以上）、IE 11（含以上）",
+    "ROUTE":"路線",
+    "STOP":"站點",
+    "BUS_LIVE":"公車動態",
+    "NEAR_STOP":"附近站點",
+    "TIMETABLE":"時刻查詢",
+    "COLLECTION":"我的收藏",
+    "PLEASE_SELECT_CITY":"請選擇縣市",
+    "ONLY_SHOW_ROUTE_WITH_ACCESSIBLE":"僅顯示提供無障礙車輛之路線",
+    "DIRECTION": "行駛方向",
+    "TO":"往",
+    "HOUR":"時",
+    "MINUTE":"分"
+  },
+  "BUTTON": {
+    "ADD": "新增"
+  }
+}

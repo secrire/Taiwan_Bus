@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 import useAxios from "hooks/useAxios";
 import { useBusStore } from "store/busStore";
@@ -8,8 +9,9 @@ import Cross from "images/cross.svg";
 import * as Style from "./style";
 
 const Timetable = (props) => {
-  const [scheduleData, setScheduleData] = useState([]);
+  const { t } = useTranslation();
   const { setVisible } = props;
+  const [scheduleData, setScheduleData] = useState([]);
 
   const axios = useAxios();
   const {
@@ -22,7 +24,7 @@ const Timetable = (props) => {
       method: "GET",
     };
     const result = await axios.exec(config);
-    console.log("getSchedule", result);
+    // console.log("getSchedule", result);
     setScheduleData(result);
   };
 
@@ -45,7 +47,7 @@ const Timetable = (props) => {
       <Style.Container>
         <Style.Header>
           <img src={Cross} alt="close" onClick={() => setVisible(false)} />
-          <div>{RouteName.Zh_tw} 班次表</div>
+          <div>{RouteName.Zh_tw} {t('COMMON.TIMETABLE')}</div>
         </Style.Header>
         {scheduleData
           .filter((i) => i.Timetables)
