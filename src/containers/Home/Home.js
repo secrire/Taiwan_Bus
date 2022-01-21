@@ -47,7 +47,7 @@ const Home = (props) => {
           src={Clock}
           alt="clock"
           style={defaultStyle}
-          title={t('COMMON.TIMETABLE')}
+          title={t('COMMON.CHECK_TIMETABLE')}
           onClick={() => clickIcon("timetable")}
         />
         <Icon

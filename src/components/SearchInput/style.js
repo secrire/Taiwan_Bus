@@ -14,6 +14,17 @@ export const InputContainer = styled.div`
   position: relative;
 `;
 
+export const CityDiv = styled.div`
+  height: 40px;
+  width: 76%;
+  background: #e5e5e5;
+  text-align: left;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 16px;
+  margin: 0 auto;
+`;
+
 export const Input = styled.input`
   height: 40px;
   width: 76%;
@@ -69,6 +80,7 @@ export const CityOption = styled.button`
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
   text-align: center;
   color: #007aff;
   border: none;

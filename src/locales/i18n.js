@@ -17,7 +17,7 @@ i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources,
-    lng: localStorage.getItem('language') || 'en-US', // 預設語言
+    lng: localStorage.getItem('language') || 'zh-TW', // 預設語言
     fallbackLng: 'zh-TW',     //如果當前切換的語言沒有對應的翻譯則使用這個語言，
 
     ns: ['translations'], // 要加載的名稱空間(string or array)

@@ -39,7 +39,7 @@ const Menu = (props) => {
       <Link to="/app/timetable">
         <Style.IconContainer>
           <Icon src={Clock} alt="clock" style={defaultStyle} />
-          <p>{t('COMMON.TIMETABLE')}</p>
+          <p>{t('COMMON.CHECK_TIMETABLE')}</p>
         </Style.IconContainer>
       </Link>
       <Link to="/app/collection">

@@ -7,7 +7,6 @@ import BusStartEnd from "components/BusStartEnd";
 
 import HeartFullRed from "images/heart-full-red.svg";
 import HeartEmpty from "images/heart-empty.svg";
-import Arrows from "images/arrows.svg";
 
 import * as Style from "./style";
 

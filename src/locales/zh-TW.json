@@ -5,16 +5,16 @@
     "STOP":"站點",
     "BUS_LIVE":"公車動態",
     "NEAR_STOP":"附近站點",
-    "TIMETABLE":"時刻查詢",
+    "CHECK_TIMETABLE":"時刻查詢",
     "COLLECTION":"我的收藏",
     "PLEASE_SELECT_CITY":"請選擇縣市",
     "ONLY_SHOW_ROUTE_WITH_ACCESSIBLE":"僅顯示提供無障礙車輛之路線",
     "DIRECTION": "行駛方向",
     "TO":"往",
     "HOUR":"時",
-    "MINUTE":"分"
-  },
-  "BUTTON": {
-    "ADD": "新增"
+    "MINUTE":"分",
+    "TIMETABLE":"班次表",
+    "WEEKDAY":"平日",
+    "HOLIDAY":"假日"
   }
 }

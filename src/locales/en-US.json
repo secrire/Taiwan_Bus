@@ -1,11 +1,20 @@
 {
   "COMMON": {
     "BROWSER_VERSION": "Supported browser version include Chrome 69 or above, IE 11 or above.",
-    "MY_COLLECTION": "Collection",
     "ROUTE":"Route",
     "STOP":"Stop",
-  },
-  "BUTTON": {
-    "ADD": "Add"
+    "BUS_LIVE":"Live Info",
+    "NEAR_STOP":"Near Stop",
+    "CHECK_TIMETABLE":"Timetable",
+    "COLLECTION":"Collection",
+    "PLEASE_SELECT_CITY":"Please Select City",
+    "ONLY_SHOW_ROUTE_WITH_ACCESSIBLE":"Only Show Route with Accessible Bus",
+    "DIRECTION": "Direction",
+    "TO":"To",
+    "HOUR":"hr",
+    "MINUTE":"min",
+    "TIMETABLE":"TimeTable",
+    "WEEKDAY":"Weekday",
+    "HOLIDAY":"Holiday"
   }
 }

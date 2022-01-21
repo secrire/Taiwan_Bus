@@ -47,7 +47,9 @@ const Timetable = (props) => {
       <Style.Container>
         <Style.Header>
           <img src={Cross} alt="close" onClick={() => setVisible(false)} />
-          <div>{RouteName.Zh_tw} {t('COMMON.TIMETABLE')}</div>
+          <div>
+            {RouteName.Zh_tw} {t("COMMON.TIMETABLE")}
+          </div>
         </Style.Header>
         {scheduleData
           .filter((i) => i.Timetables)
@@ -61,11 +63,11 @@ const Timetable = (props) => {
               </div>
               <Style.InfoContainer>
                 <Style.Detail>
-                  <Style.Title>平日</Style.Title>
+                  <Style.Title>{t("COMMON.WEEKDAY")}</Style.Title>
                   {manageTimetables(data.Timetables).workdayTime}
                 </Style.Detail>
                 <Style.Detail>
-                  <Style.Title>假日</Style.Title>
+                  <Style.Title>{t("COMMON.HOLIDAY")}</Style.Title>
                   {manageTimetables(data.Timetables).holidayTime}
                 </Style.Detail>
               </Style.InfoContainer>
@@ -78,11 +80,10 @@ const Timetable = (props) => {
 
 export default Timetable;
 
-
 Timetable.propTypes = {
   setVisible: PropTypes.func,
 };
 
 Timetable.defaultProps = {
-  setVisible:()=>{},
+  setVisible: () => {},
 };

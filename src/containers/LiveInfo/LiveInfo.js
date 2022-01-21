@@ -19,7 +19,6 @@ import Clock from "images/clock.svg";
 
 import * as Style from "./style";
 
-
 const LiveInfo = (props) => {
   const [showTimetable, setShowTimetable] = useState(false);
   const [estimatedArrivalState, setEstimatedArrivalState] = useState([]);
@@ -48,22 +47,32 @@ const LiveInfo = (props) => {
     return { vehicleData };
   };
 
+  const getStopData = async (city) => {
+    const config = {
+      url: `v2/Bus/Stop/City/${city}`,
+      method: "GET",
+    };
+    const stopData = await axios.exec(config);
+    return { stopData };
+  };
+
   const init = async () => {
     const callArr = [
       getEstimatedArrivalData(City, RouteName),
       getVehicleData(City),
+      getStopData(City),
     ];
-    const [{ estimatedArrivalData }, { vehicleData }] = await Promise.all(
-      callArr
-    );
+    const [{ estimatedArrivalData }, { vehicleData }, { stopData }] =
+      await Promise.all(callArr);
     let accessibleNumb = [];
     vehicleData.forEach((data) => {
       if (data.VehicleType === 1) {
         accessibleNumb.push(data.PlateNumb);
       }
     });
-    const tempEstimatedArrivalState = estimatedArrivalData
-      .filter((data) => data.StopStatus === 0)
+    let tempEstimatedArrivalState;
+    tempEstimatedArrivalState = estimatedArrivalData
+      .filter((data) => data.StopStatus === 0) //車輛狀態備註 : 0:'正常'
       .map((data) => {
         if (accessibleNumb.includes(data.PlateNumb)) {
           return { ...data, isAccessible: true };
@@ -71,6 +80,21 @@ const LiveInfo = (props) => {
           return { ...data, isAccessible: false };
         }
       });
+
+    if (stopData) {
+      tempEstimatedArrivalState = [...tempEstimatedArrivalState].map((s) => {
+        const foundStop = stopData.find((data) => data.StopUID === s.StopUID);
+        if (foundStop) {
+          return {
+            ...s,
+            positionLon: foundStop.StopPosition.PositionLon,
+            positionLat: foundStop.StopPosition.PositionLat,
+          };
+        } else {
+          return { ...s };
+        }
+      });
+    }
     setEstimatedArrivalState(tempEstimatedArrivalState);
   };
 
@@ -128,14 +152,13 @@ const LiveInfo = (props) => {
         />
       </Style.Row>
       {showTimetable && <Timetable setVisible={setShowTimetable} />}
-      <Map/>
+      <Map />
       <LiveContent estimatedArrival={estimatedArrivalState} />
     </Style.Container>
   );
 };
 
 export default LiveInfo;
-
 
 LiveInfo.propTypes = {
   history: PropTypes.shape({
