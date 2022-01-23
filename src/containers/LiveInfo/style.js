@@ -4,6 +4,7 @@ export const Container = styled.div`
   background: #5a637e;
   width: 100%;
   height: 100vh;
+  overflow-y: hidden;
 `;
 
 export const IconContainer = styled.div`

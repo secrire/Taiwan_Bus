@@ -1,23 +1,33 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  /* height: 70px; */
   width: 100%;
   padding: 0 auto;
   background: #ffffff;
   box-shadow: 0px -3px 8px rgba(0, 0, 0, 0.2);
   border-radius: 20px 20px 0px 0px;
-  /* display: flex;
-  align-items: center; */
+  margin-top: ${(p) => p.isMargin && "-18px"};
+  position: relative;
+`;
+
+export const CaretContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 12px;
+  img {
+    height: 14px;
+    width: 14px;
+  }
 `;
 
 export const Header = styled.div`
-  height: 80px;
+  height: 64px;
   width: 90%;
   max-width: 400px;
   display: flex;
   align-items: center;
-  padding: 16px 0;
+  padding: 0;
   margin: 0 auto;
   border-bottom: 0.75px solid #c4c4c4;
 `;
@@ -50,6 +60,9 @@ export const Content = styled.div`
   margin: 0 auto;
   background: #ffffff;
   padding: 14px 0;
+  overflow-y: scroll;
+  ${(p) =>
+    p.showMap ? `height:calc(45vh - 134px)` : `height:calc(100vh - 240px)`}
 `;
 
 export const StopContainer = styled.div`

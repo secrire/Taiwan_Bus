@@ -21,6 +21,8 @@ import * as Style from "./style";
 
 const LiveInfo = (props) => {
   const [showTimetable, setShowTimetable] = useState(false);
+  const [showMap, setShowMap] = useState(false);
+  const [showAllContent, setShowAllContent] = useState(true);
   const [estimatedArrivalState, setEstimatedArrivalState] = useState([]);
 
   const axios = useAxios();
@@ -102,6 +104,8 @@ const LiveInfo = (props) => {
     init();
   }, []);
 
+  console.log(estimatedArrivalState);
+
   return (
     <Style.Container>
       <Style.IconContainer>
@@ -122,38 +126,52 @@ const LiveInfo = (props) => {
           />
         </Link>
       </Style.IconContainer>
-      <Style.Number>{RouteName.Zh_tw}</Style.Number>
-      <Style.Row>
-        <Icon
-          src={Guild}
-          alt="guild"
-          style={{
-            img: "16px",
-            circle: "36px",
-            circleColor: "#5cbcdb",
-            margin: "0 16px 0 0",
-          }}
-          onClick={() => {}}
-        />
-        <Icon
-          src={Clock}
-          alt="clock"
-          style={{
-            img: "22px",
-            circle: "36px",
-            circleColor: "#5cbcdb",
-            margin: "0 auto 0 0",
-          }}
-          onClick={() => setShowTimetable(true)}
-        />
-        <BusStartEnd
-          stopNames={{ DepartureStopNameZh, DestinationStopNameZh }}
-          style={{ color: "#FFF", fontSize: "16px" }}
-        />
-      </Style.Row>
+      {!showMap && (
+        <>
+          <Style.Number>{RouteName.Zh_tw}</Style.Number>
+          <Style.Row>
+            <Icon
+              src={Guild}
+              alt="guild"
+              style={{
+                img: "16px",
+                circle: "36px",
+                circleColor: "#5cbcdb",
+                margin: "0 16px 0 0",
+              }}
+              onClick={() => setShowMap(true)}
+            />
+            <Icon
+              src={Clock}
+              alt="clock"
+              style={{
+                img: "22px",
+                circle: "36px",
+                circleColor: "#5cbcdb",
+                margin: "0 auto 0 0",
+              }}
+              onClick={() => setShowTimetable(true)}
+            />
+            <BusStartEnd
+              stopNames={{ DepartureStopNameZh, DestinationStopNameZh }}
+              style={{ color: "#FFF", fontSize: "16px" }}
+            />
+          </Style.Row>
+        </>
+      )}
       {showTimetable && <Timetable setVisible={setShowTimetable} />}
-      <Map />
-      <LiveContent estimatedArrival={estimatedArrivalState} />
+      {showMap && estimatedArrivalState.length !== 0 && (
+        <Map
+          stopData={estimatedArrivalState}
+          showAllLiveContent={showAllContent}
+        />
+      )}
+      <LiveContent
+        estimatedArrival={estimatedArrivalState}
+        showMap={showMap}
+        showAllContent={showAllContent}
+        setShowAllContent={setShowAllContent}
+      />
     </Style.Container>
   );
 };
