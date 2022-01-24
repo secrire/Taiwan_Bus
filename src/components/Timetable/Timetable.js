@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
 import useAxios from "hooks/useAxios";
-import { useBusStore } from "store/busStore";
+import { useBusStore } from "stores/busStore";
 import Cross from "images/cross.svg";
 
 import * as Style from "./style";

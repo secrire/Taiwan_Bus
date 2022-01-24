@@ -3,7 +3,7 @@ import React, { lazy, Suspense, useEffect, useState } from "react";
 import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-// import { useUserStore } from '@/store/userStroe';
+// import { useUserStore } from '@/stores/userStroe';
 // import useAxios from "@/hooks/useAxios";
 
 import { Container } from "./style";

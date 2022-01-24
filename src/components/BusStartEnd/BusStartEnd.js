@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import { useLanguageStore } from "store/languageStore";
+import { useLanguageStore } from "stores/languageStore";
 
 import Arrows from "images/arrows.svg";
 

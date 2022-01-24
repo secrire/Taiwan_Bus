@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import useAxios from "hooks/useAxios";
-import { useLanguageStore } from "store/languageStore";
-import { useBusStore } from "store/busStore";
+import { useLanguageStore } from "stores/languageStore";
+import { useBusStore } from "stores/busStore";
 // import Keypad from "components/Keypad";
 import Icon from "components/Icon";
 import BusStartEnd from "components/BusStartEnd";
@@ -28,6 +28,7 @@ const LiveInfo = (props) => {
   const axios = useAxios();
   const { isZhTw } = useLanguageStore();
   const { busData } = useBusStore();
+
   const { City, RouteName, DepartureStopNameZh, DestinationStopNameZh } =
     busData;
 

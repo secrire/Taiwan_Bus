@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-import { useLanguageStore } from "store/languageStore";
+import { useLanguageStore } from "stores/languageStore";
 import BusStartEnd from "components/BusStartEnd";
 
 import HeartFullRed from "images/heart-full-red.svg";

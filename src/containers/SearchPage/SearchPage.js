@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
 import useAxios from "hooks/useAxios";
-import { useBusStore } from "store/busStore";
-import { useLikedRouteStore } from "store/likedRouteStore";
+import { useBusStore } from "stores/busStore";
+import { useLikedRouteStore } from "stores/likedRouteStore";
 // import Keypad from "components/Keypad";
 import Header from "components/Header";
 import SearchInput from "components/SearchInput";

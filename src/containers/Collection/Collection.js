@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
-import { useLikedRouteStore } from "store/likedRouteStore";
+import { useLikedRouteStore } from "stores/likedRouteStore";
 import Header from "components/Header";
 import BusCard from "components/BusCard";
 import Search from "images/search.svg";

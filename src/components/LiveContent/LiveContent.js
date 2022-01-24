@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
+import { useLikedStopStore } from "stores/likedStopStore";
 import Icon from "components/Icon";
 
 import CaretDown from "images/caret-down.svg";
+import CaretUp from "images/caret-up.svg";
 import Arrows from "images/arrows.svg";
 import BusBlue from "images/bus-blue.svg";
 import WheelChair from "images/wheel-chair.jpg";
@@ -14,6 +16,7 @@ import * as Style from "./style";
 
 const LiveContent = (props) => {
   const { t } = useTranslation();
+  const { likedStopData } =useLikedStopStore();
   const { estimatedArrival, showMap, showAllContent, setShowAllContent } =
     props;
   // const [ showAllContent, setShowAllContent ] = useState(true);
@@ -36,8 +39,8 @@ const LiveContent = (props) => {
       {showMap && (
         <Style.CaretContainer>
           <img
-            src={CaretDown}
-            alt="Hide Content"
+            src={showAllContent? CaretDown: CaretUp}
+            alt="Hide / Show Content"
             onClick={() => setShowAllContent(!showAllContent)}
           />
         </Style.CaretContainer>
@@ -69,7 +72,7 @@ const LiveContent = (props) => {
               const isSoon = formatSecond(data.EstimateTime) === "soon";
               return (
                 <React.Fragment key={data.StopUID}>
-                  <Style.StopContainer>
+                  <Style.StopContainer >
                     <Style.StopPoint isSoon={isSoon} />
                     <Style.StopTime isSoon={isSoon}>
                       {data.EstimateTime && formatSecond(data.EstimateTime)}

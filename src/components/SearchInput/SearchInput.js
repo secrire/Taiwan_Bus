@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
-import { useLanguageStore } from "store/languageStore";
+import { useLanguageStore } from "stores/languageStore";
 import CaretDown from "images/caret-down.svg";
 import Search from "images/search.svg";
 
