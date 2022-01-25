@@ -23,7 +23,7 @@ const LiveInfo = (props) => {
   const [showTimetable, setShowTimetable] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [showAllContent, setShowAllContent] = useState(true);
-  const [estimatedArrivalState, setEstimatedArrivalState] = useState([]);
+  const [stopAllData, setStopAllData] = useState([]);
 
   const axios = useAxios();
   const { isZhTw } = useLanguageStore();
@@ -59,23 +59,38 @@ const LiveInfo = (props) => {
     return { stopData };
   };
 
+  const getRealTimeNearStopData = async (city) => {
+    const config = {
+      url: `v2/Bus/RealTimeNearStop/City/${city}`,
+      method: "GET",
+    };
+    const realTimeNearStopData = await axios.exec(config);
+    return { realTimeNearStopData };
+  };
+
   const init = async () => {
     const callArr = [
       getEstimatedArrivalData(City, RouteName),
       getVehicleData(City),
       getStopData(City),
+      getRealTimeNearStopData(City),
     ];
-    const [{ estimatedArrivalData }, { vehicleData }, { stopData }] =
-      await Promise.all(callArr);
+    const [
+      { estimatedArrivalData },
+      { vehicleData },
+      { stopData },
+      { realTimeNearStopData },
+    ] = await Promise.all(callArr);
     let accessibleNumb = [];
     vehicleData.forEach((data) => {
       if (data.VehicleType === 1) {
         accessibleNumb.push(data.PlateNumb);
       }
     });
-    let tempEstimatedArrivalState;
-    tempEstimatedArrivalState = estimatedArrivalData
-      .filter((data) => data.StopStatus === 0) //車輛狀態備註 : 0:'正常'
+
+    let tempStopAllData;
+    tempStopAllData = estimatedArrivalData
+      .filter((data) => data.StopStatus === 0) //車輛狀態備註 : 0 = '正常'
       .map((data) => {
         if (accessibleNumb.includes(data.PlateNumb)) {
           return { ...data, isAccessible: true };
@@ -84,28 +99,39 @@ const LiveInfo = (props) => {
         }
       });
 
-    if (stopData) {
-      tempEstimatedArrivalState = [...tempEstimatedArrivalState].map((s) => {
-        const foundStop = stopData.find((data) => data.StopUID === s.StopUID);
-        if (foundStop) {
-          return {
-            ...s,
-            positionLon: foundStop.StopPosition.PositionLon,
-            positionLat: foundStop.StopPosition.PositionLat,
-          };
-        } else {
-          return { ...s };
-        }
-      });
-    }
-    setEstimatedArrivalState(tempEstimatedArrivalState);
+    // if (stopData) {
+    tempStopAllData = [...tempStopAllData].map((s) => {
+      const foundStop = stopData.find((data) => data.StopUID === s.StopUID);
+      if (foundStop) {
+        return {
+          ...s,
+          positionLon: foundStop.StopPosition.PositionLon,
+          positionLat: foundStop.StopPosition.PositionLat,
+        };
+      } else {
+        return { ...s };
+      }
+    });
+    // }
+
+    // tempStopAllData = realTimeNearStopData
+    // .filter((data) => data.BusStatus === 0) //行車狀況: 0 = '正常'
+    // .map((data) => {
+    //   if (accessibleNumb.includes(data.PlateNumb)) {
+    //     return { ...data, isAccessible: true };
+    //   } else {
+    //     return { ...data, isAccessible: false };
+    //   }
+    // });
+    setStopAllData(tempStopAllData);
+    console.log("realTimeNearStopData----", realTimeNearStopData);
   };
 
   useEffect(() => {
     init();
   }, []);
 
-  console.log(estimatedArrivalState);
+  console.log("StopAllData", stopAllData);
 
   return (
     <Style.Container>
@@ -161,14 +187,11 @@ const LiveInfo = (props) => {
         </>
       )}
       {showTimetable && <Timetable setVisible={setShowTimetable} />}
-      {showMap && estimatedArrivalState.length !== 0 && (
-        <Map
-          stopData={estimatedArrivalState}
-          showAllLiveContent={showAllContent}
-        />
+      {showMap && stopAllData.length !== 0 && (
+        <Map stopData={stopAllData} showAllLiveContent={showAllContent} />
       )}
       <LiveContent
-        estimatedArrival={estimatedArrivalState}
+        estimatedArrival={stopAllData}
         showMap={showMap}
         showAllContent={showAllContent}
         setShowAllContent={setShowAllContent}
