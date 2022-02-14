@@ -21,7 +21,9 @@ const LiveInfo = lazy(() =>
 const Collection = lazy(() =>
   import("containers/Collection" /* webpackChunkName:"Collection" */)
 );
-// const Menu = lazy(() => import("containers/Menu" /* webpackChunkName:"Menu" */));
+const StopDetail = lazy(() =>
+  import("containers/StopDetail" /* webpackChunkName:"StopDetail" */)
+);
 
 const App = ({ history }) => {
   // const { setUserData } = useUserStore();
@@ -38,6 +40,7 @@ const App = ({ history }) => {
           <Route path="/app/stop" component={SearchPage} />
           <Route path="/app/timetable" component={SearchPage} />
           <Route path="/app/collection" component={Collection} />
+          <Route path="/app/stopDetail" component={StopDetail} />
         </Switch>
       </Suspense>
     </Container>

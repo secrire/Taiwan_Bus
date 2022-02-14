@@ -16,9 +16,14 @@ import * as Style from "./style";
 
 const LiveContent = (props) => {
   const { t } = useTranslation();
-  const { likedStopData } =useLikedStopStore();
-  const { estimatedArrival, showMap, showAllContent, setShowAllContent } =
-    props;
+  const { likedStopData } = useLikedStopStore();
+  const {
+    estimatedArrival,
+    showMap,
+    showAllContent,
+    setShowAllContent,
+    clickStop,
+  } = props;
   // const [ showAllContent, setShowAllContent ] = useState(true);
 
   const formatSecond = (secs) => {
@@ -39,7 +44,7 @@ const LiveContent = (props) => {
       {showMap && (
         <Style.CaretContainer>
           <img
-            src={showAllContent? CaretDown: CaretUp}
+            src={showAllContent ? CaretDown : CaretUp}
             alt="Hide / Show Content"
             onClick={() => setShowAllContent(!showAllContent)}
           />
@@ -72,7 +77,7 @@ const LiveContent = (props) => {
               const isSoon = formatSecond(data.EstimateTime) === "soon";
               return (
                 <React.Fragment key={data.StopUID}>
-                  <Style.StopContainer >
+                  <Style.StopContainer onClick={() => clickStop(data.StopUID)}>
                     <Style.StopPoint isSoon={isSoon} />
                     <Style.StopTime isSoon={isSoon}>
                       {data.EstimateTime && formatSecond(data.EstimateTime)}

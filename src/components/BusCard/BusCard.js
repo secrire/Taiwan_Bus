@@ -15,6 +15,7 @@ const BusCard = (props) => {
   const { DepartureStopNameZh, DestinationStopNameZh, liked } = busData;
 
   const { isZhTw } = useLanguageStore();
+  // console.log("busCard", busData);
 
   return (
     <Style.Container>
@@ -25,22 +26,14 @@ const BusCard = (props) => {
           style={{ color: "4c546a", fontSize: "12px" }}
         />
       </Style.Left>
-      <Style.Right>
-        {liked ? (
-          <Style.Heart
-            src={HeartFullRed}
-            alt="heart"
-            onClick={() => clickLike()}
-          />
-        ) : (
-          <Style.Heart
-            src={HeartEmpty}
-            alt="heart"
-            onClick={() => clickLike()}
-          />
-        )}
+      <Style.HeartContainer>
+        <Style.Heart
+          src={liked ? HeartFullRed : HeartEmpty}
+          alt="heart"
+          onClick={() => clickLike()}
+        />
         {/* <Style.BusCity>測試</Style.BusCity> */}
-      </Style.Right>
+      </Style.HeartContainer>
     </Style.Container>
   );
 };
@@ -55,6 +48,6 @@ BusCard.propTypes = {
 
 BusCard.defaultProps = {
   busData: {},
-  clickCard: ()=>{},
-  clickLike: ()=>{},
+  clickCard: () => {},
+  clickLike: () => {},
 };

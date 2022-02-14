@@ -21,7 +21,7 @@ export const Left = styled.div`
   text-align: left;
 `;
 
-export const Right = styled.div`
+export const HeartContainer = styled.div`
   width: 60px;
   text-align: center;
 `;

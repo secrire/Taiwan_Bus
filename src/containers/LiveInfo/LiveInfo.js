@@ -59,13 +59,13 @@ const LiveInfo = (props) => {
     return { stopData };
   };
 
-  const getRealTimeNearStopData = async (city) => {
+  const getStopOfRouteData = async (city) => {
     const config = {
-      url: `v2/Bus/RealTimeNearStop/City/${city}`,
+      url: `v2/Bus/StopOfRoute/City/${city}`,
       method: "GET",
     };
-    const realTimeNearStopData = await axios.exec(config);
-    return { realTimeNearStopData };
+    const stopOfRouteData = await axios.exec(config);
+    return stopOfRouteData;
   };
 
   const init = async () => {
@@ -73,13 +73,12 @@ const LiveInfo = (props) => {
       getEstimatedArrivalData(City, RouteName),
       getVehicleData(City),
       getStopData(City),
-      getRealTimeNearStopData(City),
     ];
     const [
       { estimatedArrivalData },
       { vehicleData },
       { stopData },
-      { realTimeNearStopData },
+      // { realTimeNearStopData },
     ] = await Promise.all(callArr);
     let accessibleNumb = [];
     vehicleData.forEach((data) => {
@@ -114,24 +113,43 @@ const LiveInfo = (props) => {
     });
     // }
 
-    // tempStopAllData = realTimeNearStopData
-    // .filter((data) => data.BusStatus === 0) //行車狀況: 0 = '正常'
-    // .map((data) => {
-    //   if (accessibleNumb.includes(data.PlateNumb)) {
-    //     return { ...data, isAccessible: true };
+    // console.log("tempStopAllData>>>1", tempStopAllData);
+
+    // tempStopAllData = [...tempStopAllData].map((s) => {
+    //   const foundStop = realTimeNearStopData.filter(
+    //     (data) => data.StopUID === s.StopUID && data.BusStatus === 0
+    //   );
+    //   const tempOfRoute = [];
+    //   console.log("foundStop", foundStop);
+    //   if (foundStop.length !== 0) {
+    //     foundStop.forEach((found) =>
+    //       tempOfRoute.push({
+    //         routeName: found.RouteName,
+    //         routeUID: found.RouteUID,
+    //       })
+    //     );
+    //     return {
+    //       ...s,
+    //       ofRoute: tempOfRoute,
+    //     };
     //   } else {
-    //     return { ...data, isAccessible: false };
+    //     return { ...s };
     //   }
     // });
+    // console.log("tempStopAllData>>>    2", tempStopAllData);
     setStopAllData(tempStopAllData);
-    console.log("realTimeNearStopData----", realTimeNearStopData);
+    // const tempStopOfRouteData = await getStopOfRouteData(City)
+    // setStopOfRouteData(tempStopOfRouteData)
+    // console.log("realTimeNearStopData----", realTimeNearStopData);
   };
 
   useEffect(() => {
     init();
   }, []);
 
-  console.log("StopAllData", stopAllData);
+  const clickStop = (stopUid) => {
+    props.history.push(`/app/stopDetail?city=${City}&stop=${stopUid}`);
+  };
 
   return (
     <Style.Container>
@@ -191,6 +209,7 @@ const LiveInfo = (props) => {
         <Map stopData={stopAllData} showAllLiveContent={showAllContent} />
       )}
       <LiveContent
+        clickStop={clickStop}
         estimatedArrival={stopAllData}
         showMap={showMap}
         showAllContent={showAllContent}
