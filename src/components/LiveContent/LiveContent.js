@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
-import { useLikedStopStore } from "stores/likedStopStore";
 import Icon from "components/Icon";
 
 import CaretDown from "images/caret-down.svg";
@@ -16,7 +15,6 @@ import * as Style from "./style";
 
 const LiveContent = (props) => {
   const { t } = useTranslation();
-  const { likedStopData } = useLikedStopStore();
   const {
     estimatedArrival,
     showMap,

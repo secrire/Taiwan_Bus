@@ -11,17 +11,22 @@ export const LikedRouteContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (likedRouteData) {
-      localStorage.setItem("likedRouteDataStore", JSON.stringify(likedRouteData));
-      // console.log('LikedRouteContextProvider 3', likedRouteData)
+      localStorage.setItem(
+        "likedRouteDataStore",
+        JSON.stringify(likedRouteData)
+      );
+      // console.log("LikedRouteContextProvider 3", likedRouteData);
     }
   }, [likedRouteData]);
 
   useEffect(() => {
-    const likedRouteValue = JSON.parse(localStorage.getItem("likedRouteDataStore"))
+    const likedRouteValue = JSON.parse(
+      localStorage.getItem("likedRouteDataStore")
+    );
     if (likedRouteValue) {
       // console.log('LikedRouteContextProvider 1', likedRouteValue)
-      setLikedRouteData(likedRouteValue)
-    }else{
+      setLikedRouteData(likedRouteValue);
+    } else {
       // console.log('LikedRouteContextProvider 2')
       setLikedRouteData([]);
     }

@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 import { useLanguageStore } from "stores/languageStore";
 import BusStartEnd from "components/BusStartEnd";
@@ -11,11 +12,26 @@ import HeartEmpty from "images/heart-empty.svg";
 import * as Style from "./style";
 
 const BusCard = (props) => {
+  const { t } = useTranslation();
   const { busData, clickCard, clickLike } = props;
-  const { DepartureStopNameZh, DestinationStopNameZh, liked } = busData;
+  const { DepartureStopNameZh, DestinationStopNameZh, liked, EstimateTime } =
+    busData;
 
   const { isZhTw } = useLanguageStore();
-  // console.log("busCard", busData);
+
+  const formatSecond = (secs) => {
+    let hr = Math.floor(secs / 3600);
+    let min = Math.floor((secs - hr * 3600) / 60);
+    if ((hr === 0 && min < 3) || secs === 0) {
+      return "soon";
+    }
+    return `${hr === 0 ? "" : `${hr} ${t("COMMON.HOUR")}`} ${min} ${t(
+      "COMMON.MINUTE"
+    )}`;
+  };
+
+  const formatEstimateTime = formatSecond(EstimateTime);
+  console.log("busCard", busData);
 
   return (
     <Style.Container>
@@ -26,14 +42,20 @@ const BusCard = (props) => {
           style={{ color: "4c546a", fontSize: "12px" }}
         />
       </Style.Left>
-      <Style.HeartContainer>
-        <Style.Heart
-          src={liked ? HeartFullRed : HeartEmpty}
-          alt="heart"
-          onClick={() => clickLike()}
-        />
-        {/* <Style.BusCity>測試</Style.BusCity> */}
-      </Style.HeartContainer>
+      {busData.hasOwnProperty("liked") ? (
+        <Style.HeartContainer>
+          <Style.Heart
+            src={liked ? HeartFullRed : HeartEmpty}
+            alt="heart"
+            onClick={() => clickLike()}
+          />
+          {/* <Style.BusCity>測試</Style.BusCity> */}
+        </Style.HeartContainer>
+      ) : (
+        <Style.EstimateTime>
+          {EstimateTime && formatEstimateTime}
+        </Style.EstimateTime>
+      )}
     </Style.Container>
   );
 };

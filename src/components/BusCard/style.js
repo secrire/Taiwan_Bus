@@ -26,6 +26,12 @@ export const HeartContainer = styled.div`
   text-align: center;
 `;
 
+export const EstimateTime = styled.div`
+  width: 145px;
+  text-align: right;
+  margin-right: 12px;
+`;
+
 export const BusNumber = styled.div`
   font-size: 20px;
   color: #f66a4b;
