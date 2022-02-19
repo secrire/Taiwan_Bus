@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 
 import { useLanguageStore } from "stores/languageStore";
 
-import Arrows from "images/arrows.svg";
+import ArrowsWhite from "images/arrows-white.svg";
+import ArrowsGrey from "images/arrows-grey.svg";
 
 import * as Style from "./style";
 
@@ -21,7 +22,10 @@ const BusStartEnd = (props) => {
       <Style.BusStartEndName fontSize={fontSize}>
         {DepartureStopNameZh}
       </Style.BusStartEndName>
-      <Style.Arrows src={Arrows} alt="arrow" />
+      <Style.Arrows
+        src={color === "#fff" ? ArrowsWhite : ArrowsGrey}
+        alt="arrow"
+      />
       <Style.BusStartEndName fontSize={fontSize}>
         {DestinationStopNameZh}
       </Style.BusStartEndName>
@@ -30,7 +34,6 @@ const BusStartEnd = (props) => {
 };
 
 export default BusStartEnd;
-
 
 BusStartEnd.propTypes = {
   stopNames: PropTypes.object,

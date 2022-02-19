@@ -7,7 +7,6 @@ export const Arrows = styled.img`
 `;
 
 export const StartEndContainer = styled.div`
-  color: #4c546a;
   display: flex;
   align-items: center;
   color: ${(p) => p.color};

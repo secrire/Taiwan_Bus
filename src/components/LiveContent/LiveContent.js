@@ -7,7 +7,7 @@ import Icon from "components/Icon";
 
 import CaretDown from "images/caret-down.svg";
 import CaretUp from "images/caret-up.svg";
-import Arrows from "images/arrows.svg";
+import Arrows from "images/arrows-white.svg";
 import BusBlue from "images/bus-blue.svg";
 import WheelChair from "images/wheel-chair.jpg";
 
@@ -15,13 +15,8 @@ import * as Style from "./style";
 
 const LiveContent = (props) => {
   const { t } = useTranslation();
-  const {
-    estimatedArrival,
-    showMap,
-    showAllContent,
-    setShowAllContent,
-    clickStop,
-  } = props;
+  const { stopAllData, showMap, showAllContent, setShowAllContent, clickStop } =
+    props;
   // const [ showAllContent, setShowAllContent ] = useState(true);
 
   const formatSecond = (secs) => {
@@ -35,7 +30,7 @@ const LiveContent = (props) => {
     )}`;
   };
 
-  // console.log(estimatedArrival);
+  // console.log(stopAllData);
 
   return (
     <Style.Container isMargin={showMap}>
@@ -52,10 +47,10 @@ const LiveContent = (props) => {
         <>
           <Style.Header>
             <div>
-              <Style.HeaderTitle>{t("COMMON.DIRECTION")}</Style.HeaderTitle>
+              {/* <Style.HeaderTitle>{t("COMMON.DIRECTION")}</Style.HeaderTitle> */}
               <Style.HeaderWay>
                 <div>{t("COMMON.TO")}</div>
-                <div>龍潭站</div>
+                <div> 龍潭站</div>
               </Style.HeaderWay>
             </div>
             <Icon
@@ -71,7 +66,7 @@ const LiveContent = (props) => {
             />
           </Style.Header>
           <Style.Content showMap={showMap}>
-            {estimatedArrival.map((data) => {
+            {stopAllData.map((data) => {
               const isSoon = formatSecond(data.EstimateTime) === "soon";
               return (
                 <React.Fragment key={data.StopUID}>
@@ -93,7 +88,7 @@ const LiveContent = (props) => {
                       </Style.WheelchairContainer>
                     )}
                   </Style.StopContainer>
-                  {data !== estimatedArrival[estimatedArrival.length - 1] && (
+                  {data !== stopAllData[stopAllData.length - 1] && (
                     <Style.StopBelow />
                   )}
                 </React.Fragment>
@@ -109,9 +104,9 @@ const LiveContent = (props) => {
 export default LiveContent;
 
 LiveContent.propTypes = {
-  estimatedArrival: PropTypes.array,
+  stopAllData: PropTypes.array,
 };
 
 LiveContent.defaultProps = {
-  estimatedArrival: [],
+  stopAllData: [],
 };

@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import useAxios from "hooks/useAxios";
 import { useBusStore } from "stores/busStore";
 import { useLikedRouteStore } from "stores/likedRouteStore";
-// import Keypad from "components/Keypad";
 import Header from "components/Header";
 import SearchInput from "components/SearchInput";
 import Toggle from "components/Toggle";
@@ -104,7 +103,7 @@ const SearchPage = (props) => {
       });
       setBusCardData(tempBusCardData);
     } else {
-      setCityWarning(t('PLEASE_SELECT_CITY'));
+      setCityWarning(t("COMMON.PLEASE_SELECT_CITY"));
     }
   };
 
@@ -136,7 +135,13 @@ const SearchPage = (props) => {
   return (
     <Style.Container>
       <Style.Top>
-        <Header title={t('BUS_LIVE')} />
+        <Header
+          title={
+            props.location.pathname === "/app/timetable"
+              ? t("COMMON.CHECK_TIMETABLE")
+              : t("COMMON.BUS_LIVE")
+          }
+        />
         <SearchInput
           changeCity={setCity}
           city={city}
@@ -147,7 +152,9 @@ const SearchPage = (props) => {
         />
       </Style.Top>
       <Style.ToggleContainer>
-        <Style.ToggleTitle>{t('ONLY_SHOW_ROUTE_WITH_ACCESSIBLE')}</Style.ToggleTitle>
+        <Style.ToggleTitle>
+          {t("COMMON.ONLY_SHOW_ROUTE_WITH_ACCESSIBLE")}
+        </Style.ToggleTitle>
         <Toggle
           onChange={() => setAccessibleOnly(!accessibleOnly)}
           checked={accessibleOnly}

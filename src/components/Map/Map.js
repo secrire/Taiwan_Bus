@@ -336,7 +336,7 @@ const Map = (props) => {
         mapContainerStyle={{
           height: "100%",
           width: "100%",
-          marginTop: "18px",
+          // marginTop: "18px",
         }}
         options={{ styles: mapStyle }}
       >
@@ -420,10 +420,10 @@ const Map = (props) => {
   ) : (
     <div
       style={{
-        height: "55vh",
+        height: "55%",
         width: "100%",
         backgroundColor: "#e9e9e9",
-        marginTop: "18px",
+        // marginTop: "18px",
       }}
     />
   );

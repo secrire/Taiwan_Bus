@@ -25,7 +25,7 @@ const Main = (props) => {
             <LikedStopContextProvider>
               <Suspense fallback={<div>Loading....</div>}>
                 <Switch>
-                  <Route path="/" exact component={Home} />
+                  {/* <Route path="/" exact component={Home} /> */}
                   <Route path="/app" component={App} />
                 </Switch>
               </Suspense>

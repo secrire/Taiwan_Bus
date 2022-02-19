@@ -13,7 +13,7 @@ import Timetable from "components/Timetable";
 import Map from "components/Map";
 
 import ArrowLeft from "images/arrow-left.svg";
-import Menu from "images/menu.svg";
+// import Menu from "images/menu.svg";
 import Guild from "images/guild.svg";
 import Clock from "images/clock.svg";
 
@@ -24,6 +24,7 @@ const LiveInfo = (props) => {
   const [showMap, setShowMap] = useState(false);
   const [showAllContent, setShowAllContent] = useState(true);
   const [stopAllData, setStopAllData] = useState([]);
+  const [isStartInterval, setIsStartInterval] = useState(false);
 
   const axios = useAxios();
   const { isZhTw } = useLanguageStore();
@@ -59,14 +60,14 @@ const LiveInfo = (props) => {
     return { stopData };
   };
 
-  const getStopOfRouteData = async (city) => {
-    const config = {
-      url: `v2/Bus/StopOfRoute/City/${city}`,
-      method: "GET",
-    };
-    const stopOfRouteData = await axios.exec(config);
-    return stopOfRouteData;
-  };
+  // const getStopOfRouteData = async (city) => {
+  //   const config = {
+  //     url: `v2/Bus/StopOfRoute/City/${city}`,
+  //     method: "GET",
+  //   };
+  //   const stopOfRouteData = await axios.exec(config);
+  //   return stopOfRouteData;
+  // };
 
   const init = async () => {
     const callArr = [
@@ -80,6 +81,7 @@ const LiveInfo = (props) => {
       { stopData },
       // { realTimeNearStopData },
     ] = await Promise.all(callArr);
+
     let accessibleNumb = [];
     vehicleData.forEach((data) => {
       if (data.VehicleType === 1) {
@@ -89,7 +91,7 @@ const LiveInfo = (props) => {
 
     let tempStopAllData;
     tempStopAllData = estimatedArrivalData
-      .filter((data) => data.StopStatus === 0) //車輛狀態備註 : 0 = '正常'
+      .filter((data) => data.StopStatus === 0) //StopStatus : 0 = 'work well'
       .map((data) => {
         if (accessibleNumb.includes(data.PlateNumb)) {
           return { ...data, isAccessible: true };
@@ -138,29 +140,59 @@ const LiveInfo = (props) => {
     // });
     // console.log("tempStopAllData>>>    2", tempStopAllData);
     setStopAllData(tempStopAllData);
+    setIsStartInterval(true);
     // const tempStopOfRouteData = await getStopOfRouteData(City)
     // setStopOfRouteData(tempStopOfRouteData)
     // console.log("realTimeNearStopData----", realTimeNearStopData);
+  };
+
+  const clickStop = (stopUid) => {
+    props.history.push(`/app/stopDetail?city=${City}&stop=${stopUid}`);
+  };
+
+  const clickArrowLeft = () => {
+    if (showMap) {
+      setShowMap(false);
+      setShowAllContent(true);
+    } else {
+      props.history.goBack();
+    }
   };
 
   useEffect(() => {
     init();
   }, []);
 
-  const clickStop = (stopUid) => {
-    props.history.push(`/app/stopDetail?city=${City}&stop=${stopUid}`);
-  };
+  useEffect(() => {
+    if (stopAllData.length !== 0) {
+      const interval = setInterval(async () => {
+        const { estimatedArrivalData } = await getEstimatedArrivalData(
+          City,
+          RouteName
+        );
 
+        const tempStopAllData = stopAllData.map((data) => {
+          const found = estimatedArrivalData.find(
+            (e) => e.StopUID === data.StopUID
+          );
+
+          return { ...data, EstimateTime: found ? found.EstimateTime : null };
+        });
+
+        setStopAllData(tempStopAllData);
+      }, 60000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isStartInterval]);
+
+  console.log("stopAllData", stopAllData);
   return (
     <Style.Container>
-      <Style.IconContainer>
-        <img
-          src={ArrowLeft}
-          alt="previous"
-          onClick={() => {}}
-          // style={{ margin: "24px 22px 0 0" }}
-        />
-        <Link to="/app/menu">
+      <Style.Top>
+        <img src={ArrowLeft} alt="previous" onClick={() => clickArrowLeft()} />
+        <Style.Number>{RouteName.Zh_tw}</Style.Number>
+        {/* <Link to="/app/menu">
           <Icon
             src={Menu}
             alt="menu"
@@ -169,11 +201,11 @@ const LiveInfo = (props) => {
               margin: "0 0 0 22px",
             }}
           />
-        </Link>
-      </Style.IconContainer>
+        </Link> */}
+      </Style.Top>
       {!showMap && (
         <>
-          <Style.Number>{RouteName.Zh_tw}</Style.Number>
+          {/* <Style.Number>{RouteName.Zh_tw}</Style.Number> */}
           <Style.Row>
             <Icon
               src={Guild}
@@ -181,7 +213,7 @@ const LiveInfo = (props) => {
               style={{
                 img: "16px",
                 circle: "36px",
-                circleColor: "#5cbcdb",
+                circleColor: "rgb(50,115,246)",
                 margin: "0 16px 0 0",
               }}
               onClick={() => setShowMap(true)}
@@ -192,7 +224,7 @@ const LiveInfo = (props) => {
               style={{
                 img: "22px",
                 circle: "36px",
-                circleColor: "#5cbcdb",
+                circleColor: "rgb(50,115,246)",
                 margin: "0 auto 0 0",
               }}
               onClick={() => setShowTimetable(true)}
@@ -210,7 +242,7 @@ const LiveInfo = (props) => {
       )}
       <LiveContent
         clickStop={clickStop}
-        estimatedArrival={stopAllData}
+        stopAllData={stopAllData}
         showMap={showMap}
         showAllContent={showAllContent}
         setShowAllContent={setShowAllContent}

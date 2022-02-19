@@ -9,24 +9,23 @@ import BusCard from "components/BusCard";
 import ArrowLeft from "images/arrow-left.svg";
 import HeartFullRed from "images/heart-full-red.svg";
 import HeartEmpty from "images/heart-empty.svg";
+import BusWhite from "images/bus-white.svg";
 
 import * as Style from "./style";
 
 const StopDetail = (props) => {
+  console.log("props", props);
   const { likedStopData, setLikedStopData } = useLikedStopStore();
 
   const [stopName, setStopName] = useState("");
   const [stopOfRoute, setStopOfRoute] = useState([]);
   const [stopOfRouteWithTime, setStopOfRouteWithTime] = useState([]);
   const [liked, setLiked] = useState();
+  const [cityState, setCityState] = useState("");
+  const [stopState, setStopState] = useState("");
 
   const axios = useAxios();
   const { isZhTw } = useLanguageStore();
-
-  const search = props.location.search;
-  const params = new URLSearchParams(search);
-  const cityByUrl = params.get("city");
-  const stopByUrl = params.get("stop");
 
   const getStopOfRouteData = async (city) => {
     const config = {
@@ -55,12 +54,12 @@ const StopDetail = (props) => {
     return { routeData };
   };
 
-  const getStopOfRoute = async () => {
-    const response = await getStopOfRouteData(cityByUrl);
+  const getStopOfRoute = async (city, stopUid) => {
+    const response = await getStopOfRouteData(city);
     let stopOfRouteData = [];
     let tempStopName;
     response.forEach((res) => {
-      const found = res.Stops.find((element) => element.StopUID === stopByUrl);
+      const found = res.Stops.find((element) => element.StopUID === stopUid);
       if (found) {
         stopOfRouteData.push({
           RouteUID: res.RouteUID,
@@ -87,9 +86,7 @@ const StopDetail = (props) => {
         return { RouteUID: data.RouteUID, RouteName: data.RouteName };
       });
 
-    const callArr = tempStopOfRoute.map((r) =>
-      getRouteData(cityByUrl, r.RouteName)
-    );
+    const callArr = tempStopOfRoute.map((r) => getRouteData(city, r.RouteName));
 
     const tempRouteData = await Promise.all(callArr);
 
@@ -118,7 +115,7 @@ const StopDetail = (props) => {
     const estimatedTime = estimatedArrivalDataArr.map((data) =>
       data.estimatedArrivalData
         .filter(
-          (d) => d.StopUID === stopByUrl && stopOfRouteUid.includes(d.RouteUID)
+          (d) => d.StopUID === stopState && stopOfRouteUid.includes(d.RouteUID)
         )
         .filter(
           (d) =>
@@ -140,7 +137,7 @@ const StopDetail = (props) => {
 
   const getInitEstimatedArrivalData = async (stopOfRoute) => {
     const callArr = stopOfRoute.map((r) =>
-      getEstimatedArrivalData(cityByUrl, r.RouteName)
+      getEstimatedArrivalData(cityState, r.RouteName)
     );
 
     const estimatedArrivalDataArr = await Promise.all(callArr);
@@ -149,7 +146,7 @@ const StopDetail = (props) => {
     // const estimatedTime = estimatedArrivalDataArr.map((data) =>
     //   data.estimatedArrivalData
     //     .filter(
-    //       (d) => d.StopUID === stopByUrl && stopOfRouteUid.includes(d.RouteUID)
+    //       (d) => d.StopUID === stopState && stopOfRouteUid.includes(d.RouteUID)
     //     )
     //     .filter(
     //       (d) =>
@@ -179,9 +176,14 @@ const StopDetail = (props) => {
   const clickLike = () => {
     let tempLikedStop;
     if (liked) {
-      tempLikedStop = likedStopData.filter((data) => data !== stopByUrl);
+      tempLikedStop = likedStopData.filter(
+        (data) => data.stopUid !== stopState
+      );
     } else {
-      tempLikedStop = [...likedStopData, stopByUrl];
+      tempLikedStop = [
+        ...likedStopData,
+        { stopUid: stopState, city: cityState },
+      ];
     }
     setLikedStopData(tempLikedStop);
     setLiked(!liked);
@@ -194,11 +196,29 @@ const StopDetail = (props) => {
   }, [stopOfRoute]);
 
   useEffect(() => {
-    if (likedStopData.includes(stopByUrl)) {
+    let tempCityState;
+    let tempStopState;
+
+    if (props.stopUid) {
+      tempCityState = props.city;
+      tempStopState = props.stopUid;
+    } else {
+      const search = props.location.search;
+      const params = new URLSearchParams(search);
+      const cityByUrl = params.get("city");
+      const stopByUrl = params.get("stop");
+      tempCityState = cityByUrl;
+      tempStopState = stopByUrl;
+    }
+    setCityState(tempCityState);
+    setStopState(tempStopState);
+
+    if (likedStopData.find((data) => data.stopUid === tempStopState)) {
       setLiked(true);
     }
+
     let tempStopOfRoute;
-    getStopOfRoute().then((res) => {
+    getStopOfRoute(tempCityState, tempStopState).then((res) => {
       tempStopOfRoute = res;
     });
 
@@ -207,7 +227,7 @@ const StopDetail = (props) => {
         console.log("=====  3   ====", tempStopOfRoute);
 
         const callArr = tempStopOfRoute.map((r) =>
-          getEstimatedArrivalData(cityByUrl, r.RouteName)
+          getEstimatedArrivalData(tempCityState, r.RouteName)
         );
 
         const estimatedArrivalDataArr = await Promise.all(callArr);
@@ -223,11 +243,19 @@ const StopDetail = (props) => {
 
     return () => clearInterval(interval);
   }, []);
-
+  // console.log("stopDeatil", stopOfRoute, stopOfRouteWithTime);
   return (
-    <Style.Container>
-      <Style.HeaderContainer>
-        <img src={ArrowLeft} alt="previous" onClick={() => {}} />
+    <Style.Container isWholePage={!props.stopUid}>
+      <Style.HeaderContainer isWholePage={!props.stopUid}>
+        {!props.stopUid ? (
+          <img
+            src={ArrowLeft}
+            alt="previous"
+            onClick={() => props.history.goBack()}
+          />
+        ) : (
+          <Style.BusImg src={BusWhite} alt="bus" />
+        )}
         <Style.StopTItle>
           {isZhTw ? stopName.Zh_tw : stopName.En}
         </Style.StopTItle>
@@ -237,7 +265,7 @@ const StopDetail = (props) => {
           onClick={() => clickLike()}
         />
       </Style.HeaderContainer>
-      <Style.CardContainer>
+      <Style.CardContainer isWholePage={!props.stopUid}>
         {stopOfRouteWithTime.map((data) => (
           <BusCard
             key={data.RouteUID}

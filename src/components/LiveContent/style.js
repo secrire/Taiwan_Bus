@@ -62,7 +62,7 @@ export const Content = styled.div`
   padding: 14px 0;
   overflow-y: scroll;
   ${(p) =>
-    p.showMap ? `height:calc(45vh - 134px)` : `height:calc(100vh - 240px)`}
+    p.showMap ? `height:calc(45vh - 158px)` : `height:calc(100vh - 230px)`}
 `;
 
 export const StopContainer = styled.div`

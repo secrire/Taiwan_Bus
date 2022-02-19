@@ -1,16 +1,19 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background: #5a637e;
+  background: rgb(5, 23, 69);
   width: 100%;
-  height: 100vh;
+  height: ${(p) => (p.isWholePage ? "100%" : "unset")};
   overflow-y: hidden;
+  border-radius: ${(p) => (p.isWholePage ? "unset" : "8px")};
+  margin-bottom: ${(p) => (p.isWholePage ? "unset" : "14px")};
 `;
 
 export const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 24px 18px 0;
+  padding: ${(p) => (p.isWholePage ? "24px 18px 0" : "12px 18px 0")};
 `;
 
 export const Number = styled.div`
@@ -36,7 +39,7 @@ export const Row = styled.div`
 
 export const CardContainer = styled.div`
   width: 100%;
-  height: 70vh;
+  height: ${(p) => (p.isWholePage ? "70%" : "unset")};
   overflow-y: scroll;
 `;
 
@@ -51,4 +54,10 @@ export const Heart = styled.img`
   height: 16px;
   width: 16px;
   margin-left: auto;
+`;
+
+export const BusImg = styled.img`
+  height: 16px;
+  width: 16px;
+  margin-right: -10px;
 `;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Label = styled.label`
   position: relative;
   display: inline-block;
-  width: 44px;
+  width: 42px;
   height: 20px;
 `;
 
@@ -13,7 +13,7 @@ export const Input = styled.input`
   height: 0;
 
   :checked + .slider {
-    background-color: green;
+    background-color: rgb(50, 115, 246);
   }
 
   :checked + .slider:before {
@@ -30,7 +30,7 @@ export const Span = styled.span`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: rgb(178, 178, 178);
   -webkit-transition: 0.4s;
   transition: 0.4s;
   border-radius: 34px;
@@ -48,4 +48,3 @@ export const Span = styled.span`
     border-radius: 50%;
   }
 `;
-

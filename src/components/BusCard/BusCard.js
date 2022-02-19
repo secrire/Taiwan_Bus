@@ -31,7 +31,6 @@ const BusCard = (props) => {
   };
 
   const formatEstimateTime = formatSecond(EstimateTime);
-  console.log("busCard", busData);
 
   return (
     <Style.Container>
@@ -39,7 +38,7 @@ const BusCard = (props) => {
         <Style.BusNumber>{busData.RouteName.Zh_tw}</Style.BusNumber>
         <BusStartEnd
           stopNames={{ DepartureStopNameZh, DestinationStopNameZh }}
-          style={{ color: "4c546a", fontSize: "12px" }}
+          style={{ color: "#4c546a", fontSize: "12px" }}
         />
       </Style.Left>
       {busData.hasOwnProperty("liked") ? (

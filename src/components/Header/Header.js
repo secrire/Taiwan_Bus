@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import Icon from "components/Icon";
-import Menu from "images/menu.svg";
+// import Icon from "components/Icon";
+// import Menu from "images/menu.svg";
 
 import * as Style from "./style";
 
@@ -13,7 +13,7 @@ const Header = (props) => {
 
   return (
     <Style.Container>
-      <Link to="/app/menu">
+      {/* <Link to="/app/menu">
         <Icon
           src={Menu}
           alt="menu"
@@ -24,7 +24,7 @@ const Header = (props) => {
             left: "18px",
           }}
         />
-      </Link>
+      </Link> */}
       <Style.PageTitle>{title}</Style.PageTitle>
     </Style.Container>
   );
@@ -34,11 +34,10 @@ export default Header;
 
 Header.propTypes = {};
 
-
 Header.propTypes = {
   title: PropTypes.string,
 };
 
 Header.defaultProps = {
-  title: '',
+  title: "",
 };

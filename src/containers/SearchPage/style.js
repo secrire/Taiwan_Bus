@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 100vh;
+  height: 100%;
 `;
 
 export const Top = styled.div`
   width: 100%;
-  background: #5a637e;
+  background: rgb(5, 23, 69);
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.15);
-  border-radius: 0px 0px 20px 20px;n
+  /* border-radius: 0px 0px 20px 20px; */
 `;
 
 export const ToggleContainer = styled.div`
@@ -28,6 +28,6 @@ export const ToggleTitle = styled.div`
 
 export const CardContainer = styled.div`
   width: 100%;
-  height: 70vh;
+  height: 70%;
   overflow-y: scroll;
 `;

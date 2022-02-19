@@ -49,8 +49,8 @@ const SearchInput = (props) => {
 
   return (
     <Style.Container>
-      <Style.InputContainer>
-        <Style.CityDiv>
+      <Style.InputContainer onClick={() => setShowCityOptions(true)}>
+        <Style.CityDiv withValue={city}>
           {city ? getCityDisplayName(city) : t("COMMON.PLEASE_SELECT_CITY")}
         </Style.CityDiv>
         <Style.InputImg
@@ -63,12 +63,13 @@ const SearchInput = (props) => {
         <Style.BackGround onClick={() => setShowCityOptions(false)}>
           <Style.CityContainer>
             {cityOptions.map((data) => (
-              <Style.CityOption
-                key={data.value}
-                value={data.value}
-                onClick={(e) => changeCity(e.target.value)}
-              >
-                {isZhTw? data.title: data.enTitle}
+              <Style.CityOption key={data.value}>
+                <Style.CityOptionBtn
+                  value={data.value}
+                  onClick={(e) => changeCity(e.target.value)}
+                >
+                  {isZhTw ? data.title : data.enTitle}
+                </Style.CityOptionBtn>
               </Style.CityOption>
             ))}
           </Style.CityContainer>

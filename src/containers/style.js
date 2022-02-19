@@ -1,5 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+
+export const MainContainer = styled.div`
+  position: relative;
+`;
 
 export const Container = styled.div`
-  position: relative;
+  height: calc(100vh - 50px);
 `;

@@ -3,17 +3,15 @@ import React, { lazy, Suspense, useEffect, useState } from "react";
 import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-// import { useUserStore } from '@/stores/userStroe';
-// import useAxios from "@/hooks/useAxios";
+import Menu from "containers/Menu";
 
-import { Container } from "./style";
-// import "./style.css";
+import * as Style from "./style";
 
-const Menu = lazy(() =>
-  import("containers/Menu" /* webpackChunkName:"Menu" */)
-);
+// const Menu = lazy(() =>
+//   import("containers/Menu" /* webpackChunkName:"Menu" */)
+// );
 const SearchPage = lazy(() =>
-  import("containers/SearchPage" /* webpackChunkName:"Live" */)
+  import("containers/SearchPage" /* webpackChunkName:"SearchPage" */)
 );
 const LiveInfo = lazy(() =>
   import("containers/LiveInfo" /* webpackChunkName:"LiveInfo" */)
@@ -26,24 +24,23 @@ const StopDetail = lazy(() =>
 );
 
 const App = ({ history }) => {
-  // const { setUserData } = useUserStore();
-
-  useEffect(() => {}, []);
-
   return (
-    <Container>
-      <Suspense fallback={<div>Loading....</div>}>
-        <Switch>
-          <Route path="/app/menu" component={Menu} />
-          <Route path="/app/live" component={SearchPage} />
-          <Route path="/app/liveInfo" component={LiveInfo} />
-          <Route path="/app/stop" component={SearchPage} />
-          <Route path="/app/timetable" component={SearchPage} />
-          <Route path="/app/collection" component={Collection} />
-          <Route path="/app/stopDetail" component={StopDetail} />
-        </Switch>
-      </Suspense>
-    </Container>
+    <Style.MainContainer>
+      <Style.Container>
+        <Suspense fallback={<div>Loading....</div>}>
+          <Switch>
+            {/* <Route path="/app/menu" component={Menu} /> */}
+            <Route path="/app/live" component={SearchPage} />
+            <Route path="/app/liveInfo" component={LiveInfo} />
+            {/* <Route path="/app/stop" component={SearchPage} /> */}
+            <Route path="/app/timetable" component={SearchPage} />
+            <Route path="/app/collection" component={Collection} />
+            <Route path="/app/stopDetail" component={StopDetail} />
+          </Switch>
+        </Suspense>
+      </Style.Container>
+      <Menu />
+    </Style.MainContainer>
   );
 };
 

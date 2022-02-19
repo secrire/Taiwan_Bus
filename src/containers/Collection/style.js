@@ -2,14 +2,14 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
 `;
 
 export const Top = styled.div`
   width: 100%;
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.15);
   border-radius: 0px 0px 20px 20px;
-  background-color: #5a637e;
+  background-color: rgb(5, 23, 69);
   padding-bottom: 20px;
 `;
 
@@ -60,5 +60,5 @@ export const TabContainer = styled.div`
 
 export const CardContainer = styled.div`
   width: 100%;
-  padding: 0 18px;
+  padding: ${(p) => (p.isStop ? "12px 18px" : "0 18px")};
 `;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   position: relative;
   width: 100%;
-  ${(p) => (p.showAllLiveContent ? `height:55vh` : `height:calc(100vh - 85px)`)}
+  ${(p) => (p.showAllLiveContent ? `height:55%` : `height:calc(100vh - 85px)`)}
 `;
 
 export const ToggleContainer = styled.div`

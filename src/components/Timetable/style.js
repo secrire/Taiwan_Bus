@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const BackGround = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   z-index: 1;
   background: rgba(0, 0, 0, 0.4);
   position: fixed;
@@ -56,7 +56,7 @@ export const Content = styled.div`
   > div:first-child {
     /* height: 40px; */
     word-break: keep-all;
-    background: #5a637e;
+    background: rgb(5, 23, 69);
     font-size: 16px;
     color: #ffffff;
     line-height: 40px;

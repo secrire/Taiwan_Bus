@@ -6,8 +6,8 @@ import { useTranslation } from "react-i18next";
 import Icon from "components/Icon";
 import BusWhite from "images/bus-white.svg";
 import Clock from "images/clock.svg";
-import MapMarker from "images/map-marker.svg";
-import HeartFullWhite from "images/heart-full-white.svg";
+// import MapMarker from "images/map-marker.svg";
+import HeartFullGrey from "images/heart-full-grey.svg";
 
 import * as Style from "./style";
 
@@ -28,33 +28,34 @@ const Home = (props) => {
 
   return (
     <Style.Container>
+      <Style.CoverContainer />
       <Style.IconContainer>
         <Icon
           src={BusWhite}
           alt="bus"
           style={defaultStyle}
-          title={t('COMMON.BUS_LIVE')}
+          title={t("COMMON.BUS_LIVE")}
           onClick={() => clickIcon("live")}
         />
-        <Icon
+        {/* <Icon
           src={MapMarker}
           alt="marker"
           style={defaultStyle}
           title={t('COMMON.NEAR_STOP')}
           onClick={() => clickIcon("stop")}
-        />
+        /> */}
         <Icon
           src={Clock}
           alt="clock"
           style={defaultStyle}
-          title={t('COMMON.CHECK_TIMETABLE')}
+          title={t("COMMON.CHECK_TIMETABLE")}
           onClick={() => clickIcon("timetable")}
         />
         <Icon
-          src={HeartFullWhite}
+          src={HeartFullGrey}
           alt="heart"
           style={defaultStyle}
-          title={t('COMMON.COLLECTION')}
+          title={t("COMMON.COLLECTION")}
           onClick={() => clickIcon("collection")}
         />
       </Style.IconContainer>
