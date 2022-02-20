@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
+import { useBusStore } from "stores/busStore";
 import Icon from "components/Icon";
 
 import CaretDown from "images/caret-down.svg";
@@ -15,9 +16,18 @@ import * as Style from "./style";
 
 const LiveContent = (props) => {
   const { t } = useTranslation();
-  const { stopAllData, showMap, showAllContent, setShowAllContent, clickStop } =
-    props;
-  // const [ showAllContent, setShowAllContent ] = useState(true);
+  const {
+    displayStopData,
+    showMap,
+    showAllContent,
+    setShowAllContent,
+    clickStop,
+    directionTo,
+    setDirectionTo,
+  } = props;
+
+  const { busData } = useBusStore();
+  const { DepartureStopNameZh, DestinationStopNameZh } = busData;
 
   const formatSecond = (secs) => {
     let hr = Math.floor(secs / 3600);
@@ -30,7 +40,7 @@ const LiveContent = (props) => {
     )}`;
   };
 
-  // console.log(stopAllData);
+  // console.log(displayStopData);
 
   return (
     <Style.Container isMargin={showMap}>
@@ -50,7 +60,9 @@ const LiveContent = (props) => {
               {/* <Style.HeaderTitle>{t("COMMON.DIRECTION")}</Style.HeaderTitle> */}
               <Style.HeaderWay>
                 <div>{t("COMMON.TO")}</div>
-                <div> 龍潭站</div>
+                <div>
+                  {directionTo ? DestinationStopNameZh : DepartureStopNameZh}
+                </div>
               </Style.HeaderWay>
             </div>
             <Icon
@@ -59,14 +71,14 @@ const LiveContent = (props) => {
               style={{
                 img: "16px",
                 circle: "30px",
-                circleColor: "#5cbcdb",
+                circleColor: "rgb(50, 115, 246)",
                 margin: "0 0 0 auto",
               }}
-              onClick={() => {}}
+              onClick={() => setDirectionTo(!directionTo)}
             />
           </Style.Header>
           <Style.Content showMap={showMap}>
-            {stopAllData.map((data) => {
+            {displayStopData.map((data) => {
               const isSoon = formatSecond(data.EstimateTime) === "soon";
               return (
                 <React.Fragment key={data.StopUID}>
@@ -82,13 +94,13 @@ const LiveContent = (props) => {
                       <Style.WheelchairContainer>
                         <img
                           src={data.isAccessible ? WheelChair : BusBlue}
-                          style={{ width: 16, marginRight: 4 }}
+                          style={{ width: 14, marginRight: 4 }}
                         />
                         <div>{data.PlateNumb}</div>
                       </Style.WheelchairContainer>
                     )}
                   </Style.StopContainer>
-                  {data !== stopAllData[stopAllData.length - 1] && (
+                  {data !== displayStopData[displayStopData.length - 1] && (
                     <Style.StopBelow />
                   )}
                 </React.Fragment>
@@ -104,9 +116,9 @@ const LiveContent = (props) => {
 export default LiveContent;
 
 LiveContent.propTypes = {
-  stopAllData: PropTypes.array,
+  displayStopData: PropTypes.array,
 };
 
 LiveContent.defaultProps = {
-  stopAllData: [],
+  displayStopData: [],
 };

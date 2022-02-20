@@ -54,12 +54,12 @@ const Menu = (props) => {
 
 export default Menu;
 
-Menu.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-    location: PropTypes.shape({
-      pathname: PropTypes.string,
-      state: PropTypes.object,
-    }),
-  }).isRequired,
-};
+// Menu.propTypes = {
+//   history: PropTypes.shape({
+//     push: PropTypes.func,
+//     location: PropTypes.shape({
+//       pathname: PropTypes.string,
+//       state: PropTypes.object,
+//     }),
+//   }).isRequired,
+// };

@@ -11,15 +11,13 @@ import {
 
 import env from "utils/env.js";
 import Toggle from "components/Toggle";
-import CaretDown from "images/wheel-chair.jpg";
+import CircleRegular from "images/circle-regular.svg";
+import CircleSolid from "images/circle-solid.svg";
+// import CircleSolid from "images/bus-grey .svg"
 
 import * as Style from "./style";
 import "./Map.less";
-
-// const containerStyle = {
-//   width: "100%",
-//   height: "400px",
-// };
+import styled from "styled-components";
 
 // const center = {
 //   lat: -3.745,
@@ -204,8 +202,8 @@ const mapStyle = [
 ];
 
 const Map = (props) => {
-  const { stopData, showAllLiveContent } = props;
-  // const [map, setMap] = useState(null);
+  const { displayStopData, showAllLiveContent } = props;
+  const [mapState, setMapState] = useState(null);
   const [mapRef, setMapRef] = useState(null);
   const [allStops, setAllStops] = useState([]);
   const [currentStops, setCurrentStops] = useState([]);
@@ -235,7 +233,7 @@ const Map = (props) => {
   // Iterate allStops to size, center, and zoom map to contain all markers
   const fitBounds = (map) => {
     const bounds = new window.google.maps.LatLngBounds();
-    const tempAllStops = stopData.map((data) => {
+    const tempAllStops = displayStopData.map((data) => {
       return {
         id: data.StopUID,
         stopName: data.StopName.Zh_tw,
@@ -253,12 +251,12 @@ const Map = (props) => {
     });
     setPath(tempPath);
     let currentStopIDs = [];
-    stopData.forEach((data) => {
+    displayStopData.forEach((data) => {
       if (!currentStopIDs.includes(data.CurrentStop))
         currentStopIDs.push(data.CurrentStop);
     });
-    // console.log("currentStopIDs", currentStopIDs);
-    const tempCurrentStops = stopData
+
+    const tempCurrentStops = displayStopData
       .filter((d) => currentStopIDs.includes(d.StopID))
       .map((data) => {
         return {
@@ -267,18 +265,20 @@ const Map = (props) => {
           pos: { lat: data.positionLat, lng: data.positionLon },
         };
       });
-    console.log("tempCurrentStops", tempCurrentStops);
+    // console.log("tempCurrentStops", tempCurrentStops);
     setCurrentStops(tempCurrentStops);
   };
 
   const loadHandler = (map) => {
+    // To store map for displayStopData change to trigger loadHandler well
+    setMapState(map);
     // Store a reference to the google map instance in state
     setMapRef(map);
     // Fit map bounds to contain all markers
     fitBounds(map);
   };
 
-  // We have to create a mapping of our places to actual Marker objects
+  // to create a mapping of our places to actual Marker objects
   const markerLoadHandler = (marker, stop) => {
     return setMarkerMap((prevState) => {
       return { ...prevState, [stop.id]: marker };
@@ -308,6 +308,13 @@ const Map = (props) => {
   const polylineLoadHandler = (p) => {
     // console.log("p----", p);
   };
+
+  useEffect(() => {
+    if (isLoaded) {
+      loadHandler(mapState);
+    }
+  }, [displayStopData]);
+  // console.log(allStops, currentStops);
 
   return isLoaded ? (
     // (
@@ -340,26 +347,32 @@ const Map = (props) => {
         }}
         options={{ styles: mapStyle }}
       >
-        {allStops.map((stop) => (
-          <Marker
-            key={stop.id}
-            position={stop.pos}
-            onLoad={(marker) => markerLoadHandler(marker, stop)}
-            onClick={(event) => markerClickHandler(event, stop)}
-            // visible={false}
-            // Not required, but if you want a custom icon:
-            // icon={{
-            //   //path: "M12.75 0l-2.25 2.25 2.25 2.25-5.25 6h-5.25l4.125 4.125-6.375 8.452v0.923h0.923l8.452-6.375 4.125 4.125v-5.25l6-5.25 2.25 2.25 2.25-2.25-11.25-11.25zM10.5 12.75l-1.5-1.5 5.25-5.25 1.5 1.5-5.25 5.25z",
-            //   path: "http://maps.google.com/mapfiles/kml/paddle/blu-blank.png",
-            //   fillColor: "#0000ff",
-            //   fillOpacity: 1.0,
-            //   strokeWeight: 0,
-            //   scale: 1.25,
-            // }}
-            // icon={CaretDown}
-            icon={"http://maps.google.com/mapfiles/kml/paddle/blu-blank.png"}
-          />
-        ))}
+        {infoOpen && (
+          <Style.Mask className="mask" onClick={() => setInfoOpen(false)} />
+        )}
+        {allStops
+          .filter((stop) => !currentStops.map((d) => d.id).includes(stop.id))
+          .map((stop) => (
+            <Marker
+              key={stop.id}
+              position={stop.pos}
+              onLoad={(marker) => markerLoadHandler(marker, stop)}
+              onClick={(event) => markerClickHandler(event, stop)}
+              className="testmarker"
+              // visible={false}
+              // Not required, but if you want a custom icon:
+              icon={{
+                // path: "M12.75 0l-2.25 2.25 2.25 2.25-5.25 6h-5.25l4.125 4.125-6.375 8.452v0.923h0.923l8.452-6.375 4.125 4.125v-5.25l6-5.25 2.25 2.25 2.25-2.25-11.25-11.25zM10.5 12.75l-1.5-1.5 5.25-5.25 1.5 1.5-5.25 5.25z",
+                // path: "http://maps.google.com/mapfiles/kml/paddle/blu-blank.png",
+                url: CircleRegular,
+                // fillColor: "yellow",
+                // fillOpacity: 1.0,
+                // strokeWeight: 0,
+                // scale: 0.02,
+                // scaledSize: new google.maps.Size(11, 11),
+              }}
+            />
+          ))}
         {currentStops.map((stop) => (
           <Marker
             key={stop.id}
@@ -367,18 +380,9 @@ const Map = (props) => {
             onLoad={(marker) => markerLoadHandler(marker, stop)}
             onClick={(event) => markerClickHandler(event, stop)}
             zIndex={1000}
-            // visible={false}
-            // Not required, but if you want a custom icon:
-            // icon={{
-            //   //path: "M12.75 0l-2.25 2.25 2.25 2.25-5.25 6h-5.25l4.125 4.125-6.375 8.452v0.923h0.923l8.452-6.375 4.125 4.125v-5.25l6-5.25 2.25 2.25 2.25-2.25-11.25-11.25zM10.5 12.75l-1.5-1.5 5.25-5.25 1.5 1.5-5.25 5.25z",
-            //   path: "http://maps.google.com/mapfiles/kml/paddle/blu-blank.png",
-            //   fillColor: "#0000ff",
-            //   fillOpacity: 1.0,
-            //   strokeWeight: 0,
-            //   scale: 1.25,
-            // }}
-            // icon={CaretDown}
-            // icon={"http://maps.google.com/mapfiles/kml/paddle/blu-blank.png"}
+            icon={{
+              url: CircleSolid,
+            }}
           />
         ))}
 
@@ -386,10 +390,10 @@ const Map = (props) => {
           onLoad={polylineLoadHandler}
           path={path}
           options={{
-            strokeColor: "#5CBCDB",
+            strokeColor: "rgb(5,23,69)",
             strokeOpacity: 0.8,
-            strokeWeight: 4,
-            fillColor: "#5CBCDB",
+            strokeWeight: 3,
+            fillColor: "rgb(5,23,69)",
             fillOpacity: 0.5,
             // clickable: false,
             // draggable: false,
@@ -404,12 +408,12 @@ const Map = (props) => {
         {infoOpen && selectedPlace && (
           <InfoWindow
             anchor={markerMap[selectedPlace.id]}
-            onCloseClick={() => setInfoOpen(false)}
+            // onCloseClick={() => setInfoOpen(false)}
+            // zIndex={999}
           >
-            <div>
-              <h3>{selectedPlace.stopName}</h3>
-              {/* <div>This is your info window content</div> */}
-            </div>
+            {/* <div> */}
+            <Style.WindowBusName>{selectedPlace.stopName}</Style.WindowBusName>
+            {/* </div> */}
           </InfoWindow>
         )}
       </GoogleMap>

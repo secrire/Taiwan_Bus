@@ -29,12 +29,12 @@ const SearchPage = (props) => {
   const { likedRouteData, setLikedRouteData } = useLikedRouteStore();
 
   const clickCard = (busData) => {
-    // setBusData({ city: busInfo.City, routeName: busInfo.RouteID });
+    console.log("click bus card", busData);
     setBusData(busData);
     if (props.location.pathname === "/app/timetable") {
       setShowTimetable(true);
     } else {
-      props.history.push(`/app/liveInfo?routeName=${busData.RouteID}`);
+      props.history.push(`/app/liveInfo?route=${busData.RouteUID}`);
     }
   };
 

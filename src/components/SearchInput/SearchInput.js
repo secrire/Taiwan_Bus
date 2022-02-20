@@ -93,7 +93,7 @@ export default SearchInput;
 SearchInput.propTypes = {
   changeCity: PropTypes.func,
   city: PropTypes.string,
-  cityWarning: PropTypes.bool,
+  cityWarning: PropTypes.string,
   keyword: PropTypes.string,
   changeKeyword: PropTypes.func,
   clickSearch: PropTypes.func,
@@ -102,7 +102,7 @@ SearchInput.propTypes = {
 SearchInput.defaultProps = {
   changeCity: () => {},
   city: "",
-  cityWarning: false,
+  cityWarning: "",
   keyword: "",
   changeKeyword: () => {},
   clickSearch: () => {},

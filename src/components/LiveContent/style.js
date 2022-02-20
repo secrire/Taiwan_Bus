@@ -22,7 +22,7 @@ export const CaretContainer = styled.div`
 `;
 
 export const Header = styled.div`
-  height: 64px;
+  height: 54px;
   width: 90%;
   max-width: 400px;
   display: flex;
@@ -40,17 +40,15 @@ export const HeaderTitle = styled.div`
 export const HeaderWay = styled.div`
   display: flex;
   align-items: center;
-  > div :first-child {
-    font-weight: 500;
-    font-size: 14px;
-    color: #4c546a;
-    margin-right: 6px;
+  color: rgb(50, 115, 246);
+  > div:first-child {
+    font-size: 15px;
   }
 
-  > div :nth-child(2) {
-    font-weight: 500;
+  > div:nth-child(2) {
+    font-weight: bold;
     font-size: 16px;
-    color: #5cbcdb;
+    margin-left: 6px;
   }
 `;
 
@@ -71,7 +69,8 @@ export const StopContainer = styled.div`
 `;
 
 export const StopPoint = styled.div`
-  border: ${(p) => (p.isSoon ? "5px solid #F76A4B" : "5px solid #4c546a")};
+  border: ${(p) =>
+    p.isSoon ? "5px solid rgb(50, 115, 246)" : "5px solid rgb(5, 23, 69)"};
   width: 17px;
   height: 17px;
   border-radius: 50%;
@@ -80,12 +79,12 @@ export const StopPoint = styled.div`
 export const StopTime = styled.div`
   font-size: 16px;
   margin: 0 12px;
-  color: ${(p) => (p.isSoon ? "#F66A4B" : "#b4b3b3")};
+  color: ${(p) => (p.isSoon ? "rgb(50, 115, 246)" : "rgb(82, 82, 82)")};
 `;
 
 export const StopName = styled.div`
   font-size: 16px;
-  color: ${(p) => (p.isSoon ? "#4C546A" : "#b4b3b3")};
+  color: ${(p) => (p.isSoon ? "rgb(50, 115, 246)" : "rgb(82, 82, 82)")};
 `;
 
 export const WheelchairContainer = styled.div`
@@ -95,14 +94,18 @@ export const WheelchairContainer = styled.div`
   justify-content: center;
   width: 90px;
   height: 26px;
+  font-size: 12px;
   border: 1px solid #5cbcdb;
   border-radius: 100px;
   margin-left: auto;
+  div {
+    line-height: 26px;
+  }
 `;
 
 export const StopBelow = styled.div`
   height: 25px;
   max-width: 384px;
-  border-left: 1px solid #4c546a;
+  border-left: 1px solid rgb(5, 23, 69);
   margin: 0 8px;
 `;

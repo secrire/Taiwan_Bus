@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import useAxios from "hooks/useAxios";
 import { useLanguageStore } from "stores/languageStore";
 import { useBusStore } from "stores/busStore";
-// import Keypad from "components/Keypad";
 import Icon from "components/Icon";
 import BusStartEnd from "components/BusStartEnd";
 import LiveContent from "components/LiveContent";
@@ -25,13 +24,20 @@ const LiveInfo = (props) => {
   const [showAllContent, setShowAllContent] = useState(true);
   const [stopAllData, setStopAllData] = useState([]);
   const [isStartInterval, setIsStartInterval] = useState(false);
+  const [directionTo, setDirectionTo] = useState(true);
+  const [displayStopData, setDisplayStopData] = useState([]);
 
   const axios = useAxios();
   const { isZhTw } = useLanguageStore();
   const { busData } = useBusStore();
 
-  const { City, RouteName, DepartureStopNameZh, DestinationStopNameZh } =
-    busData;
+  const {
+    City,
+    RouteUID,
+    RouteName,
+    DepartureStopNameZh,
+    DestinationStopNameZh,
+  } = busData;
 
   const getEstimatedArrivalData = async (city, routeName) => {
     const config = {
@@ -91,7 +97,10 @@ const LiveInfo = (props) => {
 
     let tempStopAllData;
     tempStopAllData = estimatedArrivalData
-      .filter((data) => data.StopStatus === 0) //StopStatus : 0 = 'work well'
+      // filter current routeUid
+      .filter((data) => data.RouteUID === RouteUID)
+      //  StopStatus : 0 = 'work well'
+      .filter((data) => data.StopStatus === 0)
       .map((data) => {
         if (accessibleNumb.includes(data.PlateNumb)) {
           return { ...data, isAccessible: true };
@@ -160,6 +169,18 @@ const LiveInfo = (props) => {
   };
 
   useEffect(() => {
+    stopAllData.sort((a, b) => a.StopSequence - b.StopSequence);
+    const toStopData = stopAllData.filter((data) => data.Direction === 0);
+    const backStopData = stopAllData.filter((data) => data.Direction === 1);
+    console.log("to back", toStopData, backStopData);
+    if (directionTo) {
+      setDisplayStopData(toStopData);
+    } else {
+      setDisplayStopData(backStopData);
+    }
+  }, [stopAllData, directionTo]);
+
+  useEffect(() => {
     init();
   }, []);
 
@@ -180,7 +201,7 @@ const LiveInfo = (props) => {
         });
 
         setStopAllData(tempStopAllData);
-      }, 60000);
+      }, 600000);
 
       return () => clearInterval(interval);
     }
@@ -212,8 +233,8 @@ const LiveInfo = (props) => {
               alt="guild"
               style={{
                 img: "16px",
-                circle: "36px",
-                circleColor: "rgb(50,115,246)",
+                circle: "34px",
+                circleColor: "#4c546a",
                 margin: "0 16px 0 0",
               }}
               onClick={() => setShowMap(true)}
@@ -223,8 +244,8 @@ const LiveInfo = (props) => {
               alt="clock"
               style={{
                 img: "22px",
-                circle: "36px",
-                circleColor: "rgb(50,115,246)",
+                circle: "34px",
+                circleColor: "#4c546a",
                 margin: "0 auto 0 0",
               }}
               onClick={() => setShowTimetable(true)}
@@ -237,15 +258,20 @@ const LiveInfo = (props) => {
         </>
       )}
       {showTimetable && <Timetable setVisible={setShowTimetable} />}
-      {showMap && stopAllData.length !== 0 && (
-        <Map stopData={stopAllData} showAllLiveContent={showAllContent} />
+      {showMap && displayStopData.length !== 0 && (
+        <Map
+          displayStopData={displayStopData}
+          showAllLiveContent={showAllContent}
+        />
       )}
       <LiveContent
         clickStop={clickStop}
-        stopAllData={stopAllData}
+        displayStopData={displayStopData}
         showMap={showMap}
         showAllContent={showAllContent}
         setShowAllContent={setShowAllContent}
+        directionTo={directionTo}
+        setDirectionTo={setDirectionTo}
       />
     </Style.Container>
   );
