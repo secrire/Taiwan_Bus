@@ -30,17 +30,17 @@ const LiveContent = (props) => {
   const { DepartureStopNameZh, DestinationStopNameZh } = busData;
 
   const formatSecond = (secs) => {
-    let hr = Math.floor(secs / 3600);
-    let min = Math.floor((secs - hr * 3600) / 60);
-    if ((hr === 0 && min < 3) || secs === 0) {
-      return "soon";
+    if (secs) {
+      let hr = Math.floor(secs / 3600);
+      let min = Math.floor((secs - hr * 3600) / 60);
+      if ((hr === 0 && min < 2) || secs === 0) {
+        return t("COMMON.SOON");
+      }
+      return `${hr === 0 ? "" : `${hr} ${t("COMMON.HOUR")}`} ${min} ${t(
+        "COMMON.MINUTE"
+      )}`;
     }
-    return `${hr === 0 ? "" : `${hr} ${t("COMMON.HOUR")}`} ${min} ${t(
-      "COMMON.MINUTE"
-    )}`;
   };
-
-  // console.log(displayStopData);
 
   return (
     <Style.Container isMargin={showMap}>
@@ -79,13 +79,15 @@ const LiveContent = (props) => {
           </Style.Header>
           <Style.Content showMap={showMap}>
             {displayStopData.map((data) => {
-              const isSoon = formatSecond(data.EstimateTime) === "soon";
+              const isSoon = ["soon", "即將抵達"].includes(
+                formatSecond(data.EstimateTime)
+              );
               return (
                 <React.Fragment key={data.StopUID}>
                   <Style.StopContainer onClick={() => clickStop(data.StopUID)}>
                     <Style.StopPoint isSoon={isSoon} />
                     <Style.StopTime isSoon={isSoon}>
-                      {data.EstimateTime && formatSecond(data.EstimateTime)}
+                      {formatSecond(data.EstimateTime)}
                     </Style.StopTime>
                     <Style.StopName isSoon={isSoon}>
                       {data.StopName.Zh_tw}

@@ -29,7 +29,7 @@ const SearchPage = (props) => {
   const { likedRouteData, setLikedRouteData } = useLikedRouteStore();
 
   const clickCard = (busData) => {
-    console.log("click bus card", busData);
+    // console.log("click bus card", busData);
     setBusData(busData);
     if (props.location.pathname === "/app/timetable") {
       setShowTimetable(true);

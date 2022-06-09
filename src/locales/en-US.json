@@ -15,6 +15,7 @@
     "MINUTE":"min",
     "TIMETABLE":"TimeTable",
     "WEEKDAY":"Weekday",
-    "HOLIDAY":"Holiday"
+    "HOLIDAY":"Holiday",
+    "SOON":"Soon"
   }
 }

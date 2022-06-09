@@ -207,7 +207,7 @@ const LiveInfo = (props) => {
     }
   }, [isStartInterval]);
 
-  console.log("stopAllData", stopAllData);
+  // console.log("stopAllData", stopAllData);
   return (
     <Style.Container>
       <Style.Top>

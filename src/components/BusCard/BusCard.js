@@ -22,8 +22,8 @@ const BusCard = (props) => {
   const formatSecond = (secs) => {
     let hr = Math.floor(secs / 3600);
     let min = Math.floor((secs - hr * 3600) / 60);
-    if ((hr === 0 && min < 3) || secs === 0) {
-      return "soon";
+    if ((hr === 0 && min < 2) || secs === 0) {
+      return t("COMMON.SOON");
     }
     return `${hr === 0 ? "" : `${hr} ${t("COMMON.HOUR")}`} ${min} ${t(
       "COMMON.MINUTE"

@@ -15,6 +15,7 @@
     "MINUTE":"分",
     "TIMETABLE":"班次表",
     "WEEKDAY":"平日",
-    "HOLIDAY":"假日"
+    "HOLIDAY":"假日",
+    "SOON":"即將抵達"
   }
 }

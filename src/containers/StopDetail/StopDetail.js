@@ -8,13 +8,13 @@ import BusCard from "components/BusCard";
 
 import ArrowLeft from "images/arrow-left.svg";
 import HeartFullRed from "images/heart-full-red.svg";
-import HeartEmpty from "images/heart-empty.svg";
+import HeartEmptyWhite from "images/heart-empty-white.svg";
 import BusWhite from "images/bus-white.svg";
 
 import * as Style from "./style";
 
 const StopDetail = (props) => {
-  console.log("props", props);
+  // console.log("props", props);
   const { likedStopData, setLikedStopData } = useLikedStopStore();
 
   const [stopName, setStopName] = useState("");
@@ -182,7 +182,7 @@ const StopDetail = (props) => {
     } else {
       tempLikedStop = [
         ...likedStopData,
-        { stopUid: stopState, city: cityState },
+        { stopUid: stopState, city: cityState, stopName: stopName },
       ];
     }
     setLikedStopData(tempLikedStop);
@@ -224,14 +224,14 @@ const StopDetail = (props) => {
 
     const interval = setInterval(async () => {
       if (tempStopOfRoute) {
-        console.log("=====  3   ====", tempStopOfRoute);
+        // console.log("=====  3   ====", tempStopOfRoute);
 
         const callArr = tempStopOfRoute.map((r) =>
           getEstimatedArrivalData(tempCityState, r.RouteName)
         );
 
         const estimatedArrivalDataArr = await Promise.all(callArr);
-        console.log("=====  4   ====", estimatedArrivalDataArr);
+        // console.log("=====  4   ====", estimatedArrivalDataArr);
 
         const tempStopOfRouteWithTime = getStopOfRouteWithTime(
           tempStopOfRoute,
@@ -260,7 +260,7 @@ const StopDetail = (props) => {
           {isZhTw ? stopName.Zh_tw : stopName.En}
         </Style.StopTItle>
         <Style.Heart
-          src={liked ? HeartFullRed : HeartEmpty}
+          src={liked ? HeartFullRed : HeartEmptyWhite}
           alt="heart"
           onClick={() => clickLike()}
         />

@@ -8,14 +8,14 @@ export const Container = styled.div`
 export const Top = styled.div`
   width: 100%;
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.15);
-  border-radius: 0px 0px 20px 20px;
+  /* border-radius: 0px 0px 20px 20px; */
   background-color: rgb(5, 23, 69);
   padding-bottom: 20px;
 `;
 
 export const InputContainer = styled.div`
   height: 40px;
-  width: 90%;
+  width: 60%;
   text-align: center;
   margin: 12px auto;
   position: relative;
@@ -23,7 +23,7 @@ export const InputContainer = styled.div`
 
 export const Input = styled.input`
   height: 40px;
-  width: 76%;
+  width: 100%;
   background: #e5e5e5;
   text-align: left;
   border-radius: 20px;
@@ -38,7 +38,7 @@ export const InputImg = styled.img`
   line-height: 12px;
   position: absolute;
   top: 13px;
-  right: 58px;
+  right: 20px;
 `;
 
 export const TabContainer = styled.div`
