@@ -12,9 +12,8 @@ import Timetable from "components/Timetable";
 import Map from "components/Map";
 
 import ArrowLeft from "images/arrow-left.svg";
-// import Menu from "images/menu.svg";
 import Guild from "images/guild.svg";
-import Clock from "images/clock.svg";
+import ClockWhite from "images/clock-white.svg";
 
 import * as Style from "./style";
 
@@ -124,8 +123,6 @@ const LiveInfo = (props) => {
     });
     // }
 
-    // console.log("tempStopAllData>>>1", tempStopAllData);
-
     // tempStopAllData = [...tempStopAllData].map((s) => {
     //   const foundStop = realTimeNearStopData.filter(
     //     (data) => data.StopUID === s.StopUID && data.BusStatus === 0
@@ -147,12 +144,10 @@ const LiveInfo = (props) => {
     //     return { ...s };
     //   }
     // });
-    // console.log("tempStopAllData>>>    2", tempStopAllData);
     setStopAllData(tempStopAllData);
     setIsStartInterval(true);
     // const tempStopOfRouteData = await getStopOfRouteData(City)
     // setStopOfRouteData(tempStopOfRouteData)
-    // console.log("realTimeNearStopData----", realTimeNearStopData);
   };
 
   const clickStop = (stopUid) => {
@@ -172,7 +167,6 @@ const LiveInfo = (props) => {
     stopAllData.sort((a, b) => a.StopSequence - b.StopSequence);
     const toStopData = stopAllData.filter((data) => data.Direction === 0);
     const backStopData = stopAllData.filter((data) => data.Direction === 1);
-    console.log("to back", toStopData, backStopData);
     if (directionTo) {
       setDisplayStopData(toStopData);
     } else {
@@ -196,7 +190,6 @@ const LiveInfo = (props) => {
           const found = estimatedArrivalData.find(
             (e) => e.StopUID === data.StopUID
           );
-
           return { ...data, EstimateTime: found ? found.EstimateTime : null };
         });
 
@@ -207,22 +200,11 @@ const LiveInfo = (props) => {
     }
   }, [isStartInterval]);
 
-  // console.log("stopAllData", stopAllData);
   return (
     <Style.Container>
       <Style.Top>
         <img src={ArrowLeft} alt="previous" onClick={() => clickArrowLeft()} />
         <Style.Number>{RouteName.Zh_tw}</Style.Number>
-        {/* <Link to="/app/menu">
-          <Icon
-            src={Menu}
-            alt="menu"
-            style={{
-              img: "20px",
-              margin: "0 0 0 22px",
-            }}
-          />
-        </Link> */}
       </Style.Top>
       {!showMap && (
         <>
@@ -240,7 +222,7 @@ const LiveInfo = (props) => {
               onClick={() => setShowMap(true)}
             />
             <Icon
-              src={Clock}
+              src={ClockWhite}
               alt="clock"
               style={{
                 img: "22px",

@@ -16,6 +16,8 @@
     "TIMETABLE":"班次表",
     "WEEKDAY":"平日",
     "HOLIDAY":"假日",
-    "SOON":"即將抵達"
+    "APPROACHING":"即將抵達",
+    "ARRIVAL":"進站中",
+    "SHOW_STOP_NAME":"顯示站名"
   }
 }

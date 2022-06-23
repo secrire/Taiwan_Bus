@@ -16,6 +16,8 @@
     "TIMETABLE":"TimeTable",
     "WEEKDAY":"Weekday",
     "HOLIDAY":"Holiday",
-    "SOON":"Soon"
+    "APPROACHING":"Approaching",
+    "ARRIVAL":"Arrival",
+    "SHOW_STOP_NAME":"Show Name"
   }
 }

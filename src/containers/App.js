@@ -7,9 +7,6 @@ import Menu from "containers/Menu";
 
 import * as Style from "./style";
 
-// const Menu = lazy(() =>
-//   import("containers/Menu" /* webpackChunkName:"Menu" */)
-// );
 const SearchPage = lazy(() =>
   import("containers/SearchPage" /* webpackChunkName:"SearchPage" */)
 );
@@ -29,10 +26,8 @@ const App = ({ history }) => {
       <Style.Container>
         <Suspense fallback={<div>Loading....</div>}>
           <Switch>
-            {/* <Route path="/app/menu" component={Menu} /> */}
             <Route path="/app/live" component={SearchPage} />
             <Route path="/app/liveInfo" component={LiveInfo} />
-            {/* <Route path="/app/stop" component={SearchPage} /> */}
             <Route path="/app/timetable" component={SearchPage} />
             <Route path="/app/collection" component={Collection} />
             <Route path="/app/stopDetail" component={StopDetail} />

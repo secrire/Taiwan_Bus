@@ -10,7 +10,18 @@ export const ToggleContainer = styled.div`
   position: absolute;
   top: 20px;
   left: 18px;
-  z-index: 999;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  gap: 7px;
+  background: #ffffff;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  > span {
+    font-size: 10px;
+    color: #4c546a;
+  }
 `;
 
 export const WindowBusName = styled.div`
@@ -27,4 +38,5 @@ export const Mask = styled.div`
   width: 100%;
   top: 0;
   left: 0;
+  z-index: 2;
 `;

@@ -2,11 +2,12 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
+  min-height: -webkit-fill-available;
   padding: 0 auto;
   background: #ffffff;
   box-shadow: 0px -3px 8px rgba(0, 0, 0, 0.2);
   border-radius: 20px 20px 0px 0px;
-  margin-top: ${(p) => p.isMargin && "-18px"};
+  margin-top: ${(p) => p.isMargin && "-20px"};
   position: relative;
 `;
 
@@ -70,7 +71,9 @@ export const StopContainer = styled.div`
 
 export const StopPoint = styled.div`
   border: ${(p) =>
-    p.isSoon ? "5px solid rgb(50, 115, 246)" : "5px solid rgb(5, 23, 69)"};
+    p.isApproaching
+      ? "5px solid rgb(50, 115, 246)"
+      : "5px solid rgb(5, 23, 69)"};
   width: 17px;
   height: 17px;
   border-radius: 50%;
@@ -79,12 +82,12 @@ export const StopPoint = styled.div`
 export const StopTime = styled.div`
   font-size: 16px;
   margin: 0 12px;
-  color: ${(p) => (p.isSoon ? "rgb(50, 115, 246)" : "rgb(82, 82, 82)")};
+  color: ${(p) => (p.isApproaching ? "rgb(50, 115, 246)" : "rgb(82, 82, 82)")};
 `;
 
 export const StopName = styled.div`
   font-size: 16px;
-  color: ${(p) => (p.isSoon ? "rgb(50, 115, 246)" : "rgb(82, 82, 82)")};
+  color: ${(p) => (p.isApproaching ? "rgb(50, 115, 246)" : "rgb(82, 82, 82)")};
 `;
 
 export const WheelchairContainer = styled.div`

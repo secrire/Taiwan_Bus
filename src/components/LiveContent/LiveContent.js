@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
@@ -33,12 +33,14 @@ const LiveContent = (props) => {
     if (secs) {
       let hr = Math.floor(secs / 3600);
       let min = Math.floor((secs - hr * 3600) / 60);
-      if ((hr === 0 && min < 2) || secs === 0) {
-        return t("COMMON.SOON");
+      if (hr === 0 && min < 2) {
+        return t("COMMON.APPROACHING");
       }
       return `${hr === 0 ? "" : `${hr} ${t("COMMON.HOUR")}`} ${min} ${t(
         "COMMON.MINUTE"
       )}`;
+    } else if (secs === 0) {
+      return t("COMMON.ARRIVAL");
     }
   };
 
@@ -57,7 +59,6 @@ const LiveContent = (props) => {
         <>
           <Style.Header>
             <div>
-              {/* <Style.HeaderTitle>{t("COMMON.DIRECTION")}</Style.HeaderTitle> */}
               <Style.HeaderWay>
                 <div>{t("COMMON.TO")}</div>
                 <div>
@@ -79,20 +80,21 @@ const LiveContent = (props) => {
           </Style.Header>
           <Style.Content showMap={showMap}>
             {displayStopData.map((data) => {
-              const isSoon = ["soon", "即將抵達"].includes(
-                formatSecond(data.EstimateTime)
-              );
+              const isApproaching = [
+                t("COMMON.APPROACHING"),
+                t("COMMON.ARRIVAL"),
+              ].includes(formatSecond(data.EstimateTime));
               return (
                 <React.Fragment key={data.StopUID}>
                   <Style.StopContainer onClick={() => clickStop(data.StopUID)}>
-                    <Style.StopPoint isSoon={isSoon} />
-                    <Style.StopTime isSoon={isSoon}>
+                    <Style.StopPoint isApproaching={isApproaching} />
+                    <Style.StopTime isApproaching={isApproaching}>
                       {formatSecond(data.EstimateTime)}
                     </Style.StopTime>
-                    <Style.StopName isSoon={isSoon}>
+                    <Style.StopName isApproaching={isApproaching}>
                       {data.StopName.Zh_tw}
                     </Style.StopName>
-                    {isSoon && (
+                    {isApproaching && (
                       <Style.WheelchairContainer>
                         <img
                           src={data.isAccessible ? WheelChair : BusBlue}
