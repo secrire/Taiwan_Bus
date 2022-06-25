@@ -22,12 +22,7 @@ const useAxios = (defaultResponse, useDefaultConfig = true) => {
   const defaultConfig = {
     baseURL: "https://ptx.transportdata.tw/MOTC",
     headers: getAuthorizationHeader(),
-    // withCredentials: true,
   };
-
-  // if (sessionStorage.accessToken) {
-  //   defaultConfig.headers = { Authorization: sessionStorage.accessToken };
-  // }
 
   const instance = Axios.create(useDefaultConfig ? defaultConfig : {});
   const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +40,7 @@ const useAxios = (defaultResponse, useDefaultConfig = true) => {
       setResponse(responseData);
     } catch (e) {
       setErrorStatus(e);
-      console.log("useAxios error ----", e);
+      console.error("useAxios error ----", e);
     } finally {
       setIsLoading(false);
     }

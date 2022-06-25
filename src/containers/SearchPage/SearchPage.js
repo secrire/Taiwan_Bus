@@ -5,11 +5,13 @@ import { useTranslation } from "react-i18next";
 import useAxios from "hooks/useAxios";
 import { useBusStore } from "stores/busStore";
 import { useLikedRouteStore } from "stores/likedRouteStore";
-import Header from "components/Header";
+import MainTitle from "components/MainTitle";
+import SelectorCity from "components/SelectorCity";
 import SearchInput from "components/SearchInput";
 import Toggle from "components/Toggle";
 import BusCard from "components/BusCard";
 import Timetable from "components/Timetable";
+import PageDescription from "components/PageDescription";
 
 import * as Style from "./style";
 
@@ -19,8 +21,8 @@ const SearchPage = (props) => {
   const [city, setCity] = useState("");
   const [cityWarning, setCityWarning] = useState("");
   const [keyword, setKeyword] = useState("");
-  const [busCardData, setBusCardData] = useState([]);
-  const [displayBusCardData, setDisplayBusCardData] = useState([]);
+  const [busCardData, setBusCardData] = useState(null);
+  const [displayBusCardData, setDisplayBusCardData] = useState(null);
   const [showTimetable, setShowTimetable] = useState(false);
   const [accessibleOnly, setAccessibleOnly] = useState(false);
 
@@ -29,7 +31,6 @@ const SearchPage = (props) => {
   const { likedRouteData, setLikedRouteData } = useLikedRouteStore();
 
   const clickCard = (busData) => {
-    // console.log("click bus card", busData);
     setBusData(busData);
     if (props.location.pathname === "/app/timetable") {
       setShowTimetable(true);
@@ -65,7 +66,8 @@ const SearchPage = (props) => {
     return { realTimeData };
   };
 
-  const clickSearch = async () => {
+  const clickSearch = async (event) => {
+    event.preventDefault();
     if (city) {
       const callArr = [
         getRouteData(city, keyword),
@@ -107,6 +109,23 @@ const SearchPage = (props) => {
     }
   };
 
+  const renderCardContainerContent = () => {
+    if (!displayBusCardData) {
+      return <PageDescription text={t("COMMON.FIND_BUS_ROUTE_INFO")} />;
+    } else if (displayBusCardData.length === 0) {
+      return <PageDescription text={t("COMMON.NO_INFO_AT_THIS_MOMENT")} />;
+    } else {
+      return displayBusCardData.map((data) => (
+        <BusCard
+          key={data.RouteUID}
+          busData={data}
+          clickCard={() => clickCard(data)}
+          clickLike={() => clickLike(data)}
+        />
+      ));
+    }
+  };
+
   const clickLike = (busData) => {
     const tempBusCardData = busCardData.map((cardData) => {
       if (cardData.RouteUID === busData.RouteUID) {
@@ -122,30 +141,35 @@ const SearchPage = (props) => {
   };
 
   useEffect(() => {
-    if (accessibleOnly) {
-      const tempDisplayBusCardData = [...busCardData].filter(
-        (data) => data.isAccessible
-      );
-      setDisplayBusCardData(tempDisplayBusCardData);
-    } else {
-      setDisplayBusCardData(busCardData);
+    if (busCardData) {
+      if (accessibleOnly) {
+        const tempDisplayBusCardData = [...busCardData].filter(
+          (data) => data.isAccessible
+        );
+        setDisplayBusCardData(tempDisplayBusCardData);
+      } else {
+        setDisplayBusCardData(busCardData);
+      }
     }
   }, [busCardData, accessibleOnly]);
 
   return (
-    <Style.Container>
+    <>
       <Style.Top>
-        <Header
+        <MainTitle
           title={
             props.location.pathname === "/app/timetable"
               ? t("COMMON.CHECK_TIMETABLE")
               : t("COMMON.BUS_LIVE")
           }
         />
-        <SearchInput
+        <SelectorCity
           changeCity={setCity}
           city={city}
           cityWarning={cityWarning}
+        />
+        <SearchInput
+          placeholder={t("COMMON.ROUTE")}
           changeKeyword={setKeyword}
           keyword={keyword}
           clickSearch={clickSearch}
@@ -160,19 +184,9 @@ const SearchPage = (props) => {
           checked={accessibleOnly}
         />
       </Style.ToggleContainer>
-      <Style.CardContainer>
-        {/* {console.log("displayBusCardData", displayBusCardData.length)} */}
-        {displayBusCardData.map((data) => (
-          <BusCard
-            key={data.RouteUID}
-            busData={data}
-            clickCard={() => clickCard(data)}
-            clickLike={() => clickLike(data)}
-          />
-        ))}
-      </Style.CardContainer>
+      <Style.CardContainer>{renderCardContainerContent()}</Style.CardContainer>
       {showTimetable && <Timetable setVisible={setShowTimetable} />}
-    </Style.Container>
+    </>
   );
 };
 

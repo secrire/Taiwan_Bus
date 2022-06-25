@@ -5,9 +5,10 @@ import { useTranslation } from "react-i18next";
 import { useLikedRouteStore } from "stores/likedRouteStore";
 import { useLikedStopStore } from "stores/likedStopStore";
 import StopDetail from "containers/StopDetail";
-import Header from "components/Header";
+import MainTitle from "components/MainTitle";
+import SearchInput from "components/SearchInput";
 import BusCard from "components/BusCard";
-import Search from "images/search.svg";
+import PageDescription from "components/PageDescription";
 
 import * as Style from "./style";
 
@@ -30,7 +31,6 @@ const Collection = (props) => {
   };
 
   const clickCard = (busData) => {
-    console.log("busData---", busData);
     props.history.push(`/app/liveInfo?route=${busData.RouteUID}`);
   };
 
@@ -43,31 +43,35 @@ const Collection = (props) => {
         } else {
           displayData = likedRouteData;
         }
-        return displayData.length === 0
-          ? "No Data"
-          : displayData.map((data) => (
-              <BusCard
-                key={data.RouteUID}
-                busData={data}
-                clickCard={() => clickCard(data)}
-                clickLike={() => cancelLike(data)}
-              />
-            ));
+        return displayData.length === 0 ? (
+          <PageDescription text={t("COMMON.NO_INFO_AT_THIS_MOMENT")} />
+        ) : (
+          displayData.map((data) => (
+            <BusCard
+              key={data.RouteUID}
+              busData={data}
+              clickCard={() => clickCard(data)}
+              clickLike={() => cancelLike(data)}
+            />
+          ))
+        );
       case "stop":
         if (keyword) {
           displayData = displayStop;
         } else {
           displayData = likedStopData;
         }
-        return displayData.length === 0
-          ? "No Data"
-          : displayData.map((data) => (
-              <StopDetail
-                key={data.stopUid}
-                stopUid={data.stopUid}
-                city={data.city}
-              />
-            ));
+        return displayData.length === 0 ? (
+          <PageDescription text={t("COMMON.NO_INFO_AT_THIS_MOMENT")} />
+        ) : (
+          displayData.map((data) => (
+            <StopDetail
+              key={data.stopUid}
+              stopUid={data.stopUid}
+              city={data.city}
+            />
+          ))
+        );
       default:
         break;
     }
@@ -94,7 +98,8 @@ const Collection = (props) => {
     getDisplayData(value);
   };
 
-  const clickSearch = () => {
+  const clickSearch = (event) => {
+    event.preventDefault();
     getDisplayData(keyword);
   };
 
@@ -104,30 +109,30 @@ const Collection = (props) => {
   };
 
   return (
-    <Style.Container>
+    <>
       <Style.Top>
-        <Header title={t("COMMON.COLLECTION")} />
-        <Style.InputContainer>
-          <Style.Input
-            placeholder="search"
-            onChange={(e) => changeSearchInput(e.target.value)}
-            value={keyword}
-          />
-          <Style.InputImg
-            src={Search}
-            alt="search"
-            onClick={() => clickSearch()}
-          />
-        </Style.InputContainer>
+        <MainTitle title={t("COMMON.COLLECTION")} />
+        <SearchInput
+          placeholder={
+            selectedTab === "route" ? t("COMMON.ROUTE") : t("COMMON.STOP")
+          }
+          changeKeyword={changeSearchInput}
+          keyword={keyword}
+          clickSearch={clickSearch}
+        />
       </Style.Top>
-      <Style.TabContainer>
-        <div onClick={() => clickTab("route")}>{t("COMMON.ROUTE")}</div>
-        <div onClick={() => clickTab("stop")}>{t("COMMON.STOP")}</div>
+      <Style.TabContainer selected={`collection-${selectedTab}`}>
+        <div className="collection-route" onClick={() => clickTab("route")}>
+          {t("COMMON.ROUTE")}
+        </div>
+        <div className="collection-stop" onClick={() => clickTab("stop")}>
+          {t("COMMON.STOP")}
+        </div>
       </Style.TabContainer>
       <Style.CardContainer isStop={selectedTab === "stop"}>
         {renderTabPane()}
       </Style.CardContainer>
-    </Style.Container>
+    </>
   );
 };
 

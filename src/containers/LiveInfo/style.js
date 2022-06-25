@@ -30,7 +30,7 @@ export const Number = styled.div`
 export const Row = styled.div`
   display: flex;
   align-items: center;
-  padding: 0 18px 28px 18px;
+  padding: 0 18px 20px 18px;
   > img:first-child {
     margin-right: 16px;
   }

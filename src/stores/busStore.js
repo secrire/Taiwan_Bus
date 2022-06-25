@@ -11,7 +11,6 @@ export const BusContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (busData) {
-      // console.log("----1---BusContextProvider", busData);
       localStorage.setItem("busDataStore", JSON.stringify(busData));
     }
   }, [busData]);
@@ -19,7 +18,6 @@ export const BusContextProvider = ({ children }) => {
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("busDataStore"))) {
       setBusData(JSON.parse(localStorage.getItem("busDataStore")));
-      // console.log("----BusContextProvider");
     }
   }, []);
 

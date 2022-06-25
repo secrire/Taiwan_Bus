@@ -1,6 +1,5 @@
 {
   "COMMON": {
-    "BROWSER_VERSION": "瀏覽器版本支援：Chrome 69（含以上）、IE 11（含以上）",
     "ROUTE":"路線",
     "STOP":"站點",
     "BUS_LIVE":"公車動態",
@@ -8,9 +7,11 @@
     "CHECK_TIMETABLE":"時刻查詢",
     "COLLECTION":"我的收藏",
     "PLEASE_SELECT_CITY":"請選擇縣市",
+    "FIND_BUS_ROUTE_INFO":"尋找公車路線資訊",
     "ONLY_SHOW_ROUTE_WITH_ACCESSIBLE":"僅顯示提供無障礙車輛之路線",
     "DIRECTION": "行駛方向",
     "TO":"往",
+    "NO_INFO_AT_THIS_MOMENT":"目前尚無資訊",
     "HOUR":"時",
     "MINUTE":"分",
     "TIMETABLE":"班次表",

@@ -1,6 +1,5 @@
 {
   "COMMON": {
-    "BROWSER_VERSION": "Supported browser version include Chrome 69 or above, IE 11 or above.",
     "ROUTE":"Route",
     "STOP":"Stop",
     "BUS_LIVE":"Live Info",
@@ -8,9 +7,11 @@
     "CHECK_TIMETABLE":"Timetable",
     "COLLECTION":"Collection",
     "PLEASE_SELECT_CITY":"Please Select City",
+    "FIND_BUS_ROUTE_INFO":"Find Bus Route Info",
     "ONLY_SHOW_ROUTE_WITH_ACCESSIBLE":"Only Show Route with Accessible Bus",
     "DIRECTION": "Direction",
     "TO":"To",
+    "NO_INFO_AT_THIS_MOMENT":"No Info At This Moment",
     "HOUR":"hr",
     "MINUTE":"min",
     "TIMETABLE":"TimeTable",

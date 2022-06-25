@@ -7,7 +7,6 @@ export const useLikedRouteStore = () => useContext(LikedRouteContext);
 
 export const LikedRouteContextProvider = ({ children }) => {
   const [likedRouteData, setLikedRouteData] = useState(null);
-  // const setLikedRouteData = (d) => _setLikedRouteData([...likedRouteData, ...d]);
 
   useEffect(() => {
     if (likedRouteData) {
@@ -15,7 +14,6 @@ export const LikedRouteContextProvider = ({ children }) => {
         "likedRouteDataStore",
         JSON.stringify(likedRouteData)
       );
-      // console.log("LikedRouteContextProvider 3", likedRouteData);
     }
   }, [likedRouteData]);
 
@@ -24,10 +22,8 @@ export const LikedRouteContextProvider = ({ children }) => {
       localStorage.getItem("likedRouteDataStore")
     );
     if (likedRouteValue) {
-      // console.log('LikedRouteContextProvider 1', likedRouteValue)
       setLikedRouteData(likedRouteValue);
     } else {
-      // console.log('LikedRouteContextProvider 2')
       setLikedRouteData([]);
     }
   }, []);

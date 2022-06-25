@@ -14,8 +14,14 @@ import * as Style from "./style";
 const BusCard = (props) => {
   const { t } = useTranslation();
   const { busData, clickCard, clickLike } = props;
-  const { DepartureStopNameZh, DestinationStopNameZh, liked, EstimateTime } =
-    busData;
+  const {
+    DepartureStopNameZh,
+    DepartureStopNameEn,
+    DestinationStopNameZh,
+    DestinationStopNameEn,
+    liked,
+    EstimateTime,
+  } = busData;
 
   const { isZhTw } = useLanguageStore();
 
@@ -39,9 +45,14 @@ const BusCard = (props) => {
   return (
     <Style.Container>
       <Style.Left onClick={() => clickCard()}>
-        <Style.BusNumber>{busData.RouteName.Zh_tw}</Style.BusNumber>
+        <Style.BusNumber>
+          {isZhTw ? busData.RouteName.Zh_tw : busData.RouteName.En}
+        </Style.BusNumber>
         <BusStartEnd
-          stopNames={{ DepartureStopNameZh, DestinationStopNameZh }}
+          departureStopName={isZhTw ? DepartureStopNameZh : DepartureStopNameEn}
+          destinationStopName={
+            isZhTw ? DestinationStopNameZh : DestinationStopNameEn
+          }
           style={{ color: "#4c546a", fontSize: "12px" }}
         />
       </Style.Left>

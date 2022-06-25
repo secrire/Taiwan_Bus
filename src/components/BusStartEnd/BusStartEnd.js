@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-
-import { useLanguageStore } from "stores/languageStore";
 
 import ArrowsWhite from "images/arrows-white.svg";
 import ArrowsGrey from "images/arrows-grey.svg";
@@ -11,23 +9,22 @@ import * as Style from "./style";
 
 const BusStartEnd = (props) => {
   const {
-    stopNames: { DepartureStopNameZh, DestinationStopNameZh },
+    departureStopName,
+    destinationStopName,
     style: { color, fontSize },
   } = props;
-
-  const { isZhTw } = useLanguageStore();
 
   return (
     <Style.StartEndContainer color={color}>
       <Style.BusStartEndName fontSize={fontSize}>
-        {DepartureStopNameZh}
+        {departureStopName}
       </Style.BusStartEndName>
       <Style.Arrows
         src={color === "#fff" ? ArrowsWhite : ArrowsGrey}
         alt="arrow"
       />
       <Style.BusStartEndName fontSize={fontSize}>
-        {DestinationStopNameZh}
+        {destinationStopName}
       </Style.BusStartEndName>
     </Style.StartEndContainer>
   );
@@ -36,11 +33,13 @@ const BusStartEnd = (props) => {
 export default BusStartEnd;
 
 BusStartEnd.propTypes = {
-  stopNames: PropTypes.object,
+  departureStopName: PropTypes.string,
+  destinationStopName: PropTypes.string,
   style: PropTypes.object,
 };
 
 BusStartEnd.defaultProps = {
-  stopNames: {},
+  departureStopName: "",
+  destinationStopName: "",
   style: {},
 };

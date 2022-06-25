@@ -14,7 +14,7 @@ import BusWhite from "images/bus-white.svg";
 import * as Style from "./style";
 
 const StopDetail = (props) => {
-  // console.log("props", props);
+  const { stopUid, city } = props;
   const { likedStopData, setLikedStopData } = useLikedStopStore();
 
   const [stopName, setStopName] = useState("");
@@ -142,30 +142,6 @@ const StopDetail = (props) => {
 
     const estimatedArrivalDataArr = await Promise.all(callArr);
 
-    // const stopOfRouteUid = stopOfRoute.map((r) => r.RouteUID);
-    // const estimatedTime = estimatedArrivalDataArr.map((data) =>
-    //   data.estimatedArrivalData
-    //     .filter(
-    //       (d) => d.StopUID === stopState && stopOfRouteUid.includes(d.RouteUID)
-    //     )
-    //     .filter(
-    //       (d) =>
-    //         (d.StopStatus === 1 && d.EstimateTime > 0) || // not start but estimate what time to start
-    //         d.StopStatus === 0
-    //     )
-    //     .map((d) => d.EstimateTime)
-    // );
-    // const tempStopOfRouteWithTime = [
-    //   { RouteName: { Zh_tw: "5", En: "5" }, RouteUID: "TNN10164" },
-    //   { RouteName: { Zh_tw: "1", En: "1" }, RouteUID: "TNN10019" },
-    // ].map((item, index) => {
-    //   if (estimatedTime[index].length !== 0) {
-    //     return Object.assign({}, item, {
-    //       EstimateTime: Number(estimatedTime[index]),
-    //     });
-    //   }
-    //   return item;
-    // });
     const tempStopOfRouteWithTime = getStopOfRouteWithTime(
       stopOfRoute,
       estimatedArrivalDataArr
@@ -199,9 +175,9 @@ const StopDetail = (props) => {
     let tempCityState;
     let tempStopState;
 
-    if (props.stopUid) {
-      tempCityState = props.city;
-      tempStopState = props.stopUid;
+    if (stopUid) {
+      tempCityState = city;
+      tempStopState = stopUid;
     } else {
       const search = props.location.search;
       const params = new URLSearchParams(search);
@@ -224,14 +200,11 @@ const StopDetail = (props) => {
 
     const interval = setInterval(async () => {
       if (tempStopOfRoute) {
-        // console.log("=====  3   ====", tempStopOfRoute);
-
         const callArr = tempStopOfRoute.map((r) =>
           getEstimatedArrivalData(tempCityState, r.RouteName)
         );
 
         const estimatedArrivalDataArr = await Promise.all(callArr);
-        // console.log("=====  4   ====", estimatedArrivalDataArr);
 
         const tempStopOfRouteWithTime = getStopOfRouteWithTime(
           tempStopOfRoute,
@@ -243,11 +216,11 @@ const StopDetail = (props) => {
 
     return () => clearInterval(interval);
   }, []);
-  // console.log("stopDeatil", stopOfRoute, stopOfRouteWithTime);
+
   return (
-    <Style.Container isWholePage={!props.stopUid}>
-      <Style.HeaderContainer isWholePage={!props.stopUid}>
-        {!props.stopUid ? (
+    <Style.Container isWholePage={!stopUid}>
+      <Style.HeaderContainer isWholePage={!stopUid}>
+        {!stopUid ? (
           <img
             src={ArrowLeft}
             alt="previous"
@@ -265,13 +238,9 @@ const StopDetail = (props) => {
           onClick={() => clickLike()}
         />
       </Style.HeaderContainer>
-      <Style.CardContainer isWholePage={!props.stopUid}>
+      <Style.CardContainer isWholePage={!stopUid}>
         {stopOfRouteWithTime.map((data) => (
-          <BusCard
-            key={data.RouteUID}
-            busData={data}
-            // clickCard={() => clickCard(data)}
-          />
+          <BusCard key={data.RouteUID} busData={data} />
         ))}
       </Style.CardContainer>
     </Style.Container>

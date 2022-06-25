@@ -10,6 +10,7 @@ export const StartEndContainer = styled.div`
   display: flex;
   align-items: center;
   color: ${(p) => p.color};
+  max-width: 60%;
 `;
 
 export const BusStartEndName = styled.div`

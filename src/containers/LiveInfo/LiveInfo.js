@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import useAxios from "hooks/useAxios";
@@ -35,7 +34,9 @@ const LiveInfo = (props) => {
     RouteUID,
     RouteName,
     DepartureStopNameZh,
+    DepartureStopNameEn,
     DestinationStopNameZh,
+    DestinationStopNameEn,
   } = busData;
 
   const getEstimatedArrivalData = async (city, routeName) => {
@@ -65,27 +66,14 @@ const LiveInfo = (props) => {
     return { stopData };
   };
 
-  // const getStopOfRouteData = async (city) => {
-  //   const config = {
-  //     url: `v2/Bus/StopOfRoute/City/${city}`,
-  //     method: "GET",
-  //   };
-  //   const stopOfRouteData = await axios.exec(config);
-  //   return stopOfRouteData;
-  // };
-
   const init = async () => {
     const callArr = [
       getEstimatedArrivalData(City, RouteName),
       getVehicleData(City),
       getStopData(City),
     ];
-    const [
-      { estimatedArrivalData },
-      { vehicleData },
-      { stopData },
-      // { realTimeNearStopData },
-    ] = await Promise.all(callArr);
+    const [{ estimatedArrivalData }, { vehicleData }, { stopData }] =
+      await Promise.all(callArr);
 
     let accessibleNumb = [];
     vehicleData.forEach((data) => {
@@ -108,7 +96,6 @@ const LiveInfo = (props) => {
         }
       });
 
-    // if (stopData) {
     tempStopAllData = [...tempStopAllData].map((s) => {
       const foundStop = stopData.find((data) => data.StopUID === s.StopUID);
       if (foundStop) {
@@ -121,33 +108,9 @@ const LiveInfo = (props) => {
         return { ...s };
       }
     });
-    // }
 
-    // tempStopAllData = [...tempStopAllData].map((s) => {
-    //   const foundStop = realTimeNearStopData.filter(
-    //     (data) => data.StopUID === s.StopUID && data.BusStatus === 0
-    //   );
-    //   const tempOfRoute = [];
-    //   console.log("foundStop", foundStop);
-    //   if (foundStop.length !== 0) {
-    //     foundStop.forEach((found) =>
-    //       tempOfRoute.push({
-    //         routeName: found.RouteName,
-    //         routeUID: found.RouteUID,
-    //       })
-    //     );
-    //     return {
-    //       ...s,
-    //       ofRoute: tempOfRoute,
-    //     };
-    //   } else {
-    //     return { ...s };
-    //   }
-    // });
     setStopAllData(tempStopAllData);
     setIsStartInterval(true);
-    // const tempStopOfRouteData = await getStopOfRouteData(City)
-    // setStopOfRouteData(tempStopOfRouteData)
   };
 
   const clickStop = (stopUid) => {
@@ -194,7 +157,7 @@ const LiveInfo = (props) => {
         });
 
         setStopAllData(tempStopAllData);
-      }, 600000);
+      }, 60000);
 
       return () => clearInterval(interval);
     }
@@ -204,11 +167,10 @@ const LiveInfo = (props) => {
     <Style.Container>
       <Style.Top>
         <img src={ArrowLeft} alt="previous" onClick={() => clickArrowLeft()} />
-        <Style.Number>{RouteName.Zh_tw}</Style.Number>
+        <Style.Number>{isZhTw ? RouteName.Zh_tw : RouteName.En}</Style.Number>
       </Style.Top>
       {!showMap && (
         <>
-          {/* <Style.Number>{RouteName.Zh_tw}</Style.Number> */}
           <Style.Row>
             <Icon
               src={Guild}
@@ -219,7 +181,9 @@ const LiveInfo = (props) => {
                 circleColor: "#4c546a",
                 margin: "0 16px 0 0",
               }}
-              onClick={() => setShowMap(true)}
+              onClick={
+                displayStopData.length ? () => setShowMap(true) : () => {}
+              }
             />
             <Icon
               src={ClockWhite}
@@ -233,14 +197,19 @@ const LiveInfo = (props) => {
               onClick={() => setShowTimetable(true)}
             />
             <BusStartEnd
-              stopNames={{ DepartureStopNameZh, DestinationStopNameZh }}
-              style={{ color: "#FFF", fontSize: "16px" }}
+              departureStopName={
+                isZhTw ? DepartureStopNameZh : DepartureStopNameEn
+              }
+              destinationStopName={
+                isZhTw ? DestinationStopNameZh : DestinationStopNameEn
+              }
+              style={{ color: "#FFF", fontSize: "14px" }}
             />
           </Style.Row>
         </>
       )}
       {showTimetable && <Timetable setVisible={setShowTimetable} />}
-      {showMap && displayStopData.length !== 0 && (
+      {showMap && displayStopData.length && (
         <Map
           displayStopData={displayStopData}
           showAllLiveContent={showAllContent}

@@ -3,8 +3,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
+import { useLanguageStore } from "stores/languageStore";
 import { useBusStore } from "stores/busStore";
 import Icon from "components/Icon";
+import PageDescription from "components/PageDescription";
 
 import CaretDown from "images/caret-down.svg";
 import CaretUp from "images/caret-up.svg";
@@ -26,8 +28,14 @@ const LiveContent = (props) => {
     setDirectionTo,
   } = props;
 
+  const { isZhTw } = useLanguageStore();
   const { busData } = useBusStore();
-  const { DepartureStopNameZh, DestinationStopNameZh } = busData;
+  const {
+    DepartureStopNameZh,
+    DepartureStopNameEn,
+    DestinationStopNameZh,
+    DestinationStopNameEn,
+  } = busData;
 
   const formatSecond = (secs) => {
     if (secs) {
@@ -41,6 +49,22 @@ const LiveContent = (props) => {
       )}`;
     } else if (secs === 0) {
       return t("COMMON.ARRIVAL");
+    }
+  };
+
+  const getToStop = () => {
+    if (directionTo) {
+      if (isZhTw) {
+        return DestinationStopNameZh;
+      } else {
+        return DestinationStopNameEn;
+      }
+    } else {
+      if (isZhTw) {
+        return DepartureStopNameZh;
+      } else {
+        return DepartureStopNameEn;
+      }
     }
   };
 
@@ -61,9 +85,7 @@ const LiveContent = (props) => {
             <div>
               <Style.HeaderWay>
                 <div>{t("COMMON.TO")}</div>
-                <div>
-                  {directionTo ? DestinationStopNameZh : DepartureStopNameZh}
-                </div>
+                <div>{getToStop()}</div>
               </Style.HeaderWay>
             </div>
             <Icon
@@ -79,6 +101,9 @@ const LiveContent = (props) => {
             />
           </Style.Header>
           <Style.Content showMap={showMap}>
+            {!displayStopData.length && (
+              <PageDescription text={t("COMMON.NO_INFO_AT_THIS_MOMENT")} />
+            )}
             {displayStopData.map((data) => {
               const isApproaching = [
                 t("COMMON.APPROACHING"),
@@ -92,7 +117,7 @@ const LiveContent = (props) => {
                       {formatSecond(data.EstimateTime)}
                     </Style.StopTime>
                     <Style.StopName isApproaching={isApproaching}>
-                      {data.StopName.Zh_tw}
+                      {isZhTw ? data.StopName.Zh_tw : data.StopName.En}
                     </Style.StopName>
                     {isApproaching && (
                       <Style.WheelchairContainer>
