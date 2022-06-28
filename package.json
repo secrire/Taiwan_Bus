@@ -2,6 +2,7 @@
   "name": "taiwan_bus",
   "description": "taiwan_bus",
   "version": "1.0.0",
+  "homepage": "https://secrire.github.io/Taiwan_Bus",
   "main": "src/index.js",
   "scripts": {
     "clean": "rimraf dist/*",
@@ -52,7 +53,7 @@
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "^7.27.1",
     "file-loader": "6.0.0",
-    "gh-pages": "2.2.0",
+    "gh-pages": "^2.2.0",
     "html-webpack-plugin": "4.2.0",
     "less": "3.11.1",
     "less-loader": "5.0.0",
