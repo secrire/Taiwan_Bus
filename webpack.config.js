@@ -10,6 +10,11 @@ module.exports = {
         use: ["babel-loader"],
       },
       {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        loader: 'ts-loader'
+      },
+      {
         test: /\.css$/,
         use: ["style-loader", "css-loader", "postcss-loader"],
       },
@@ -42,7 +47,7 @@ module.exports = {
       components: path.resolve(__dirname, "src/components/"),
       containers: path.resolve(__dirname, "src/containers/"),
     },
-    extensions: [".js", ".jsx"],
+    extensions: [".js", ".jsx", '.tsx', '.ts'],
     modules: [
       path.resolve(__dirname, "src/"),
       path.resolve(__dirname, "node_modules/"),
