@@ -7,6 +7,8 @@
       "jsx": "react",
       "allowJs": true,
       "allowSyntheticDefaultImports": true,
+      "strictNullChecks": true,
       "moduleResolution": "Node"
-    }
+    },
+    "include": ["src/components", "src/custom.d.ts"]
 }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
 import useAxios from "hooks/useAxios";
@@ -11,11 +10,28 @@ import Cross from "images/cross.svg";
 
 import * as Style from "./style";
 
-const Timetable = (props) => {
+type TimetableProps = {
+  setVisible:(visible:boolean)=>void
+}
+
+type Timetables =  [{
+  TripID: string,
+  ServiceDay: {
+    [key: string]: number;
+  },
+  StopTimes: [
+    {
+      "StopUID": string,
+      "ArrivalTime": string,
+    }
+  ],
+}]
+
+
+const Timetable = ({setVisible}:TimetableProps) => {
   const { t } = useTranslation();
-  const { setVisible } = props;
-  const [loadingSchedule, setLoadingSchedule] = useState(false);
-  const [scheduleData, setScheduleData] = useState([]);
+  const [loadingSchedule, setLoadingSchedule] = useState<boolean>(false);
+  const [scheduleData, setScheduleData] = useState<any[]>([]);
 
   const axios = useAxios();
   const { isZhTw } = useLanguageStore();
@@ -23,25 +39,25 @@ const Timetable = (props) => {
     busData: { City, RouteName },
   } = useBusStore();
 
-  const getSchedule = async (City, RouteName) => {
+  const getSchedule = async (City: string, RouteName: any) => {
     setLoadingSchedule(true);
     const config = {
       url: `/v2/Bus/Schedule/City/${City}/${RouteName.Zh_tw}`,
       method: "GET",
     };
     const result = await axios.exec(config);
-    const tempScheduleData = result.filter((i) => i.Timetables);
+    const tempScheduleData = result.filter((i:any) => i.Timetables);
     setScheduleData(tempScheduleData);
     setLoadingSchedule(false);
   };
 
-  const manageTimetables = (timetable) => {
+  const manageTimetables = (timetable:Timetables) => {
     const holidayTime = timetable
       .filter((i) => i.ServiceDay.Sunday === 1)
-      .map((i) => <div key={i.StopUID}>{i.StopTimes[0].ArrivalTime}</div>);
+      .map((i) => <div key={i.StopTimes[0].StopUID}>{i.StopTimes[0].ArrivalTime}</div>);
     const workdayTime = timetable
       .filter((i) => i.ServiceDay.Monday === 1)
-      .map((i) => <div key={i.StopUID}>{i.StopTimes[0].ArrivalTime}</div>);
+      .map((i) => <div key={i.StopTimes[0].StopUID}>{i.StopTimes[0].ArrivalTime}</div>);
     return { holidayTime, workdayTime };
   };
 
@@ -93,11 +109,3 @@ const Timetable = (props) => {
 };
 
 export default Timetable;
-
-Timetable.propTypes = {
-  setVisible: PropTypes.func,
-};
-
-Timetable.defaultProps = {
-  setVisible: () => {},
-};
