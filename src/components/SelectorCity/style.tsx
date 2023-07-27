@@ -8,7 +8,11 @@ export const InputContainer = styled.div`
   position: relative;
 `;
 
-export const CityDiv = styled.div`
+interface CityDivProps {
+  withValue: string;
+}
+
+export const CityDiv = styled.div<CityDivProps>`
   height: 40px;
   width: 100%;
   background: rgb(32, 58, 103);

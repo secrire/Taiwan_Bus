@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
 import { useLanguageStore } from "stores/languageStore";
@@ -7,7 +6,13 @@ import CaretDown from "images/caret-down.svg";
 
 import * as Style from "./style";
 
-const cityOptions = [
+type CityOption = {
+  value: string;
+  title: string;
+  enTitle: string;
+};
+
+const cityOptions: CityOption[] = [
   { value: "Taipei", title: "臺北市", enTitle: "Taipei" },
   { value: "NewTaipei", title: "新北市", enTitle: "New Taipei" },
   { value: "Taoyuan", title: "桃園", enTitle: "Taoyuan" },
@@ -32,16 +37,21 @@ const cityOptions = [
   { value: "LienchiangCounty", title: "連江", enTitle: "Lienchiang County" },
 ];
 
-const SelectorCity = (props) => {
+type SelectorCityProps = {
+  changeCity: (city: string) => void;
+  city: string;
+  cityWarning: string;
+};
+
+const SelectorCity = ({ changeCity, city, cityWarning }: SelectorCityProps) => {
   const { t } = useTranslation();
-  const { changeCity, city, cityWarning } = props;
-  const [showCityOptions, setShowCityOptions] = useState(false);
+  const [showCityOptions, setShowCityOptions] = useState<boolean>(false);
 
   const { isZhTw } = useLanguageStore();
 
-  const getCityDisplayName = (city) => {
+  const getCityDisplayName = (city: string): string | undefined => {
     const foundCity = cityOptions.find((option) => option.value === city);
-    return isZhTw ? foundCity.title : foundCity.enTitle;
+    return isZhTw ? foundCity?.title : foundCity?.enTitle;
   };
 
   return (
@@ -63,7 +73,9 @@ const SelectorCity = (props) => {
               <Style.CityOption key={data.value}>
                 <Style.CityOptionBtn
                   value={data.value}
-                  onClick={(e) => changeCity(e.target.value)}
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                    changeCity((e.target as HTMLButtonElement).value)
+                  }
                 >
                   {isZhTw ? data.title : data.enTitle}
                 </Style.CityOptionBtn>
@@ -78,15 +90,3 @@ const SelectorCity = (props) => {
 };
 
 export default SelectorCity;
-
-SelectorCity.propTypes = {
-  changeCity: PropTypes.func,
-  city: PropTypes.string,
-  cityWarning: PropTypes.string,
-};
-
-SelectorCity.defaultProps = {
-  changeCity: () => {},
-  city: "",
-  cityWarning: "",
-};

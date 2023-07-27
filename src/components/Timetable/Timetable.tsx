@@ -11,24 +11,25 @@ import Cross from "images/cross.svg";
 import * as Style from "./style";
 
 type TimetableProps = {
-  setVisible:(visible:boolean)=>void
-}
+  setVisible: (visible: boolean) => void;
+};
 
-type Timetables =  [{
-  TripID: string,
-  ServiceDay: {
-    [key: string]: number;
-  },
-  StopTimes: [
-    {
-      "StopUID": string,
-      "ArrivalTime": string,
-    }
-  ],
-}]
+type Timetables = [
+  {
+    TripID: string;
+    ServiceDay: {
+      [key: string]: number;
+    };
+    StopTimes: [
+      {
+        StopUID: string;
+        ArrivalTime: string;
+      }
+    ];
+  }
+];
 
-
-const Timetable = ({setVisible}:TimetableProps) => {
+const Timetable = ({ setVisible }: TimetableProps) => {
   const { t } = useTranslation();
   const [loadingSchedule, setLoadingSchedule] = useState<boolean>(false);
   const [scheduleData, setScheduleData] = useState<any[]>([]);
@@ -46,18 +47,22 @@ const Timetable = ({setVisible}:TimetableProps) => {
       method: "GET",
     };
     const result = await axios.exec(config);
-    const tempScheduleData = result.filter((i:any) => i.Timetables);
+    const tempScheduleData = result.filter((i: any) => i.Timetables);
     setScheduleData(tempScheduleData);
     setLoadingSchedule(false);
   };
 
-  const manageTimetables = (timetable:Timetables) => {
+  const manageTimetables = (timetable: Timetables) => {
     const holidayTime = timetable
       .filter((i) => i.ServiceDay.Sunday === 1)
-      .map((i) => <div key={i.StopTimes[0].StopUID}>{i.StopTimes[0].ArrivalTime}</div>);
+      .map((i) => (
+        <div key={i.StopTimes[0].StopUID}>{i.StopTimes[0].ArrivalTime}</div>
+      ));
     const workdayTime = timetable
       .filter((i) => i.ServiceDay.Monday === 1)
-      .map((i) => <div key={i.StopTimes[0].StopUID}>{i.StopTimes[0].ArrivalTime}</div>);
+      .map((i) => (
+        <div key={i.StopTimes[0].StopUID}>{i.StopTimes[0].ArrivalTime}</div>
+      ));
     return { holidayTime, workdayTime };
   };
 
